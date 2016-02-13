@@ -10,7 +10,7 @@ Install Node.js:
     brew update
     brew install node
 
-Clone the Fusion repository:
+Clone the Horizon repository:
 
     git clone https://github.com/rethinkdb/fusion.git
 
@@ -27,11 +27,11 @@ Then install the server:
 
 If RethinkDB isn't running, start its server.
 
-Start Fusion's server in development mode:
+Start Horizon's server in development mode:
 
-    fusion --dev
+    horizon --dev
 
-The Fusion server's home URI appears to be `http://localhost:8181/fusion/`, and it actually serves `fusion.js` under that URI, regardless of what else it says.
+The Horizon server's home URI appears to be `http://localhost:8181/fusion/`, and it actually serves `fusion.js` under that URI, regardless of what else it says.
 
 Running examples:
 
