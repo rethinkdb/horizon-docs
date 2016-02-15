@@ -43,6 +43,10 @@ messages.order("id").findAll({from: "bob"});
 
 **[Collection.findAll][cfa]:** retrieve multiple objects from a collection.
 
+**[Collection.above][cab]:** limit a query's results to documents based on keys above a certain value.
+
+**[Collection.below][cbe]:** limit a query's results to documents based on keys below a certain value.
+
 **[Collection.limit][cli]:** limit a query's results to a certain number of documents.
 
 **[Collection.order][cor]:** order a query's results based on a given field.
@@ -73,3 +77,5 @@ messages.order("id").findAll({from: "bob"});
 [cup]: /api/collection-upsert/
 [cwa]: /api/collection-watch/
 [cfe]: /api/collection-fetch/
+[cab]: /api/collection-above/
+[cbe]: /api/collection-below/
