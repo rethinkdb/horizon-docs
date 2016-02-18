@@ -16,6 +16,8 @@ Replace one or more existing documents within a Collection.
 The `replace` method can be called either with an object representing a single document, or a list of objects. The objects must have `id` values that already exist in the collection or an error will be raised.
 
 ```js
+const messages = hz("messages");
+
 // Replace a single document. This will raise an error if there is not an
 // existing document in the messages collection with an id value of 1.
 messages.replace({

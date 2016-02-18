@@ -16,6 +16,8 @@ Insert one or more new documents into a Collection.
 The `store` method can be called either with an object representing a single document, or a list of objects. The objects must have unique `id` values, and must have `id` values that do not already exist in the collection or an error will be raised.
 
 ```js
+const messages = hz("messages");
+
 // Store a single document. There must not be a document with an id of 1 in
 // the messages collection.
 messages.store({

@@ -23,6 +23,8 @@ Values in key-value pairs may be numbers, strings, or even arrays or objects; no
 The `above` method is often used in conjunction with [order][cor], but it may appear after any Horizon method with the exception of [find][cfi] and [limit][cli]. (However, `limit` may appear after `above`.)
 
 ```
+const messages = hz("messages");
+
 // get all messages with an ID over 100, sorted
 messages.order("id").above({id: 100});
 

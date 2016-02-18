@@ -16,6 +16,8 @@ Retrieve a single document from a Collection.
 The `find` method may be called with either a key-value pair to match against (e.g., `{name: "agatha"}` or an integer (an `id` value to look up).
 
 ```
+const messages = hz("messages");
+
 // get the first message from Bob
 messages.find({from: "bob"});
 

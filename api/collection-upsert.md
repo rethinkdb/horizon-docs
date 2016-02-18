@@ -16,6 +16,8 @@ Insert one or more new documents into a Collection.
 The `upsert` method can be called either with an object representing a single document, or a list of objects. Depending on whether the documents passed to `upsert` already exist in the collection as determined by their `id` values, the documents will either be inserted into the documents as new members of the collection (cf. [store][cs]) or replace the existing documents with the same `id` (cf. [replace][cr]).
 
 ```js
+const messages = hz("messages");
+
 // Upsert (update or insert) a single document. If there is an existing
 // document in the messages collection with an id of 1, it will be replaced;
 // otherwise, it will be inserted.

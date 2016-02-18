@@ -23,6 +23,8 @@ Values in key-value pairs may be numbers, strings, or even arrays or objects; no
 The `below` method may _only_ be used after [order][cor], although other methods may be used after it.
 
 ```
+const messages = hz("messages");
+
 // get all messages with an ID below 100, sorted
 messages.order("id").below({id: 100});
 
