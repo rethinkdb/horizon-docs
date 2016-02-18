@@ -4,12 +4,12 @@ title: Collection
 ---
 
 ```js
-// connect to the Fusion server
-const Fusion = require("fusion");
-const server = new Fusion("localhost:8181");
+// connect to the Horizon server
+const Horizon = require("horizon");
+const hz = new Horizon("localhost:8181");
 
-// create a Collection
-const messages = server("messages");
+// get a handle to a Collection
+const messages = hz("messages");
 ```
 
 The `Collection` object represents a group of related documents, and is backed by a RethinkDB table. Documents in a `Collection` are identified by a unique key stored in the `id` field.
@@ -23,11 +23,14 @@ messages.store({
 });
 ```
 
-Methods on a `Collection` allow you to create, read, update and delete documents. Selections can be performed by matching on any field by passing an object to match against.
+Methods on a `Collection` object allow you to create, read, update and delete documents. Selections can be performed by matching on any field by passing an object to match against.
 
 ```js
 // get the first message from Bob
 messages.find({from: "bob"});
+
+// the same, using a Horizon object directly
+hz("messages").find({from: "bob"});
 
 // get the message with ID 101; a "shortcut" that only works if ID is
 // integer values (otherwise use {id: "value"})
