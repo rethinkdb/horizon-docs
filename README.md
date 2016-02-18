@@ -7,7 +7,7 @@ realtime, scalable web apps. It is built on top of RethinkDB, and
 allows app developers to get started with building modern, engaging
 apps without writing any backend code.
 
-_Horizon's codename was "Fusion," and its original name is used in the libraries currently._
+_Horizon's codename was "Fusion," and its original name may still be used in the libraries in certain places._
 
 Horizon consists of two components:
 
@@ -71,10 +71,10 @@ their app.
 $ rethinkdb
 
 # In another terminal, start Horizon
-$ fusion --dev
+$ horizon --dev
 
 # Clients can connect directly from the browser on port 8181
-# The fusion client library is served from host:8181/fusion.js
+# The Horizon client library is served from host:8181/horizon.js
 ```
 
 ### What does the code look like?
@@ -83,9 +83,9 @@ The API is still in development, but here is currently what you'd write
 on the front-end for a hypothetical todo list application:
 
 ```js
-// Connect to fusion
-const fusion = new Fusion('localhost:8181');
-const todos = fusion("todo-items");
+// Connect to Horizon
+const hz = new Horizon('localhost:8181');
+const todos = hz("todo-items");
 
 // Function called when a user adds a todo item in the UI
 const createTodo = (newTodo) => {
@@ -110,11 +110,11 @@ const initApp = () => {
   });
 };
 ```
-***Want to see more?*** Check out [our README for the Horizon client library](https://github.com/rethinkdb/fusion/tree/next/client#fusion-client-library), we have an initial set of docs as well as a expanded getting started guide to get you started with using Horizon.
+***Want to see more?*** Check out [our README for the Horizon client library](https://github.com/rethinkdb/horizon/tree/next/client#horizon-client-library). We have an initial set of docs as well as a expanded getting started guide to get you started with using Horizon.
 
 ### How do I get it?
 
-Right now you have to install it locally from this repo. Follow the guides for [installing the Horizon server](/server#installation) and then read through on how to [import the client library](/client#getting-started) into your project.
+Right now, install it locally from this repo. Follow the guides for [installing the Horizon server](/server#installation) and then read through on how to [import the client library](/client#getting-started) into your project.
 
 
 ### How is Horizon different from Firebase?

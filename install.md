@@ -12,11 +12,11 @@ Install Node.js:
 
 Clone the Horizon repository:
 
-    git clone https://github.com/rethinkdb/fusion.git
+    git clone https://github.com/rethinkdb/horizon.git
 
 Install the client first:
 
-    cd fusion/client
+    cd horizon/client
     npm install
 
 Then install the server:
@@ -30,8 +30,6 @@ If RethinkDB isn't running, start its server.
 Start Horizon's server in development mode:
 
     horizon --dev
-
-The Horizon server's home URI appears to be `http://localhost:8181/fusion/`, and it actually serves `fusion.js` under that URI, regardless of what else it says.
 
 Running examples:
 
