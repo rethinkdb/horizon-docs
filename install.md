@@ -3,37 +3,45 @@ layout: documentation
 title: Installing Horizon
 ---
 
-If necessary, install RethinkDB.
+# Prerequisites #
 
-Install Node.js:
+**Before installing Horizon, you must install the RethinkDB server.** Consult [Installing RethinkDB][ir] for downloads and installation instructions.
 
-    brew update
-    brew install node
+[ir]: http://rethinkdb.com/docs/install/
+
+Horizon is a [Node.js][njs] application. Please install the current stable versions of Node.js and npm (the Node.js package manager).
+
+[njs]: https://nodejs.org/
+
+# Installing Horizon #
+
+Install horizon from npm:
+
+    npm install -g Horizon
+
+This will install Horizon and its command line tool, `hz`. (The same tool will also be installed as `horizon`.)
+
+**Now, go on to the [Quickstart][q]!**
+
+[q]: /quickstart
+
+## Working on Horizon itself ##
+
+If you want to install a development environment _for developing Horizon, not Horizon applications,_ use the following installation instructions instead of installing from npm.
 
 Clone the Horizon repository:
 
     git clone https://github.com/rethinkdb/horizon.git
 
-Install the client first:
+Link the client, server, and CLI directories:
 
     cd horizon/client
-    npm install
-
-Then install the server:
-
+    npm link
     cd ../server
-    npm install
+    npm link
+    cd ../cli
     npm link
 
-If RethinkDB isn't running, start its server.
+This will make the `hz` tool available globally, but will link it to your local copy of Horizon.
 
-Start Horizon's server in development mode:
-
-    horizon --dev
-
-Running examples:
-
-* Execute `test/serve.js`
-* Serves from `client` directory at root, `examples` directory at `examples/`
-* Must use full URI even for index, e.g.:
-  `http://localhost:8181/examples/react-todo-app/index.html`
+**Now, go on to the [Quickstart][q]!**
