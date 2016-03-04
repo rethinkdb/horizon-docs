@@ -14,11 +14,12 @@ apps without writing any backend code.
 * Installing Horizon & RethinkDB
 * Tutorial: build a chat application
     * Overview
-    * Make chatty thing
-    * Add authentication
-    * Sell to Facebook
-* Horizon server guide
-* Deploying Horizon
+    * Install React.js
+	* Build basic chat
+	* Add users
+	* Integrate with Github
+* Security
+* Deploying Horizon apps
 * API reference
 
 ## About Horizon
@@ -58,4 +59,3 @@ additional services:
   in a consistent, discoverable way.
 - **Backend** -- an API/protocol to integrate custom backend code with
   Horizon server/client-libraries.
-
