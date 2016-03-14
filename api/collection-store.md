@@ -36,7 +36,7 @@ messages.store([
     {
         id: 3,
         from: "bob",
-        text: "Would Superman lose in a fight against Wonder Woman?"
+        text: "Would Superman lose a fight against Wonder Woman?"
     }
 ]);
 ```

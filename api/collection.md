@@ -3,29 +3,28 @@ layout: api
 title: Collection
 ---
 
+The `Collection` object represents a group of related documents, and is backed by a RethinkDB table. Documents in a `Collection` are identified by a unique key stored in the `id` field.
+
 ```js
 // connect to the Horizon server
 const Horizon = require("horizon");
-const hz = new Horizon("localhost:8181");
+const hz = Horizon();
 
 // get a handle to a Collection
 const messages = hz("messages");
 ```
 
-The `Collection` object represents a group of related documents, and is backed by a RethinkDB table. Documents in a `Collection` are identified by a unique key stored in the `id` field.
+Methods on a `Collection` object allow you to create, read, update and delete documents. Selections can be performed by matching on any field by passing an object to match against.
 
 ```js
+// Store a message
 messages.store({
     id: 1,
     url: avatar_url,
     from: "bob",
     text: "Hello from RethinkDB"
 });
-```
 
-Methods on a `Collection` object allow you to create, read, update and delete documents. Selections can be performed by matching on any field by passing an object to match against.
-
-```js
 // get the first message from Bob
 messages.find({from: "bob"});
 
