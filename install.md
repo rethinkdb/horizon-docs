@@ -42,6 +42,6 @@ Link the client, server, and CLI directories:
     cd ../cli
     npm link
 
-This will make the `hz` tool available globally, but will link it to your local copy of Horizon.
+This will make the `hz` tool available globally, but will link it to your local copy of Horizon. When you update your copy of the Horizon repository, you'll need to run these commands again if the Horizon dependencies have been altered.
 
 **Now, go on to the [Quickstart][q]!**

@@ -40,7 +40,7 @@ developers:
 
 - **Subscribe** -- a streaming API for building realtime apps directly from the
   browser without writing any backend code.
-- **Auth** -- an authentication API that connects to common auth providers
+- **Auth** -- an authentication API that connects to common OAuth providers
   (e.g. Facebook, Google, GitHub).
 - **Identity** -- an API for listing and manipulating user accounts.
 - **Permissions** -- a security model that allows the developer to protect
