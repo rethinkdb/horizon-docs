@@ -39,7 +39,13 @@ messages.find(101).fetch().forEach(msg => console.log(msg));
 messages.order("id").findAll({from: "bob"}).fetch().forEach(msg => console.log(msg));
 ```
 
-# Collection.fetch() {#fetch}
+# Methods
+{:.no_toc}
+
+* Table of Contents
+{:toc}
+
+## Collection.fetch() {#fetch}
 
 Return an Observable containing the query result set.
 
