@@ -52,6 +52,8 @@ Unlike [watch](#watch), the `fetch` command does not update in real time, but ra
 The Observable returned by `fetch` or `watch` may be iterated through with `[forEach](#foreach)`, or converted to an array with `toArray`.
 
 ```js
+const hz = Horizon();
+
 hz("messages").fetch.forEach(
     result => console.log('Result:', result),
     err => console.error(err),
@@ -76,6 +78,8 @@ When `forEach` is chained off a read function (i.e., [fetch](#fetch)) it takes t
 * `completedFunction()`: a callback executed when the result set has been iterated through completely
 
 ```js
+const hz = Horizon();
+
 hz("messages").fetch.forEach(
     result => console.log('Result:', result),
     err => console.error(err),
@@ -117,7 +121,7 @@ When `forEach` is chained off `[watch](#watch)`, it takes two callback functions
 * `changefeedFunction(result)`: a callback that receives a changefeed result document
 * `errorFunction(error)`: a callback that receives error information if an error occurs
 
-Read the documentation for `watch` for more details on returned changefeed documents.
+Read the documentation for `watch` for more details on returned changefeed dowcuments.
 
 # Collection.watch() {#watch}
 
@@ -133,6 +137,8 @@ Collection.watch({options})
 The `watch` command takes one option, `rawChanges`. If set `true`, your application will receive the actual change documents from the RethinkDB changefeed, rather than having Horizon update the result set for you based on the change documents. (Read the RethinkDB [changefeed documentation][feed] for more details on change documents.)
 
 ```js
+const hz = Horizon();
+
 // get a handle to the channels table in a multi channel chat application
 const channels = hz("channels");
 
@@ -198,19 +204,20 @@ Values in key-value pairs may be numbers, strings, or even arrays or objects; no
 The `above` method is often used in conjunction with [order](#order), but it may appear after any Horizon method with the exception of [find](#find) and [limit](#limit). (However, `limit` may appear after `above`.)
 
 ```js
+const hz = Horizon();
 const messages = hz("messages");
 
 // get all messages with an ID over 100, sorted
-messages.order("id").above({id: 100});
+messages.order("id").above({id: 100}).fetch();
 
 // the same as above, but using the integer shorthand for ID
-messages.order("id").above(100);
+messages.order("id").above(100).fetch();
 
 // get all messages with an ID between 101 and 200, sorted
-messages.order("id").below(200).above(100);
+messages.order("id").below(200).above(100).fetch();
 
 // get all users with a reputation score of 50 or over, unsorted
-users.above({reputation: 50}, "closed");
+users.above({reputation: 50}, "closed").fetch();
 ```
 
 # Collection.below {#below}
@@ -228,59 +235,20 @@ Values in key-value pairs may be numbers, strings, or even arrays or objects; no
 The `below` method may _only_ be used after [order](#order), although other methods may be used after it.
 
 ```js
+const hz = Horizon();
 const messages = hz("messages");
 
 // get all messages with an ID below 100, sorted
-messages.order("id").below({id: 100});
+messages.order("id").below({id: 100}).fetch();
 
 // the same as above, but using the integer shorthand for ID
-messages.order("id").below(100);
+messages.order("id").below(100).fetch();
 
 // get all messages with an ID between 101 and 200, sorted
-messages.order("id").below(200).above(100);
+messages.order("id").below(200).above(100).fetch();
 
 // get all users with a reputation score of 50 or below, sorted
-users.order("reputation").below({reputation: 50}, "closed");
-```
-
-# Collection.fetch {#fetch}
-
-Return the entire contents of a Collection.
-
-```js
-Collection.fetch({options})
-```
-
-With no options, `fetch` returns the contents of a Collection as an array. With the `asCursor` option set to `true`, an Observable will be returned instead. (Unlike [watch](#watch), this Observable will _not_ be updated with changes; it represents a snapshot of the Collection as it existed when `fetch` was called.)
-
-```js
-const users = hz("users");
-
-var userList = users.fetch();
-
-console.log(userList);
-```
-
-The result will be something like:
-
-```json
-[
-    {id: 1, name: 'bob', email: 'bob@example.com'},
-    {id: 2, name: 'agatha', email: 'agatha@example.com'},
-    {id: 3, name: 'skyla', email: 'skyla@example.com'}
-]
-```
-
-The same query can be rewritten with an Observable:
-
-```js
-const users = hz("users");
-
-users.fetch({asCursor: true}).forEach(
-    result => console.log(result);
-    err => console.error(err),
-    () => console.log('Query finished')
-);
+users.order("reputation").below({reputation: 50}, "closed").fetch();
 ```
 
 # Collection.find {#find}
@@ -294,6 +262,7 @@ Collection.find(integer | object)
 The `find` method may be called with either a key-value pair to match against (e.g., `{name: "agatha"}` or an integer (an `id` value to look up).
 
 ```
+const hz = Horizon();
 const messages = hz("messages");
 
 // get the first message from Bob
@@ -317,6 +286,7 @@ Collection.findAll(object[, object, ...])
 The `findAll` method can be called with one or more key-value pairs to match against (e.g., `{email: "bob@example.com"}`. Every document that matches the pairs will be returned in a list. (If no documents match, an empty list, `[]`, will be returned.)
 
 ```
+const hz = Horizon();
 const messages = hz("messages");
 
 // get all messages from Bob, Agatha and Dave
@@ -337,6 +307,7 @@ Collection.limit(integer)
 The `limit` command takes a single argument, an integer representing the number of items to limit the results to.
 
 ```js
+const hz = Horizon();
 const users = hz("users");
 
 // get the 10 most prolific posters
@@ -359,6 +330,7 @@ Fields passed to `order` may contain numbers, strings, or even arrays or objects
 The optional second argument must be a string indication sort direction, either `"ascending"` or `"descending"`. The default is `"ascending"`.
 
 ```js
+const hz = Horizon();
 const messages = hz("messages");
 
 // get all messages, ordered ascending by ID value
@@ -382,6 +354,7 @@ Collection.remove(integer | object)
 The `remove` method may be called with either an object to be deleted or an integer representing a numeric ID value. In the object case, the object must include an `id` key.
 
 ```js
+const hz = Horizon();
 const messages = hz("messages");
 
 // get the message with an ID of 101
@@ -408,6 +381,7 @@ Collection.removeAll([integer, integer, ...] | [object, object, ...])
 The `removeAll` method must be called with an array of objects to be deleted, or integers representing ID values to remove. The objects must have `id` keys. You can mix integers and objects within the array.
 
 ```js
+const hz = Horizon();
 const messages = hz("messages");
 
 // get all messages from Bob and Agatha...
@@ -431,6 +405,7 @@ Collection.replace(object | list of objects)
 The `replace` method can be called either with an object representing a single document, or a list of objects. The objects must have `id` values that already exist in the collection or an error will be raised.
 
 ```js
+const hz = Horizon();
 const messages = hz("messages");
 
 // Replace a single document. This will raise an error if there is not an
@@ -467,6 +442,7 @@ Collection.store(object | list of objects)
 The `store` method can be called either with an object representing a single document, or a list of objects. The objects must have unique `id` values, and must have `id` values that do not already exist in the collection or an error will be raised.
 
 ```js
+const hz = Horizon();
 const messages = hz("messages");
 
 // Store a single document. There must not be a document with an id of 1 in
@@ -503,6 +479,7 @@ Collection.upsert(object | list of objects)
 The `upsert` method can be called either with an object representing a single document, or a list of objects. Depending on whether the documents passed to `upsert` already exist in the collection as determined by their `id` values, the documents will either be inserted into the documents as new members of the collection (cf. [store](#store)) or replace the existing documents with the same `id` (cf. [replace](#replace)).
 
 ```js
+const hz = Horizon();
 const messages = hz("messages");
 
 // Upsert (update or insert) a single document. If there is an existing
