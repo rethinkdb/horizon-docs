@@ -3,7 +3,7 @@ layout: documentation
 title: The hzconfig file
 ---
 
-Options for Horizon apps are set by a [TOML][] file in the app's root directory, `.hzconfig`. The example configuration file installed by `hz init` is fully commented; this documentation is taken from there.
+Options for Horizon apps are set by a [TOML][] file in the app's root directory, `.hz/config.toml`. The example configuration file installed by `hz init` is fully commented; this documentation is taken from there.
 
 [TOML]: https://github.com/toml-lang/toml
 

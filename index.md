@@ -40,7 +40,7 @@ Horizon consists of three components:
 
 * [Configuration](/config-file)
 
-    All about the Horizon configuration file, `.hzconfig`.
+    All about the Horizon configuration file, `.hz/config.toml`.
 
 * [Deploying Horizon](/deploy)
 
