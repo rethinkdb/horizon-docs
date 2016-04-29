@@ -11,7 +11,10 @@ const Horizon = require('horizon');
 const hz = Horizon();
 ```
 
-## Horizon constructor arguments
+* Table of Contents
+{:toc}
+
+# Horizon constructor arguments {#constructor}
 
 All arguments are optional. Pass them to `Horizon` in an object with option keys: `{secure: true}`.
 
@@ -19,6 +22,7 @@ All arguments are optional. Pass them to `Horizon` in an object with option keys
 * `secure`: a boolean indicating whether the server should use secure websockets. Defaults to `true`.
 * `path`: the reserved namespace for Horizon. Defaults to `"horizon"`.
 * `lazyWrites`: a boolean indicating whether write operations should be performed in a "lazy" fashion (see below). Defaults to `false`.
+* `authType`: a string indicating the authentication method to use for your application's users, one of `"unauthenticated"`, `"anonymous"`, or `"token"`. Defaults to `"unauthenticated"`. (See [Authentication](authentication.md).)
 
 ## Lazy writes
 
@@ -45,27 +49,40 @@ query.forEach(uuid => {
 });
 ```
 
-
-## Horizon methods
-
 The function returned by a `Horizon` object simply returns a [Collection][c] object:
 
 ```js
+// Return the messages Collection
 const messages = hz('messages');
 ```
 
-**[Horizon.dispose][hd]**: close a Horizon connection.
+# Methods
+{:.no_toc}
 
-**[Horizon.status][hs]**: receive status updates about the connection to the Horizon server.
+## Horizon.dispose() {#dispose}
 
-**[Horizon.onConnected][hoc]**: set a callback to execute when the Horizon server is connected.
+Close a Horizon connection.
 
-**[Horizon.onDisconnected][hod]**: set a callback to execute when the Horizon server is disconnected.
+## Horizon.status() {#status}
 
-**[Horizon.onSocketError][hse]**: set a callback to execute when a websocket error occurs.
+Receive status updates about the connection to the Horizon server.
 
-[hd]:  /api/horizon-dispose/
-[hs]:  /api/horizon-status/
-[hoc]: /api/horizon-onconnected/
-[hod]: /api/horizon-ondisconnected/
-[hse]: /api/horizon-onsocketerror/
+## Horizon.onConnected() {#onconnected}
+
+Set a callback to execute when the client connects to the Horizon server.
+
+## Horizon.onDisconnected() {#ondisconnected}
+
+Set a callback to execute when the client disconnects from the Horizon server.
+
+## Horizon.onSocketError() {#onsocketerror}
+
+Set a callback to execute when a websocket error occurs.
+
+## Horizon.clearAuthTokens() {#clearauthtokens}
+
+Clear authentication tokens from local storage.
+
+```js
+Horizon.clearAuthTokens();
+```
