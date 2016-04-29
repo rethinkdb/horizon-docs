@@ -67,7 +67,7 @@ hz("messages").fetch.forEach(
 );
 ```
 
-# Collection.forEach() {#foreach}
+## Collection.forEach() {#foreach}
 
 Provide handlers to a Collection result set.
 
@@ -129,7 +129,7 @@ When `forEach` is chained off `[watch](#watch)`, it takes two callback functions
 
 Read the documentation for `watch` for more details on returned changefeed dowcuments.
 
-# Collection.watch() {#watch}
+## Collection.watch() {#watch}
 
 
 Convert a query into a [changefeed][feed]. This returns an Observable which receives real-time updates of the query's result set.
@@ -192,7 +192,7 @@ channels.order("users", "descending").limit(10).watch()..forEach(allChannels => 
 });
 ```
 
-# Collection.above {#above}
+## Collection.above {#above}
 
 Restrict the range of results returned to values that sort above a given value.
 
@@ -226,7 +226,7 @@ messages.order("id").below(200).above(100).fetch();
 users.above({reputation: 50}, "closed").fetch();
 ```
 
-# Collection.below {#below}
+## Collection.below {#below}
 
 Restrict the range of results returned to values that sort below a given value.
 
@@ -257,7 +257,7 @@ messages.order("id").below(200).above(100).fetch();
 users.order("reputation").below({reputation: 50}, "closed").fetch();
 ```
 
-# Collection.find {#find}
+## Collection.find {#find}
 
 Retrieve a single document from a Collection.
 
@@ -281,7 +281,7 @@ messages.find({id: 1});
 messages.find(101);
 ```
 
-# Collection.findAll {#findall}
+## Collection.findAll {#findall}
 
 Retrieve multiple documents from a Collection.
 
@@ -302,7 +302,7 @@ messages.findAll({from: "bob"}, {from: "agatha"}, {from: "dave"});
 messages.findAll({from: "jane"}, {priority: "high"});
 ```
 
-# Collection.limit {#limit}
+## Collection.limit {#limit}
 
 Limit the results of the query to a maximum number of returned documents.
 
@@ -320,7 +320,7 @@ const users = hz("users");
 users.order("postCount", "descending").limit(10);
 ```
 
-# Collection.order {#order}
+## Collection.order {#order}
 
 Sort the results of the query by the values of a given field.
 
@@ -349,7 +349,7 @@ messages.order("id");
 messages.order("time", "descending");
 ```
 
-# Collection.remove {#remove}
+## Collection.remove {#remove}
 
 Delete a single document from a Collection.
 
@@ -376,7 +376,7 @@ messages.remove({id: 101});
 messages.remove(101);
 ```
 
-# Collection.removeAll() {#removeall}
+## Collection.removeAll() {#removeall}
 
 Delete multiple documents from a Collection.
 
@@ -400,7 +400,7 @@ messages.removeAll(messageList);
 messages.removeAll([101, 103, 109]);
 ```
 
-# Collection.replace() {#replace}
+## Collection.replace() {#replace}
 
 Replace one or more existing documents within a Collection.
 
@@ -437,7 +437,7 @@ messages.replace([
 ]);
 ```
 
-# Collection.store() {#store}
+## Collection.store() {#store}
 
 Insert one or more new documents into a Collection.
 
@@ -474,7 +474,7 @@ messages.store([
 ]);
 ```
 
-# Collection.upsert() {#upsert}
+## Collection.upsert() {#upsert}
 
 Insert one or more documents into a Collection, replacing existing ones or inserting new ones based on `id` value.
 
