@@ -48,4 +48,4 @@ Horizon consists of three components:
     
 ## Horizon Tutorial
 
-Build a realtime chat application using Horizon and React.js, with support for multiple users and authorization integration with Github.
+*Coming soon:* Build a realtime chat application using Horizon and React.js, with support for multiple users and authorization integration with Github.
