@@ -79,6 +79,14 @@ Set a callback to execute when the client disconnects from the Horizon server.
 
 Set a callback to execute when a websocket error occurs.
 
+## Horizon.hasAuthToken() {#hasauthtoken}
+
+Check if the user has a valid authorization token (i.e., has logged in).
+
+## Horizon.authEndpoint() {#authendpoint}
+
+Return a previously-configured OAuth endpoint.
+
 ## Horizon.clearAuthTokens() {#clearauthtokens}
 
 Clear authentication tokens from local storage.
