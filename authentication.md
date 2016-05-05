@@ -20,9 +20,9 @@ Horizon uses [JSON Web Tokens][jwt] for user authentication, an [open industry s
 
 ## Unauthenticated
 
-The first auth type is unauthenticated. One [JWT](https://jwt.io/) is shared by all unauthenticated users. To create a connection using the 'unauthenticated' method do:
+The first auth type is unauthenticated. One web token is shared by all unauthenticated users. To create a connection using the 'unauthenticated' method do:
 
-``` js
+```js
 const horizon = Horizon({ authType: 'unauthenticated' });
 ```
 
@@ -32,7 +32,7 @@ This is the default authentication method and provides no means to separate user
 
 The second auth type is anonymous. If anonymous authentication is enabled in the config, any user requesting anonymous authentication will be given a new JWT, with no other confirmation necessary. The server will create a user entry in the users table for this JWT, with no other way to authenticate as this user than by passing the JWT back. (This is done under the hood with the jwt being stored in localStorage and passed back on subsequent requests automatically).
 
-``` js
+```js
 const horizon = Horizon({ authType: 'anonymous' });
 ```
 
@@ -90,7 +90,7 @@ If instead you only see empty brackets (e.g., `{ }`), ensure you've restarted th
 
 Use `authType: 'token'` when initializing Horizon in your client, and then use the `authEndpoint()` command to retrieve the endpoint for your OAuth identity provider and redirect the user to that URL.
 
-``` js
+```js
 const horizon = Horizon({ authType: 'token' });
 if (!horizon.hasAuthToken()) {
   horizon.authEndpoint('github').toPromise()
@@ -98,40 +98,29 @@ if (!horizon.hasAuthToken()) {
       window.location.pathname = endpoint;
     })
 } else {
-  // We have a token already, do authenticated horizon stuff here
+  // We have a token already, do authenticated Horizon stuff here
 }
 ```
 
-After logging in with Github, the user will be redirected back to the root page of your application, with the JSON Web Token in the `horizon_token` query parameter. The Horizon client will automatically save the JWT from the redirected URL, storing it client-side in [localStorage][ls] (just as with `anonymous` tokens). If the token is lost, the user can simply re-authenticate with the provider.
+After logging in with Github, the user will be redirected back to the root page of your application, with the JSON Web Token in the `horizon_token` query parameter. The Horizon client will automatically save the JWT from the redirected URL, storing it client-side in [localStorage][ls] (just as with `anonymous` tokens). If the token is lost, the user can simply re-authenticate with the provider. User information will be stored in the `Users` table.
 
 If an error occurs somewhere during the authentication process, the browser will be redirected back to the root of page with an error message in the query parameters.
 
+## Clearing tokens
 
+To delete all authentication tokens from localStorage, use `clearAuthTokens()`.
 
-A couple notes to mention:
-
-* ***Where is the user data from authenticating with OAuth?***: At the moment we just
-allow users to prove they have an account with the given provider. But obviously part of the
-power of OAuth is the convenience of sharing controlled slices of user data. For example, I may want users to allow my app to have access to their friends list, or see who they're following on Github. This is coming soon, and in the future, we will allow developers to specify the requested authentication scopes and give developer access to the returned data via the Users table.
-
-* ***Why can't I configure the final redirect url?***: Customizing the final redirect_url on the
-original domain will be possible in the future.
-
-* ***Why doesn't Horizon use Passport?***: Passport was definitely considered for Horizon but
-ultimately was too heavily tied with Express to achieve the amount of extensibility we wanted.
-To ensure this extensibility we decided to implement our own handling of OAuth routes for
-the different providers. If you're still convinced we should use Passport, feel free to
-[open an issue](https://github.com/rethinkdb/horizon/issues/new) and direct your comments
-to @Tryneus.
-
-
-
-**Clearing tokens**
-
-Sometimes you may wish to delete all authentication tokens from localStorage. You can do that with:
-
-``` js
+```js
 // Note the 'H'
-Horizon.clearAuthTokens()
+Horizon.clearAuthTokens();
 ```
 
+## Notes about Horizon's OAuth support
+
+* Currently, no metadata from OAuth providers&mdash;for example, friend/following lists&mdash; can be requested. In the near future, Horizon will support authentication scopes for selected providers to request acess to these details, and returned metadata will be stored in the `Users` table.
+* The redirection URL will be configurable in a future release.
+* [Passport][pp] integration is not currently on Horizon's roadmap; this decision was made to avoid tightly coupling Horizon with [Express][ex]. (A [Github issue][gi] may be opened to discuss this in the future.)
+
+[pp]: http://passportjs.org
+[ex]: http://expressjs.com
+[gi]: https://github.com/rethinkdb/horizon/issues/new
