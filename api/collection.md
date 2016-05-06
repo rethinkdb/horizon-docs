@@ -197,10 +197,10 @@ channels.order("users", "descending").limit(10).watch()..forEach(allChannels => 
 Restrict the range of results returned to values that sort above a given value.
 
 ```js
-Collection.above(integer | object[, "closed" | "open"])
+Collection.above(id | object[, "closed" | "open"])
 ```
 
-The `above` method may be called with either a key-value pair to match against (e.g., `{name: "agatha"}` or an integer (an `id` value to look up). The second optional parameter must be the string `"closed"` or `"open"`, indicating that the specified value will be included (closed) or excluded (open) from the result set. The default is excluded (open): `above(10)` will return documents with `id` values higher than (but not equal to) 10.
+The `above` method may be called with either a key-value pair to match against (e.g., `{name: "agatha"}` or an `id` value to look up. The second optional parameter must be the string `"closed"` or `"open"`, indicating that the specified value will be included (closed) or excluded (open) from the result set. The default is excluded (open): `above(10)` will return documents with `id` values higher than (but not equal to) 10.
 
 Values in key-value pairs may be numbers, strings, or even arrays or objects; non-numeric values will be sorted lexicographically, and strings are sorted by UTF-8 codepoint. (Read about [Sorting order][so] and [ReQL data types][dt] in general.)
 
@@ -231,10 +231,10 @@ users.above({reputation: 50}, "closed").fetch();
 Restrict the range of results returned to values that sort below a given value.
 
 ```js
-Collection.below(integer | object[, "closed" | "open"])
+Collection.below(id | object[, "closed" | "open"])
 ```
 
-The `below` method may be called with either a key-value pair to match against (e.g., `{name: "agatha"}` or an integer (an `id` value to look up). The second optional parameter must be the string `"closed"` or `"open"`, indicating that the specified value will be included (closed) or excluded (open) from the result set. The default is excluded (open): `below(10)` will return documents with `id` values lower than (but not equal to) 10.
+The `below` method may be called with either a key-value pair to match against (e.g., `{name: "agatha"}` or an `id` value to look up. The second optional parameter must be the string `"closed"` or `"open"`, indicating that the specified value will be included (closed) or excluded (open) from the result set. The default is excluded (open): `below(10)` will return documents with `id` values lower than (but not equal to) 10.
 
 Values in key-value pairs may be numbers, strings, or even arrays or objects; non-numeric values will be sorted lexicographically, and strings are sorted by UTF-8 codepoint. (Read about [Sorting order][so] and [ReQL data types][dt] in general.)
 
@@ -262,10 +262,10 @@ users.order("reputation").below({reputation: 50}, "closed").fetch();
 Retrieve a single document from a Collection.
 
 ```js
-Collection.find(integer | object)
+Collection.find(id | object)
 ```
 
-The `find` method may be called with either a key-value pair to match against (e.g., `{name: "agatha"}` or an integer (an `id` value to look up).
+The `find` method may be called with either a key-value pair to match against (e.g., `{name: "agatha"}` or an `id` value to look up.
 
 ```
 const hz = Horizon();
@@ -357,7 +357,7 @@ Delete a single document from a Collection.
 Collection.remove(integer | object)
 ```
 
-The `remove` method may be called with either an object to be deleted or an integer representing a numeric ID value. In the object case, the object must include an `id` key.
+The `remove` method may be called with either an object to be deleted or an `id` value. In the object case, the object must include an `id` key.
 
 ```js
 const hz = Horizon();
@@ -384,7 +384,7 @@ Delete multiple documents from a Collection.
 Collection.removeAll([integer, integer, ...] | [object, object, ...])
 ```
 
-The `removeAll` method must be called with an array of objects to be deleted, or integers representing ID values to remove. The objects must have `id` keys. You can mix integers and objects within the array.
+The `removeAll` method must be called with an array of objects to be deleted, or `id` values to remove. The objects must have `id` keys. You can mix `id` values and objects within the array.
 
 ```js
 const hz = Horizon();
