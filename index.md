@@ -30,7 +30,7 @@ Horizon consists of three components:
     * [Horizon](/api/horizon) (the connection management class)
     * [Collection](/api/collection) (the data management class)
 
-* [User authorization](/authorization)
+* [Users and permissions](/users)
 
     How Horizon's users and permissions system works.
 
