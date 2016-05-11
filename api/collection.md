@@ -187,7 +187,7 @@ channels.above({users: 10}, "closed").watch().forEach(allChannels => {
 });
 
 // maintain an updating "top 10" channel list
-channels.order("users", "descending").limit(10).watch()..forEach(allChannels => {
+channels.order("users", "descending").limit(10).watch().forEach(allChannels => {
     console.log('Popular channels: ', allChannels);
 });
 ```
