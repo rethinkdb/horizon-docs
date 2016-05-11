@@ -60,7 +60,7 @@ The Observable returned by `fetch` or `watch` may be iterated through with `[for
 ```js
 const hz = Horizon();
 
-hz("messages").fetch.forEach(
+hz("messages").fetch().forEach(
     result => console.log('Result:', result),
     err => console.error(err),
     () => console.log('Results fetched')
@@ -86,7 +86,7 @@ When `forEach` is chained off a read function (i.e., [fetch](#fetch)) it takes t
 ```js
 const hz = Horizon();
 
-hz("messages").fetch.forEach(
+hz("messages").fetch().forEach(
     result => console.log('Result:', result),
     err => console.error(err),
     () => console.log('Results fetched')
