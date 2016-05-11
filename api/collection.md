@@ -31,8 +31,8 @@ messages.find({from: "bob"}).fetch().forEach(msg => console.log(msg));
 // the same, using a Horizon object directly
 hz("messages").find({from: "bob"}).fetch().forEach(msg => console.log(msg));
 
-// get the message with ID 101; a "shortcut" that only works if ID is
-// integer values (otherwise use {id: "value"})
+// get the message with ID 101; a "shortcut" that only works when fetching based on the
+// unique document ID (the equivalent long form is `find({id: 101})`)
 messages.find(101).fetch().forEach(msg => console.log(msg));
 
 // get all messages from Bob, ordered by ID
@@ -216,7 +216,7 @@ const messages = hz("messages");
 // get all messages with an ID over 100, sorted
 messages.order("id").above({id: 100}).fetch();
 
-// the same as above, but using the integer shorthand for ID
+// the same as above, but using the shorthand for fetching by document ID
 messages.order("id").above(100).fetch();
 
 // get all messages with an ID between 101 and 200, sorted
@@ -247,7 +247,7 @@ const messages = hz("messages");
 // get all messages with an ID below 100, sorted
 messages.order("id").below({id: 100}).fetch();
 
-// the same as above, but using the integer shorthand for ID
+// the same as above, but using the shorthand for fetching by document ID
 messages.order("id").below(100).fetch();
 
 // get all messages with an ID between 101 and 200, sorted
@@ -275,9 +275,9 @@ const messages = hz("messages");
 messages.find({from: "bob"});
 
 // get the message with ID 101
-messages.find({id: 1});
+messages.find({id: 101});
 
-// because the id field contains integers, we can use a shorthand
+// because we are fetching by the document ID, we can use a shorthand
 messages.find(101);
 ```
 
@@ -372,7 +372,7 @@ messages.remove(messageObject);
 // it may also be deleted by passing an object just with an ID key
 messages.remove({id: 101});
 
-// because the id field contains integers, we can use a shorthand
+// because we are deleting based on the document ID, we can use a shorthand
 messages.remove(101);
 ```
 
