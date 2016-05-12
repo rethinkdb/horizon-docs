@@ -69,7 +69,7 @@ Load the `index.html` file in `example-app`. It's pretty short:
     <script src="/horizon/horizon.js"></script>
     <script>
       var horizon = Horizon();
-      horizon.onConnected(function() {
+      horizon.onReady(function() {
         document.querySelector('h1').innerHTML = 'It works!'
       });
       horizon.connect();
@@ -84,11 +84,11 @@ Load the `index.html` file in `example-app`. It's pretty short:
 The two `script` tags do the work here. The first loads the actual Horizon client library, `horizon.js`; the second is a (very tiny) Horizon application:
 
 * `var horizon = Horizon()` instantiates a [Horizon][ho] object. This object only has a few methods on it, for handling connection-related events and for instantiating Horizon [Collections][co].
-* [onConnected()][hc] is an event handler that's executed when the client makes a successful connection to the server.
+* [onReady()][hc] is an event handler that's executed when the client makes a successful connection to the server.
 * Our connection function simply fills in `"It works!"` into the `<h1>` tag in the document. Since this function only gets executed on a successful connection, it *does* verify that Horizon is working, but it's not leveraging RethinkDB for anything yet.
 * Also, we're sorry for the `<marquee>` tag.
 
 [ho]: /api/horizon
 [co]: /api/collection
-[hc]: /api/horizon-onconnected
+[hc]: /api/horizon-onready
 
