@@ -96,11 +96,7 @@ The emitted status objects can be one of the following:
 * `{ type: 'error' }`: An error has occurred. A separate `Error` object with the specific error message will be emitted separately through the error callback (if any is subscribed on the `Observable`).
 * `{ type: 'disconnected' }`: The websocket was closed.
 
-## Horizon.onConnected() {#onconnected}
-
-Similar to `Horizon.status()`, but only emits `{ type: 'connected' }` events.
-
-## Horizon.onReady() {#onconnected}
+## Horizon.onReady() {#onready}
 
 Similar to `Horizon.status()`, but only emits `{ type: 'ready' }` events.
 
