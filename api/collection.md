@@ -55,29 +55,29 @@ Collection.fetch()
 
 Unlike [watch](#watch), the `fetch` command does not update in real time, but rather returns a "snapshot" of the result set as it exists when `fetch` is executed. The `fetch` or `watch` command ends a Horizon query.
 
-The Observable returned by `fetch` or `watch` may be iterated through with `[forEach](#foreach)`, or converted to an array with `toArray`.
+The Observable returned by `fetch` or `watch` may be iterated through with `[subscribe](#subscribe)` or `forEach`, or converted to an array with `toArray`.
 
 ```js
 const hz = Horizon();
 
-hz("messages").fetch().forEach(
+hz("messages").fetch().subscribe(
     result => console.log('Result:', result),
     err => console.error(err),
     () => console.log('Results fetched')
 );
 ```
 
-## Collection.forEach() {#foreach}
+## Collection.subscribe() {#subscribe}
 
 Provide handlers to a Collection result set.
 
 ```js
-Collection.fetch().forEach(readFunction, errorFunction, completedFunction)
-Collection.store().forEach(writeFunction, errorFunction)
-Collection.watch().forEach(changefeedFunction, errorFunction)
+Collection.fetch().subscribe(readFunction, errorFunction, completedFunction)
+Collection.store().subscribe(writeFunction, errorFunction)
+Collection.watch().subscribe(changefeedFunction, errorFunction)
 ```
 
-When `forEach` is chained off a read function (i.e., [fetch](#fetch)) it takes three callback functions:
+When `subscribe` is chained off a read function (i.e., [fetch](#fetch)) it takes three callback functions:
 
 * `readFunction(result)`: a callback that receives a single document as the Collection is iterated through
 * `errorFunction(error)`: a callback that receives error information if an error occurs
@@ -86,7 +86,7 @@ When `forEach` is chained off a read function (i.e., [fetch](#fetch)) it takes t
 ```js
 const hz = Horizon();
 
-hz("messages").fetch().forEach(
+hz("messages").fetch().subscribe(
     result => console.log('Result:', result),
     err => console.error(err),
     () => console.log('Results fetched')
@@ -109,7 +109,7 @@ hz("messages").store([
         from: "bob",
         text: "Would Superman lose a fight against Wonder Woman?"
     }
-]).forEach(
+]).subscribe(
     (id) => console.log("id value:", id),
     (err) => console.error(err)
 );
@@ -122,7 +122,7 @@ This would produce output similar to:
 
 In the first case, the `id` value is an automatically generated UUID; in the second, it was supplied with Bob's message.
 
-When `forEach` is chained off `[watch](#watch)`, it takes two callback functions:
+When `subscribe` is chained off `[watch](#watch)`, it takes two callback functions:
 
 * `changefeedFunction(result)`: a callback that receives a changefeed result document
 * `errorFunction(error)`: a callback that receives error information if an error occurs
