@@ -63,7 +63,7 @@ const messages = hz('messages');
 
 Establish a Horizon connection.
 
-Note that you can create a [Collection][c] from the `Horizon` instance without calling `connect()` first. Once you start using the collection, the connection will automatically established.
+Note that you can create a [Collection][c] from the `Horizon` instance without calling `connect()` first. Once you start using the collection, the connection will be automatically established.
 
 ```js
 const hz = Horizon();
