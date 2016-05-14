@@ -12,7 +12,7 @@ Every horizon server requires a RethinkDB server to connect to. Use the `--conne
 `hz serve` supports the following command-line options:
 
 ## General options
-* `--project-name NAME, -n NAME` Name of the Horizon project. Determines the name of the RethinkDB database that stores the project data. Must be specified if you use the same RethinkDB cluster for multiple projects to separate them in RethinkDB. Default: `horizon`
+* `--project-name NAME, -n NAME` Name of the Horizon project. Determines the name of the RethinkDB database that stores the project data. Default: Last component of the project path
 * `--serve-static [PATH]` Enable serving static files via HTTP(S). You can additionally specify the path from which static files will be served (default: `./dist`).
 * `--config PATH` Which [config file][config-file] to use. Default: `.hz/config.toml`
 * `--debug [yes|no]` Print additional debug output. Default: `no`
@@ -67,7 +67,7 @@ Horizon supports horizontal scalability. You can serve the same application from
 
 Servers in a Horizon cluster access a common RethinkDB cluster in order to synchronize the state of your application's state and any internal metadata.
 
-To serve your application from multiple machines, simply copy the static application files to each machine. Then start one Horizon server per machine, using the `--connect <RethinkDB host>` option to connect to a common RethinkDB cluster.
+To serve your application from multiple machines, simply copy the static application files to each machine. Then start one Horizon server per machine, using the `--connect <RethinkDB host>` option to connect to a common RethinkDB cluster. Make sure that the `--project-name` option is identical among all servers, or they will be unable to synchronize the application state.
 
 See the [RethinkDB documentation][rethinkdb-scaling] on information on how to horizontally scale a RethinkDB cluster.
 
