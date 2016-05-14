@@ -118,14 +118,13 @@ template = "collection('public_messages')"
 
 The `list_messages` rule allows operations as follows:
 ```js
-// These are ok:
-horizon('public_messages').watch()
-horizon('public_messages').fetch()
+// This is ok:
+horizon('public_messages')
 
 // These are not ok:
-horizon('public_messages').findAll({type: "announcement"}).fetch()
-horizon('public_messages').order("year").fetch()
-horizon('public_messages').order("year").above({year: 2015}).watch()
+horizon('public_messages').findAll({type: "announcement"})
+horizon('public_messages').order("year")
+horizon('public_messages').order("year").above({year: 2015})
 ```
 
 You can specify additional operations behind the collection:
@@ -177,11 +176,10 @@ template = "collection('public_messages').anyRead()"
 Now all of these are allowed:
 ```js
 // These are all ok now:
-horizon('public_messages').watch()
-horizon('public_messages').fetch()
-horizon('public_messages').findAll({type: "announcement"}).fetch()
-horizon('public_messages').order("year").fetch()
-horizon('public_messages').order("year").above({year: 2015}).watch()
+horizon('public_messages')
+horizon('public_messages').findAll({type: "announcement"})
+horizon('public_messages').order("year")
+horizon('public_messages').order("year").above({year: 2015})
 ```
 
 `anyRead()` is not limited to whole collections. The following rule allows users to read their own messages, allowing them to add further restrictions or ordering constraints on the results:
@@ -291,7 +289,7 @@ horizon('integers').find(2)
 
 Now consider the query
 ```js
-horizon('integers').fetch()
+horizon('integers')
 ```
 
 This query will error as soon as it encounters an even integer.
