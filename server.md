@@ -7,28 +7,39 @@ The `hz serve <project path>` command starts a Horizon server for the given Hori
 
 Every horizon server requires a RethinkDB server to connect to. Use the `--connect <RethinkDB host>` option to connect to an existing RethinkDB server, or use `--start-rethinkdb` to automatically start a local RethinkDB server.
 
-# Command line options {#options}
+# Command-line options {#options}
 
+`hz serve` supports the following command-line options:
+
+## General options
 * `--project-name NAME, -n NAME` Name of the Horizon project. Determines the name of the RethinkDB database that stores the project data. Must be specified if you use the same RethinkDB cluster for multiple projects to separate them in RethinkDB. Default: `horizon`
+* `--serve-static [PATH]` Enable serving static files via HTTP(S). You can additionally specify the path from which static files will be served (default: `./dist`).
+* `--config PATH` Which [config file][config-file] to use. Default: `.hz/config.toml`
+* `--debug [yes|no]` Print additional debug output. Default: `no`
+
+## Network options
 * `--bind HOST, -b HOST` The host name or IP address that the Horizon server should listen on for incoming requests. Can be specified multiple times to bind to multiple addresses. Default: `localhost`
 * `--port PORT, -p PORT` The port number the Horizon server should listen on for incoming requests. Default: `8181`
 * `--connect HOST:PORT, -c HOST:PORT` The host and port of the RethinkDB server to connect to. Default: `localhost:28015`
 * `--key-file PATH` The key file to use for the HTTPS server. Default: `./key.pem`
 * `--cert-file PATH` The certificate to use for the HTTPS server. Default: `./cert.pem`
+
+## Authentication options
+
 * `--token-secret SECRET` A key string for signing JWTs. If not specified, a new random secret is used on each server start.
 * `--allow-unauthenticated [yes|no]` Allow unauthenticated users. See [Authentication][auth] for details. Default: `no`
 * `--allow-anonymous [yes|no]` Allow anonymous users. See [Authentication][auth] for details. Default: `no`
-* `--debug [yes|no]` Print additional debug output. Default: `no`
+* `--auth PROVIDER,ID,SECRET` Enable an auth provider with the given options. E.g. `facebook,<id>,<secret>`. See [Authentication][auth] for details.
+* `--auth-redirect URL` The URL to redirect to upon completing authentication. Default: `/`
+
+## Development options
+
+* `--dev` Runs the server in [development mode](#development-mode).
 * `--secure [yes|no]` Serve websockets and files over encrypted (HTTPS) connections. Ignores the `--key-file` and `--cert-file` options if set to `no`. Default: `yes`
 * `--permissions [yes|no]` Check [permissions][permissions] on requests. Warning: Disabling this on a production server is a security risk and can be used by an attacker to exhaust the server's resources. Only recommended for development use. Default: `yes`
 * `--start-rethinkdb [yes|no]` Start up a RethinkDB in the current directory. Ignores `--connect` if enabled. Default: `no`
 * `--auto-create-collection [yes|no]` Create collections automatically on first use. Warning: Enabling this on a production server is a security risk and can be used by an attacker to exhaust the server's resources. Only recommended for development use. Default: `no`
 * `--auto-create-index [yes|no]` Create indexes automatically on first use. Warning: Enabling this on a production server is a security risk and can be used by an attacker to exhaust the server's resources. Only recommended for development use.  Default: `no`
-* `--serve-static [PATH]` Enable serving static files via HTTP(S). You can additionally specify the path from which static files will be served (default: `./dist`).
-* `--dev` Runs the server in [development mode](#development-mode).
-* `--config PATH` Which [config file][config-file] to use. Default: `.hz/config.toml`
-* `--auth PROVIDER,ID,SECRET` Enable an auth provider with the given options. E.g. `facebook,<id>,<secret>`. See [Authentication][auth] for details.
-* `--auth-redirect URL` The URL to redirect to upon completing authentication. Default: `/`
 
 [auth]: /authentication
 [config-file]: /config-file
