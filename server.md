@@ -1,6 +1,6 @@
 ---
 layout: documentation
-title: Running the Horizon Server 
+title: Running the Horizon server 
 ---
 
 The `hz serve <project path>` command starts a Horizon server for the given Horizon project. Once started, it serves HTTP(S) requests for your application on the configured port.
@@ -9,7 +9,7 @@ Every horizon server requires a RethinkDB server to connect to. Use the `--conne
 
 # Command line options {#options}
 
-* `--project-name NAME, -n NAME` Name of the Horizon project. Determines the name of the RethinkDB database that stores the project data. Must be specified if you use the same RethinkDB cluster for multiple projects to separate them in RethinkDB.
+* `--project-name NAME, -n NAME` Name of the Horizon project. Determines the name of the RethinkDB database that stores the project data. Must be specified if you use the same RethinkDB cluster for multiple projects to separate them in RethinkDB. Default: `horizon`
 * `--bind HOST, -b HOST` The host name or IP address that the Horizon server should listen on for incoming requests. Can be specified multiple times to bind to multiple addresses. Default: `localhost`
 * `--port PORT, -p PORT` The port number the Horizon server should listen on for incoming requests. Default: `8181`
 * `--connect HOST:PORT, -c HOST:PORT` The host and port of the RethinkDB server to connect to. Default: `localhost:28015`
