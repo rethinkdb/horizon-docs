@@ -1,5 +1,3 @@
-<img style="width:100%;" src="/github-banner.png">
-
 # RethinkDB Horizon Docs
 
 This is the repository for the Horizon documentation. As with RethinkDB's documentation, these are maintained in [GitHub-Flavored Markdown][GFM], using [Jekyll][] and [Kramdown][].
