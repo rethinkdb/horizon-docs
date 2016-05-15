@@ -92,6 +92,7 @@ Receive status updates about the connection to the Horizon server.
 Calling `status()` without any arguments returns an `Observable`. Alternatively you can pass in a callback to execute when the status of the connection changes. Any arguments passed to `status()` will be treated as if passed to `Observable.subscribe(args...)`.
 
 The emitted status objects can be one of the following:
+
 * `{ type: 'unconnected' }`: The initial status before any connection has been established.
 * `{ type: 'connected' }`: A websocket connection has been established. However the Horizon connection is not ready yet, since the Horizon handshake hasn't been performed yet.
 * `{ type: 'ready' }`: The `Horizon` instance is now fully usable.
