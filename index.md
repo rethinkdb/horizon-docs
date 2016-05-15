@@ -5,8 +5,6 @@ id: index
 permalink: /docs/
 ---
 
-# RethinkDB Horizon
-
 RethinkDB Horizon is an open-source developer platform for building realtime, scalable web apps. It is built on top of RethinkDB, and allows app developers to get started with building modern, engaging apps without writing any backend code.
 
 Horizon consists of three components:

@@ -3,9 +3,10 @@ layout: documentation
 title: Installing Horizon
 id: install
 permalink: /install
+active: install
 ---
 
-# Prerequisites #
+## Prerequisites
 
 **Before installing Horizon, you must install the RethinkDB server.** Consult [Installing RethinkDB][ir] for downloads and installation instructions.
 
@@ -15,7 +16,7 @@ Horizon is a [Node.js][njs] application. Please install the current stable versi
 
 [njs]: https://nodejs.org/
 
-# Installing Horizon #
+## Installing Horizon
 
 Install horizon from npm:
 
@@ -27,7 +28,7 @@ This will install Horizon and its command line tool, `hz`. (The same tool will a
 
 [q]: /docs/quickstart
 
-## Working on Horizon itself ##
+## Working on Horizon itself
 
 If you want to install a development environment _for developing Horizon, not Horizon applications,_ use the following installation instructions instead of installing from npm.
 
