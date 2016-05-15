@@ -1,6 +1,6 @@
 ---
 layout: documentation
-title: Users and group management
+title: User and group management
 id: users
 permalink: /docs/users
 ---
