@@ -1,6 +1,8 @@
 ---
 layout: documentation
 title: RethinkDB Horizon
+id: index
+permalink: /docs/
 ---
 
 # RethinkDB Horizon
@@ -26,7 +28,7 @@ Horizon consists of three components:
 * The Horizon API
 
     Learn about the two JavaScript classes at the heart of Horizon:
-    
+
     * [Horizon](/api/horizon) (the connection management class)
     * [Collection](/api/collection) (the data management class)
 
@@ -45,7 +47,7 @@ Horizon consists of three components:
 * [Deploying Horizon](/deploy)
 
     Deploying a Horizon application.
-    
+
 ## Horizon Tutorial
 
 *Coming soon:* Build a realtime chat application using Horizon and React.js, with support for multiple users and authorization integration with Github.

@@ -1,6 +1,8 @@
 ---
 layout: api
 title: Collection
+id: api-collection
+permalink: /api/collection
 ---
 
 The `Collection` object represents a group of related documents, and is backed by a RethinkDB table. Documents in a `Collection` are identified by a unique key stored in the `id` field.

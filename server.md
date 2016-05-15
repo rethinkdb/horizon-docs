@@ -1,6 +1,8 @@
 ---
 layout: documentation
-title: Running the Horizon server 
+title: Running the Horizon server
+id: server
+permalink: /docs/server
 ---
 
 The `hz serve <project path>` command starts a Horizon server for the given Horizon project. Once started, it serves HTTP(S) requests for your application on the configured port.

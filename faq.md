@@ -1,6 +1,8 @@
 ---
 layout: documentation
 title: Horizon FAQ
+id: faq
+permalink: /faq
 ---
 
 ## How can I install Horizon? What are the prerequisites? ##
