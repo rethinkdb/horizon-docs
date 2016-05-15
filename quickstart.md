@@ -13,7 +13,7 @@ If you haven't installed Horizon, do so now. (Read the [Installation instruction
 
 ## Using the Horizon CLI ##
 
-Interactions with Horizon are performed with the `hz` application. `hz` has a bunch of commands, of which we are going to use the following two:
+Interactions with Horizon are performed with the `hz` application. `hz` has a number of commands, of which we are going to use the following two:
 
 * `init [directory]`: initialize a new Horizon application
 * `serve`: serve the project in the current directory
@@ -58,7 +58,7 @@ Passing the `--dev` flag to `hz serve` puts it in development mode, which makes 
 * Tables and indexes will automatically be created if they don't exist (`--auto-create-table` and `--auto-create-index`).
 * Static files will be served from the `dist` directory (`--serve-static`).
 
-You can find the complete list of [command line flags][server] for `hz serve` on the [Horizon server][server] page.
+You can find the complete list of [command line flags][server] for `hz serve` in the documentation for the [Horizon server][server].
 
 In production (i.e., without the `--dev` flag), you'll use the `.hz/config.toml` file to set these and other options. See [Configuring Horizon][configuration] for details.
 
