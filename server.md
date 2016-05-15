@@ -31,7 +31,7 @@ Every horizon server requires a RethinkDB server to connect to. Use the `--conne
 * `--token-secret SECRET` A key string for signing JWTs. If not specified, a new random secret is used on each server start.
 * `--allow-unauthenticated [yes|no]` Allow unauthenticated users. See [Authentication][auth] for details. Default: `no`
 * `--allow-anonymous [yes|no]` Allow anonymous users. See [Authentication][auth] for details. Default: `no`
-* `--auth PROVIDER,ID,SECRET` Enable an auth provider with the given options. E.g. `facebook,<id>,<secret>`. See [Authentication][auth] for details.
+* `--auth PROVIDER,ID,SECRET` Enable an auth provider with the given options. E.g. `facebook,ID,SECRET`. See [Authentication][auth] for details.
 * `--auth-redirect URL` The URL to redirect to upon completing authentication. Default: `/`
 
 ## Development options
@@ -50,6 +50,7 @@ Every horizon server requires a RethinkDB server to connect to. Use the `--conne
 # Development mode {#development-mode}
 
 In development mode (`hz serve --dev`), the following flags are enabled by default:
+
 * `--secure no`
 * `--permissions no`
 * `--auto-create-collection yes`
