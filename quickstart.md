@@ -13,7 +13,7 @@ If you haven't installed Horizon, do so now. (Read the [Installation instruction
 
 ## Using the Horizon CLI ##
 
-Interactions with Horizon are performed with the `hz` application, which has only two commands:
+Interactions with Horizon are performed with the `hz` application. `hz` has a number of commands, of which we are going to use the following two:
 
 * `init [directory]`: initialize a new Horizon application
 * `serve`: serve the project in the current directory
@@ -53,11 +53,17 @@ Here's what `hz serve` actually does:
 Passing the `--dev` flag to `hz serve` puts it in development mode, which makes the following changes. (All of these can also be set individually with separate flags to `serve`.)
 
 * A RethinkDB server is automatically started (`--start-rethinkdb`). This server is specifically for this Horizon application, and will create a `rethinkdb_data` folder in the working directory when started.
-* Horizon is served in "insecure mode," without requiring SSL/TLS (`--insecure`).
+* Horizon is served in "insecure mode," without requiring SSL/TLS (`--secure no`).
+* The permissions system is disabled (`--permissions no`).
 * Tables and indexes will automatically be created if they don't exist (`--auto-create-table` and `--auto-create-index`).
 * Static files will be served from the `dist` directory (`--serve-static`).
 
-In production (i.e., without the `--dev` flag), you'll use the `.hz/config.toml` file to set these and other options.
+You can find the complete list of [command line flags][server] for `hz serve` in the documentation for the [Horizon server][server].
+
+In production (i.e., without the `--dev` flag), you'll use the `.hz/config.toml` file to set these and other options. See [Configuring Horizon][configuration] for details.
+
+[server]: /docs/server
+[config-file]: /docs/configuration
 
 ## Talk to Horizon ##
 
@@ -92,4 +98,4 @@ The two `script` tags do the work here. The first loads the actual Horizon clien
 
 [ho]: /api/horizon
 [co]: /api/collection
-[hc]: /api/horizon-onready
+[hc]: /api/horizon/#onready
