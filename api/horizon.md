@@ -24,7 +24,7 @@ All arguments are optional. Pass them to `Horizon` in an object with option keys
 * `secure`: a boolean indicating whether the server should use secure websockets. Defaults to `true`.
 * `path`: the path the Horizon endpoint can be found under on `host`. Defaults to `"horizon"`.
 * `lazyWrites`: a boolean indicating whether write operations should be performed in a "lazy" fashion (see below). Defaults to `false`.
-* `authType`: a string indicating the authentication method to use for your application's users, one of `"unauthenticated"`, `"anonymous"`, or `"token"`. Defaults to `"unauthenticated"`. (See [Authentication](authentication.md).)
+* `authType`: a string indicating the authentication method to use for your application's users, one of `"unauthenticated"`, `"anonymous"`, or `"token"`. Defaults to `"unauthenticated"`. (See [Authentication][auth].)
 
 ## Lazy writes
 
@@ -114,13 +114,13 @@ Similar to `Horizon.status()`, but only emits `{ type: 'error' }` events.
 
 Check if the user has a valid authorization token (i.e., has logged in).
 
-See [Authentication](authentication.md) for more details.
+See [Authentication][auth] for more details.
 
 ## Horizon.authEndpoint() {#authendpoint}
 
 Return a previously-configured OAuth endpoint.
 
-See [Authentication](authentication.md) for more details.
+See [Authentication][auth] for more details.
 
 ## Horizon.clearAuthTokens() {#clearauthtokens}
 
@@ -130,4 +130,6 @@ Clear authentication tokens from local storage.
 Horizon.clearAuthTokens();
 ```
 
-See [Authentication](authentication.md) for more details.
+See [Authentication][auth] for more details.
+
+[auth]: /docs/auth
