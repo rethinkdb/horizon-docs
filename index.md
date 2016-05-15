@@ -2,7 +2,7 @@
 layout: documentation
 title: RethinkDB Horizon
 id: index
-permalink: /docs
+permalink: /docs/
 ---
 
 # RethinkDB Horizon
