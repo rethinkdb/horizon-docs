@@ -1,6 +1,8 @@
 ---
 layout: api
 title: Horizon
+id: api-horizon
+permalink: /api/horizon
 ---
 
 The `Horizon` object instantiates and manages the connection to the Horizon server.

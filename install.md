@@ -1,6 +1,8 @@
 ---
 layout: documentation
 title: Installing Horizon
+id: install
+permalink: /install
 ---
 
 # Prerequisites #
