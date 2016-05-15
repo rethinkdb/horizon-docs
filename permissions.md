@@ -1,9 +1,9 @@
 ---
 layout: documentation
 title: Permissions and schema enforcement
+id: permissions
+permalink: /docs/permissions
 ---
-
-TODO: Internal references/links are probably wrong
 
 Horizon's permission system is based on a query whitelist. Any operation on a Horizon collection is disallowed by default, unless there is a rule that allows the operation.
 
@@ -12,7 +12,7 @@ A whitelist rule has three properties that define which operations it covers:
 * A query template describing the type of operation
 * Optionally: A validator function written in JavaScript that can be used to check the contents of the accessed documents, or to implement more complex permission checks
 
-[users]: /users
+[users]: /docs/users
 
 For example the following rule allows users in the `"default"` group to read their own messages from the `messages` collection:
 ```toml
@@ -43,7 +43,7 @@ A given document can be read or written to by a user, if there is at least one r
 
 Note that permissions are not enforced when running the Horizon server in [development mode][dev-mode]. This is so that you can easily change and prototype the queries in your application without having to deal with maintaining corresponding entries in the whitelist.
 
-[dev-mode]: /server#development-mode
+[dev-mode]: /docs/server#development-mode
 
 # Configuring rules {#configuring}
 
@@ -208,7 +208,7 @@ The `userId()` placeholder matches the ID of the currently authenticated user (s
 template = "collection('messages').findAll({owner: userId()})"
 ```
 
-[authentication]: /authentication
+[authentication]: /docs/authentication
 
 # Validator functions {#validator_functions}
 
