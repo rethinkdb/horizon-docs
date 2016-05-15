@@ -1,6 +1,6 @@
 ---
 layout: documentation
-title: Horizon Quickstart
+title: Horizon quickstart
 id: quickstart
 permalink: /docs/quickstart
 ---
