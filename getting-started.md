@@ -45,7 +45,7 @@ horizon.connect();
 ```
 
 From here you can start to interact with Horizon collections. Having `--dev` mode enabled on
-the Horizon Server creates collections and indexes automatically so you can get your
+the Horizon server creates collections and indexes automatically so you can get your
 application setup with as little hassle as possible.
 
 > **Note:** With `--dev` mode enabled, collections and indexes will
@@ -251,16 +251,16 @@ You can also get notifications when the client connects and disconnects from the
 
 ``` js
   // Triggers when client successfully connects to server
-  horizon.onReady().subscribe(() => console.log("Connected to Horizon Server"))
+  horizon.onReady().subscribe(() => console.log("Connected to Horizon server"))
 
   // Triggers when disconnected from server
-  horizon.onDisconnected().subscribe(() => console.log("Disconnected from Horizon Server"))
+  horizon.onDisconnected().subscribe(() => console.log("Disconnected from Horizon server"))
 ```
 
 From here, you could take any framework and add these functions to create a realtime chat application
 without writing a single line of backend code.
 
-There's also plenty of other functions in the Horizon Client library to meet your needs, including:
+There's also plenty of other functions in the Horizon client library to meet your needs, including:
 [above][above], [below][below], [limit][limit], [replace][replace], and [upsert][upsert].
 
 
@@ -275,14 +275,14 @@ be relevant to you:
 The short and long answer is, **_no_**.
 
 If you are already using some other process to serve your static files, you absolutely
-do not need to now do Yet Another Refactor™️ just to get the power of Horizon. From your already existing code base you have two options to get include and then `require` the Horizon Client library:
+do not need to now do Yet Another Refactor™️ just to get the power of Horizon. From your already existing code base you have two options to get include and then `require` the Horizon client library:
 
-1. Use `horizon.js` served by Horizon Server (simplest option)
+1. Use `horizon.js` served by Horizon server (simplest option)
 1. Install `@horizon/client` as a dependency in your project
 
-We recommend using the `horizon.js` library as served by Horizon Server for solely the
+We recommend using the `horizon.js` library as served by Horizon server for solely the
 reason that there will be no mismatches between your client library version and your
-current running version of Horizon Server.
+current running version of Horizon server.
 
 This means somewhere in your application, you'll need to have:
 
@@ -298,7 +298,7 @@ const horizon = Horizon({host: 'localhost:8181'});
 
 However, if requesting the .js library at page load time isn't desirable, or you are using [webpack][webpack] and similar build setups for your front-end code, just add `npm install @horizon/client` to your project, and dependency wise, you'll be good to go.
 
-Just remember that when you make connections to Horizon Server to specify the port number (which is by default `8181`) when connecting.
+Just remember that when you make connections to Horizon server to specify the port number (which is by default `8181`) when connecting.
 
 [webpack]: https://webpack.github.io/
 

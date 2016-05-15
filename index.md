@@ -11,8 +11,8 @@ RethinkDB Horizon is an open-source developer platform for building realtime, sc
 
 Horizon consists of three components:
 
-* **Horizon Server:** a middleware server that connects to/is built on top of RethinkDB, and exposes a simple API/protocol to front-end applications.
-* **Horizon Client:** a JavaScript client library that wraps Horizon server's protocol in a convenient API for front-end developers.
+* **Horizon server:** a middleware server that connects to/is built on top of RethinkDB, and exposes a simple API/protocol to front-end applications.
+* **Horizon client:** a JavaScript client library that wraps Horizon server's protocol in a convenient API for front-end developers.
 * **Horizon CLI:** a command line tool, `hz`, aiding in scaffolding, development, and deployment.
 
 ## Using Horizon
