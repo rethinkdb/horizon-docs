@@ -1,6 +1,6 @@
 ---
 layout: documentation
-title: Horizon FAQ
+title: Frequently asked questions
 id: faq
 permalink: /faq
 ---

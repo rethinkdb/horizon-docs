@@ -11,7 +11,7 @@ If you haven't installed Horizon, do so now. (Read the [Installation instruction
 
 [install]: /install
 
-### Initialization
+## Initialization
 
 First, create a new Horizon project by using `hz init`:
 
