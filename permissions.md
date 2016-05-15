@@ -34,7 +34,7 @@ validator = """
   // `newValue` is the document that's getting stored, and `context` provides additional
   // details about the current user.
   (context, oldValue, newValue) => {
-    return typeof newValue.message === "string";
+    return typeof newValue.message === 'string';
   }
 """
 ```
@@ -56,18 +56,18 @@ You can define whitelist rules as part of a schema file using the [TOML][toml] c
 The format for a whitelist rule specification is as follows:
 
 ```toml
-[groups.<group name>.rules.<rule name>]
-template = "<query template>"
+[groups.GROUP_NAME.rules.RULE_NAME]
+template = "QUERY_TEMPLATE"
 # Optional:
-validator = "<validator function>"
+validator = "VALIDATOR_FUNCTION"
 ```
 
 The values of the fields are as follows:
 
-* `<group name>` is the name of a [user group][users] to which the rule should apply.
-* `<rule name>` is an arbitrary name to identify the rule.
-* `<query template>` must be a string that described the Horizon query that the rule applies to. See the section on [Query templates](#templates) for details.
-* `<validator function>` can be set to a string containing a JavaScript function value. See the section on [Validator functions](#validator_function) for details.
+* `GROUP_NAME` is the name of a [user group][users] to which the rule should apply.
+* `RULE_NAME` is an arbitrary name to identify the rule.
+* `QUERY_TEMPLATE` must be a string that described the Horizon query that the rule applies to. See the section on [Query templates](#templates) for details.
+* `VALIDATOR_FUNCTION` can be set to a string containing a JavaScript function value. See the section on [Validator functions](#validator_function) for details.
 
 You can have an arbitrary number of rule specifications in your schema file.
 
@@ -87,7 +87,7 @@ template = "collection('messages').findAll({owner: userId()})"
 template = "collection('messages').store({owner: userId(), message: any()})"
 validator = """
   (context, oldValue, newValue) => {
-    return typeof newValue.message === "string";
+    return typeof newValue.message === 'string';
   }
 """
 ```
@@ -243,10 +243,10 @@ template = "collection('messages').store(any())"
 # extra fields.
 validator = """
   (context, oldValue, newValue) => {
-    return newValue.hasOwnProperty("id")
-        && typeof newValue.id === "number"
-        && newValue.hasOwnProperty("message")
-        && typeof newValue.message === "string"
+    return newValue.hasOwnProperty('id')
+        && typeof newValue.id === 'number'
+        && newValue.hasOwnProperty('message')
+        && typeof newValue.message === 'string'
         && Object.keys(newValue).length == 2;
   }
 """
