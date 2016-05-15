@@ -23,8 +23,8 @@ Every horizon server requires a RethinkDB server to connect to. Use the `--conne
 * `--bind HOST, -b HOST` The host name or IP address that the Horizon server should listen on for incoming requests. Can be specified multiple times to bind to multiple addresses. Default: `localhost`
 * `--port PORT, -p PORT` The port number the Horizon server should listen on for incoming requests. Default: `8181`
 * `--connect HOST:PORT, -c HOST:PORT` The host and port of the RethinkDB server to connect to. Default: `localhost:28015`
-* `--key-file PATH` The key file to use for the HTTPS server. Default: `./key.pem`
-* `--cert-file PATH` The certificate to use for the HTTPS server. Default: `./cert.pem`
+* `--key-file PATH` The key file to use for the HTTPS server. Default: `./horizon-key.pem`
+* `--cert-file PATH` The certificate to use for the HTTPS server. Default: `./horizon-cert.pem`
 
 ## Authentication options
 
