@@ -47,7 +47,7 @@ messages.order("id").findAll({from: "bob"}).fetch().forEach(msg => console.log(m
 * Table of Contents
 {:toc}
 
-## Collection.fetch() {#fetch}
+## Collection.fetch {#fetch}
 
 Return an Observable containing the query result set.
 
@@ -69,7 +69,7 @@ hz("messages").fetch().subscribe(
 );
 ```
 
-## Collection.subscribe() {#subscribe}
+## Collection.subscribe {#subscribe}
 
 Provide handlers to a Collection result set.
 
@@ -131,7 +131,7 @@ When `subscribe` is chained off `[watch](#watch)`, it takes two callback functio
 
 Read the documentation for `watch` for more details on returned changefeed dowcuments.
 
-## Collection.watch() {#watch}
+## Collection.watch {#watch}
 
 
 Convert a query into a [changefeed][feed]. This returns an Observable which receives real-time updates of the query's result set.
@@ -378,7 +378,7 @@ messages.remove({id: 101});
 messages.remove(101);
 ```
 
-## Collection.removeAll() {#removeall}
+## Collection.removeAll {#removeall}
 
 Delete multiple documents from a Collection.
 
@@ -402,7 +402,7 @@ messages.removeAll(messageList);
 messages.removeAll([101, 103, 109]);
 ```
 
-## Collection.replace() {#replace}
+## Collection.replace {#replace}
 
 Replace one or more existing documents within a Collection.
 
@@ -439,7 +439,7 @@ messages.replace([
 ]);
 ```
 
-## Collection.store() {#store}
+## Collection.store {#store}
 
 Insert one or more new documents into a Collection.
 
@@ -476,7 +476,7 @@ messages.store([
 ]);
 ```
 
-## Collection.upsert() {#upsert}
+## Collection.upsert {#upsert}
 
 Insert one or more documents into a Collection, replacing existing ones or inserting new ones based on `id` value.
 

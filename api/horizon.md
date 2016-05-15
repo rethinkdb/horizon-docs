@@ -61,7 +61,7 @@ const messages = hz('messages');
 # Methods
 {:.no_toc}
 
-## Horizon.connect() {#connect}
+## Horizon.connect {#connect}
 
 Establish a Horizon connection.
 
@@ -81,11 +81,11 @@ hz.connect();
 messages.store({ msg: 'Hello World!' });
 ```
 
-## Horizon.disconnect() {#disconnect}
+## Horizon.disconnect {#disconnect}
 
 Close a Horizon connection.
 
-## Horizon.status() {#status}
+## Horizon.status {#status}
 
 Receive status updates about the connection to the Horizon server.
 
@@ -99,31 +99,31 @@ The emitted status objects can be one of the following:
 * `{ type: 'error' }`: An error has occurred. A separate `Error` object with the specific error message will be emitted separately through the error callback (if any is subscribed on the `Observable`).
 * `{ type: 'disconnected' }`: The websocket was closed.
 
-## Horizon.onReady() {#onready}
+## Horizon.onReady {#onready}
 
 Similar to `Horizon.status()`, but only emits `{ type: 'ready' }` events.
 
-## Horizon.onDisconnected() {#ondisconnected}
+## Horizon.onDisconnected {#ondisconnected}
 
 Similar to `Horizon.status()`, but only emits `{ type: 'disconnected' }` events.
 
-## Horizon.onSocketError() {#onsocketerror}
+## Horizon.onSocketError {#onsocketerror}
 
 Similar to `Horizon.status()`, but only emits `{ type: 'error' }` events.
 
-## Horizon.hasAuthToken() {#hasauthtoken}
+## Horizon.hasAuthToken {#hasauthtoken}
 
 Check if the user has a valid authorization token (i.e., has logged in).
 
 See [Authentication][auth] for more details.
 
-## Horizon.authEndpoint() {#authendpoint}
+## Horizon.authEndpoint {#authendpoint}
 
 Return a previously-configured OAuth endpoint.
 
 See [Authentication][auth] for more details.
 
-## Horizon.clearAuthTokens() {#clearauthtokens}
+## Horizon.clearAuthTokens {#clearauthtokens}
 
 Clear authentication tokens from local storage.
 
