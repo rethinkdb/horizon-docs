@@ -67,7 +67,7 @@ The values of the fields are as follows:
 * `GROUP_NAME` is the name of a [user group][users] to which the rule should apply.
 * `RULE_NAME` is an arbitrary name to identify the rule.
 * `QUERY_TEMPLATE` must be a string that described the Horizon query that the rule applies to. See the section on [Query templates](#templates) for details.
-* `VALIDATOR_FUNCTION` can be set to a string containing a JavaScript function value. See the section on [Validator functions](#validator_function) for details.
+* `VALIDATOR_FUNCTION` can be set to a string containing a JavaScript function value. See the section on [Validator functions](#validator_functions) for details.
 
 You can have an arbitrary number of rule specifications in your schema file.
 
