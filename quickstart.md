@@ -58,7 +58,12 @@ Passing the `--dev` flag to `hz serve` puts it in development mode, which makes 
 * Tables and indexes will automatically be created if they don't exist (`--auto-create-table` and `--auto-create-index`).
 * Static files will be served from the `dist` directory (`--serve-static`).
 
-In production (i.e., without the `--dev` flag), you'll use the `.hz/config.toml` file to set these and other options.
+You can find the complete list of [command line flags][server] for `hz serve` on the [Horizon server][server] page.
+
+In production (i.e., without the `--dev` flag), you'll use the `.hz/config.toml` file to set these and other options. See [Configuring Horizon][configuration] for details.
+
+[server]: /docs/server
+[config-file]: /docs/configuration
 
 ## Talk to Horizon ##
 
