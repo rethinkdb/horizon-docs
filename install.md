@@ -3,6 +3,7 @@ layout: documentation
 title: Installing Horizon
 id: install
 permalink: /install
+active: install
 ---
 
 # Prerequisites #
