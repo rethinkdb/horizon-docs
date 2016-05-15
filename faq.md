@@ -15,7 +15,7 @@ Horizon requires RethinkDB and Node.js. For more details, read the [Installation
 
     npm install -g horizon
     hz init my-app
-    hz serve myapp --dev
+    hz serve my-app --dev
 
 For more details, read the [Installation guide][ig] and the [Quickstart][qs].
 
