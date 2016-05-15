@@ -25,7 +25,7 @@ This will install Horizon and its command line tool, `hz`. (The same tool will a
 
 **Now, go on to the [Quickstart][q]!**
 
-[q]: /quickstart
+[q]: /docs/quickstart
 
 ## Working on Horizon itself ##
 
