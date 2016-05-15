@@ -47,7 +47,7 @@ var query = messages.store([
 
 // ...but instead, writes are performed here
 query.forEach(uuid => {
-    console.log(`Document ${uuid} was created.`);
+    console.log('Document ${uuid} was created.');
 });
 ```
 
