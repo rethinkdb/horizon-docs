@@ -11,14 +11,14 @@ If you haven't installed Horizon, do so now. (Read the [Installation instruction
 
 [install]: /install
 
-## Using the Horizon CLI ##
+## Using the Horizon CLI
 
 Interactions with Horizon are performed with the `hz` application. `hz` has a number of commands, of which we are going to use the following two:
 
 * `init [directory]`: initialize a new Horizon application
 * `serve`: serve the project in the current directory
 
-## Initialize an example application ##
+## Initialize an example application
 
 Let's create a new Horizon application. Go to a directory you'd like to install this application into and type:
 
@@ -37,7 +37,7 @@ Here's what these files and directories are:
 
 [TOML]: https://github.com/toml-lang/toml
 
-## Start the server ##
+## Start the server
 
 Start Horizon to test it out:
 
@@ -65,7 +65,7 @@ In production (i.e., without the `--dev` flag), you'll use the `.hz/config.toml`
 [server]: /docs/server
 [config-file]: /docs/configuration
 
-## Talk to Horizon ##
+## Talk to Horizon
 
 Load the `index.html` file in `example-app`. It's pretty short:
 
