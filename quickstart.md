@@ -1,6 +1,8 @@
 ---
 layout: documentation
 title: Horizon Quickstart
+id: quickstart
+permalink: /docs/quickstart
 ---
 
 If you haven't installed Horizon, do so now. (Read the [Installation instructions][install] for more details.)
@@ -91,4 +93,3 @@ The two `script` tags do the work here. The first loads the actual Horizon clien
 [ho]: /api/horizon
 [co]: /api/collection
 [hc]: /api/horizon-onready
-
