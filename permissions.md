@@ -8,6 +8,7 @@ permalink: /docs/permissions
 Horizon's permission system is based on a query whitelist. Any operation on a Horizon collection is disallowed by default, unless there is a rule that allows the operation.
 
 A whitelist rule has three properties that define which operations it covers:
+
 * A [user group][users], or the `"default"` group if it should apply to all users (TODO: Marc says there might also be an `"unauthenticated"` group. We should mention it here and probably use it in all the examples below as well, so they work without setting up authentication first.)
 * A query template describing the type of operation
 * Optionally: A validator function written in JavaScript that can be used to check the contents of the accessed documents, or to implement more complex permission checks
@@ -15,12 +16,14 @@ A whitelist rule has three properties that define which operations it covers:
 [users]: /docs/users
 
 For example the following rule allows users in the `"default"` group to read their own messages from the `messages` collection:
+
 ```toml
 [groups.default.rules.read_own_messages]
 template = "collection('messages').findAll({owner: userId()})"
 ```
 
 This rule allows users to store new messages, as long as the new message has a correctly set `owner` field, a `message` field of type `string`, and no additional fields (apart from the auto-generated document ID):
+
 ```toml
 [groups.default.rules.store_message]
 template = "collection('messages').store({owner: userId(), message: any()})"
@@ -37,6 +40,7 @@ validator = """
 ```
 
 A given document can be read or written to by a user, if there is at least one rule on the whitelist for which
+
 * the user is a member of the specified group,
 * the query template matches the read or write operation,
 * and the specified validator function (if any) returns a `true` value.
@@ -50,6 +54,7 @@ Note that permissions are not enforced when running the Horizon server in [devel
 You can define whitelist rules as part of a schema file using the [TOML][toml] configuration format.
 
 The format for a whitelist rule specification is as follows:
+
 ```toml
 [groups.<group name>.rules.<rule name>]
 template = "<query template>"
@@ -67,6 +72,7 @@ The values of the fields are as follows:
 You can have an arbitrary number of rule specifications in your schema file.
 
 Here is an example for a full schema file including collection and index specifications and the example rules from above:
+
 ```toml
 [collections.messages]
 indexes = [
@@ -87,12 +93,14 @@ validator = """
 ```
 
 You can extract the current schema from a Horizon cluster with the `hz get-schema` command:
+
 ```bash
 # Export the current schema into `current_schema.toml`
 $ hz get-schema -o current_schema.toml
 ```
 
 The `hz set-schema` command loads the new schema into the Horizon cluster:
+
 ```bash
 # Import the schema from `new_schema.toml`
 $ hz set-schema new_schema.toml
@@ -111,12 +119,14 @@ Query templates allow Horizon to determine which whitelist rule applies to a giv
 The starting point for any template is a collection from the `collection` function, similar to how you write `horizon(<collection name>)` in your Horizon application.
 
 A basic rule with a query template looks like this:
+
 ```toml
 [groups.default.rules.list_messages]
 template = "collection('public_messages')"
 ```
 
 The `list_messages` rule allows operations as follows:
+
 ```js
 // This is ok:
 horizon('public_messages')
@@ -128,6 +138,7 @@ horizon('public_messages').order("year").above({year: 2015})
 ```
 
 You can specify additional operations behind the collection:
+
 ```toml
 # Allow listing public messages ordered by year
 [groups.default.rules.list_messages_by_year]
@@ -135,6 +146,7 @@ template = "collection('public_messages').order('year')"
 ```
 
 Placeholders can be used to enable a rule to match a number of different, but related queries:
+
 ```toml
 # Allow storing messages with arbitrary contents and year values
 [groups.default.rules.list_messages_by_year]
@@ -168,12 +180,14 @@ template = "collection('messages').findAll({type: any('shared', 'announcement')}
 The `anyRead()` placeholder matches any read operation or chain of read operations that can be performed on a collection.
 
 It is often useful to allow additional read operations behind a specified template, since those operations can only further restrict the set of returned results, but never allow access to additional results. We can adapt the example rule from above to allow additional operations:
+
 ```toml
 [groups.default.rules.list_messages_any]
 template = "collection('public_messages').anyRead()"
 ```
 
 Now all of these are allowed:
+
 ```js
 // These are all ok now:
 horizon('public_messages')
@@ -183,6 +197,7 @@ horizon('public_messages').order("year").above({year: 2015})
 ```
 
 `anyRead()` is not limited to whole collections. The following rule allows users to read their own messages, allowing them to add further restrictions or ordering constraints on the results:
+
 ```toml
 [groups.default.rules.read_own_messages]
 template = "collection('messages').findAll({owner: userId()}).anyRead()"
@@ -215,10 +230,12 @@ template = "collection('messages').findAll({owner: userId()})"
 Validator functions further restrict which operations a whitelist rule allows. In contrast to query templates which are static rules on the query structure, validator functions can be arbitrary JavaScript functions that take the data itself into account.
 
 The main use cases for validator functions are:
+
 * enforcing a data schema, including restrictions on value types or number ranges
 * implementing advanced restrictions that cannot be expressed with a query template
 
 This whitelist rule allows store operations as long as the stored documents match a certain schema:
+
 ```toml
 [groups.default.rules.store_message]
 template = "collection('messages').store(any())"
@@ -236,6 +253,7 @@ validator = """
 ```
 
 We can also use a validator to restrict the types of updates that can be performed on a document. Here we add a rule that allows users to increment a counter value:
+
 ```toml
 [groups.default.rules.store_message]
 template = "collection('messages').replace({id: any(), counter: any()})"
@@ -258,6 +276,7 @@ The validator function of any matching rule is called once for each document tha
 If an operation encounters a document for which no matching rule with a passing validator function exists, the operation will error.
 
 To understand how validator functions are executed, consider the following `integers` collection:
+
 ```js
 horizon('integers').store([
     {id: 1},
@@ -268,6 +287,7 @@ horizon('integers').store([
 ```
 
 We can use the following rule to enable reading only odd integers from this collection:
+
 ```toml
 [groups.default.rules.read_odd]
 template = "collection('integers').anyRead()"
@@ -279,6 +299,7 @@ validator = """
 ```
 
 The semantics of this rule are straight-forward when reading individual documents:
+
 ```js
 // This will succeed
 horizon('integers').find(1)
@@ -288,6 +309,7 @@ horizon('integers').find(2)
 ```
 
 Now consider the query
+
 ```js
 horizon('integers')
 ```
@@ -295,6 +317,7 @@ horizon('integers')
 This query will error as soon as it encounters an even integer.
 
 Adding a second whitelist rule that allows reading even integers will make the query valid:
+
 ```toml
 [groups.default.rules.read_even]
 template = "collection('integers').anyRead()"
