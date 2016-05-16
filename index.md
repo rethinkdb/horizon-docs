@@ -39,7 +39,7 @@ Horizon consists of three components:
 
     An overview of Horizon's user management system.
 
-* [Authentication](/authentication)
+* [Authentication](/docs/auth)
 
     Integrating Horizon apps with Github, Twitter and other OAuth providers.
 

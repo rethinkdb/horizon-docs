@@ -216,7 +216,7 @@ To learn more about how Horizon works with React, check out the [complete Horizo
 
 [vue]: https://vuejs.org/
 [react]: https://facebook.github.io/react/
-[apps]: /examples
+[apps]: /docs/examples
 
 ## Putting it all together
 
@@ -321,5 +321,5 @@ const horizon = Horizon({host: 'localhost:8181'});
 * Read the [Collection][co] and [Horizon][ho] API documentation.
 * The [Horizon sample apps][apps] can show you how to integrate Horizon with popular frameworks such as React and Angular.
 
-[auth]: /authentication
-[perm]: /permissions
+[auth]: /docs/auth
+[perm]: /docs/permissions

@@ -215,7 +215,7 @@ template = "collection('messages').anyWrite()"
 
 ### `userId()` {#template-placeholders-userid}
 
-The `userId()` placeholder matches the ID of the currently authenticated user (see [Authentication][authentication]). If no user is currently authenticated, it will match the `null` value.
+The `userId()` placeholder matches the ID of the currently authenticated user (see [Authentication][auth]). If no user is currently authenticated, it will match the `null` value.
 
 ```toml
 # Allow users to read their own messages
@@ -223,7 +223,7 @@ The `userId()` placeholder matches the ID of the currently authenticated user (s
 template = "collection('messages').findAll({owner: userId()})"
 ```
 
-[authentication]: /docs/authentication
+[auth]: /docs/auth
 
 # Validator functions {#validator_functions}
 

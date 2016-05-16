@@ -16,7 +16,7 @@ const hz = Horizon();
 * Table of Contents
 {:toc}
 
-# Horizon constructor arguments {#constructor}
+## Horizon constructor arguments {#constructor}
 
 All arguments are optional. Pass them to `Horizon` in an object with option keys: `{secure: true}`.
 
