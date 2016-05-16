@@ -249,6 +249,12 @@ The main use cases for validator functions are:
 * enforcing a data schema, including restrictions on value types or number ranges
 * implementing advanced restrictions that cannot be expressed with a query template
 
+A validator function receives three arguments. In order:
+
+* `context` is the current user document, as described in [Users and groups][users], or `null` if no user is logged in
+* `oldValue` contains the existing document before any write options, or `null`
+* `newValue` contains the new document the application wants to write
+
 This whitelist rule allows store operations as long as the stored documents match a certain schema:
 
 ```toml
@@ -344,7 +350,3 @@ validator = """
 ```
 
 While there is no single rule that validates all results of the query, for each result there now is a matching rule for which the validator function passes.
-
-## The `context` object {#validator_functions-context}
-
-TODO: Describe the properties that are available in `context`
