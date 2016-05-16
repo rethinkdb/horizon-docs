@@ -49,7 +49,7 @@ messages.order("id").findAll({from: "bob"}).fetch().subscribe(msg => console.log
 
 ## Collection.fetch {#fetch}
 
-Return a [ReactiveX Observable](http://reactivex.io/) containing the query result set.
+Return a [RxJS Observable](http://reactivex.io/rxjs/class/es6/Observable.js~Observable.html) containing the query result set.
 
 ```js
 Collection.fetch()
@@ -79,7 +79,7 @@ Collection.store().subscribe(writeFunction, errorFunction)
 Collection.watch().subscribe(changefeedFunction, errorFunction)
 ```
 
-This method is not actually part of the `Collection` class, but is instead a [ReactiveX method](http://reactivex.io/documentation/operators/subscribe.html).
+This method is not actually part of the `Collection` class, but is instead a [RxJS method](http://reactivex.io/rxjs/class/es6/Observable.js~Observable.html#instance-method-subscribe).
 
 When `subscribe` is chained off a read function (i.e., [fetch](#fetch)) it takes three callback functions:
 

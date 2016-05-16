@@ -105,9 +105,9 @@ The two `script` tags do the work here. The first loads the actual Horizon clien
 
 ## Horizon Collections
 
-The heart of Horizon is the `Collection` object, which lets you store, retrieve, and filter documents. Many `Collection` methods for reading and writing documents return [ReactivX][rx] Observables.
+The heart of Horizon is the `Collection` object, which lets you store, retrieve, and filter documents. Many `Collection` methods for reading and writing documents return [RxJS][rx] Observables.
 
-[rx]: http://reactivex.io/
+[rx]: http://reactivex.io/rxjs/
 
 ```js
 // Create a "messages" collection
@@ -147,9 +147,9 @@ chat.fetch().subscribe(
   })
 ```
 
-We use the ReactiveX [subscribe][sub] operator to receive items from the collection, as well as to provide an error handler.
+We use the RxJS [subscribe][sub] method to receive items from the collection, as well as to provide an error handler.
 
-[sub]: http://reactivex.io/documentation/operators/subscribe.html
+[sub]: http://reactivex.io/rxjs/class/es6/Observable.js~Observable.html#instance-method-subscribe
 
 ## Removing documents
 
