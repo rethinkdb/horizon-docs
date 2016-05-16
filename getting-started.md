@@ -303,7 +303,7 @@ While Horizon serves static files from the `dist` folder by default, you can use
 * Use `horizon.js` served by the Horizon server
 * Install `@horizon/client` as a dependency in your project
 
-We recommend the first option, as that will prevent any possibly mismatches between the client library version and the Horizon server. However, if you're using [Webpack][] or a similar build setup, or there's requesting the `.js` library at load time isn't desirable, just add the client library as an NPM dependency (`npm install @horizon/client`).
+We recommend the first option, as that will prevent any possibly mismatches between the client library version and the Horizon server. However, if you're using [Webpack][] or a similar build setup, or requesting the `.js` library at load time isn't desirable, just add the client library as an NPM dependency (`npm install @horizon/client`).
 
 In your application, you'll need to include the Horizon client file, and specify the Horizon port number when initializing the connection.
 
@@ -319,7 +319,7 @@ const horizon = Horizon({host: 'localhost:8181'});
 * Read about [Authentication][auth], including easy integration with OAuth providers such as Twitter and Github.
 * Read about Horizon's [Permissions][perm] and schema enforcement.
 * Read the [Collection][co] and [Horizon][ho] API documentation.
-* The [Horizon sample apps][apps] can help you integrate Horizon with popular frameworks such as React and Angular.
+* The [Horizon sample apps][apps] can show you how to integrate Horizon with popular frameworks such as React and Angular.
 
 [auth]: /authentication
 [perm]: /permissions
