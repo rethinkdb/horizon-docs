@@ -43,8 +43,8 @@ Every horizon server requires a RethinkDB server to connect to. Use the `--conne
 * `--auto-create-collection [yes|no]` Create collections automatically on first use. Warning: Enabling this on a production server is a security risk and can be used by an attacker to exhaust the server's resources. Only recommended for development use. Default: `no`
 * `--auto-create-index [yes|no]` Create indexes automatically on first use. Warning: Enabling this on a production server is a security risk and can be used by an attacker to exhaust the server's resources. Only recommended for development use.  Default: `no`
 
-[auth]: /docs/authentication
-[config-file]: /docs/config-file
+[auth]: /docs/auth
+[config-file]: /docs/configuration
 [permissions]: /docs/permissions
 
 # Development mode {#development-mode}

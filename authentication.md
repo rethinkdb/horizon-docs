@@ -9,7 +9,7 @@ Horizon uses [JSON Web Tokens][jwt] for user authentication, an [open industry s
 
 [jwt]:     https://jwt.io
 [rfc7519]: https://tools.ietf.org/html/rfc7519 "RFC 7519: JSON Web Token (JWT)"
-[hoc]:     /horizon/#constructor
+[hoc]:     /docs-archive/client#horizon
 
 * `unauthenticated`: share a single token among all users, and do not create entries in the Horizon user table. This essentially bypasses Horizon's authentication and permission system, and is best for applications that don't need to store any user data.
 * `anonymous`: generate a unique token for each new user, and create an entry in the users table for the generated token. This allows authentication through the generated token, which is stored client-side in [localStorage][ls]. Your application will need to prompt for username and password.
@@ -57,7 +57,7 @@ Each provider will let you register your application, and will give you the clie
 
 In order to use OAuth with Horizon, you'll need to configure a TLS certificate so you can serve assets with HTTPS, and either specify the `--key-file` and `--cert-file` options to `hz serve` or add them to the server's `.hz/config.toml` file. (See [The config.toml file][cf] for more details.) You can create a self-signed certificate with `hz create-cert`
 
-[cf]: /config-file
+[cf]: /docs/configuration
 
 You'll need to enter `client_id` and `client_secret` values in the `.hz/config.toml` file for your server. Toward the bottom of the automatically generated file, you'll see commented-out sample OAuth settings. Uncomment the appropriate lines and replace the dummy values with the ones you've received from the application provider. Adding Github OAuth configuration data would look like this:
 
