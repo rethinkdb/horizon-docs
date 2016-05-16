@@ -11,76 +11,125 @@ If you haven't installed Horizon, do so now. (Read the [Installation instruction
 
 [install]: /install
 
-## Initialization
+* Table of Contents
+{:toc}
 
-First, create a new Horizon project by using `hz init`:
+## Using the Horizon CLI
 
-```bash
-hz init myApp
-cd myApp
-```
+Interactions with Horizon are performed with the `hz` application. `hz` has a number of commands, of which we are going to use the following two:
 
-In the boilerplate created by `hz init`, you can see that the Horizon client library is being
-imported from the path `/horizon/horizon.js` served by the Horizon server.
+* `init [directory]`: initialize a new Horizon application
+* `serve`: serve the project in the current directory
 
+## Initialize an example application
+
+Let's create a new Horizon application. Go to a directory you'd like to install this application into and type:
+
+    hz init example-app
+
+This will create the `example-app` directory and install a few files into it. (If you run `hz init` without giving it a directory, it will install these files into the current directory.)
+
+<div style="margin:0 auto;text-align:center"><img src="images/hz-dirs.png" width="351" height="181" /></div>
+
+Here's what these files and directories are:
+
+* `dist` is for static files. You can create files directly here, or use it as the output directory for a build system of your choice.
+* `src` is for source files for your build system. This isn't a convention you have to follow; Horizon doesn't touch anything in this directory.
+* `dist/index.html` is a sample file. You'll replace this as you develop your application, but there's enough in it to verify that Horizon is installed and working.
+* `.hz/config.toml` is a [TOML][] configuration file for the Horizon server.
+
+[TOML]: https://github.com/toml-lang/toml
+
+## Start the server
+
+Start Horizon to test it out:
+
+    hz serve --dev
+
+You'll see a series of output messages as Horizon starts a RethinkDB server, ending with `Metadata synced with server, ready for queries.` Now, go to <http://localhost:8181>. You should see the message "App works!" scrolling across your screen.
+
+Here's what `hz serve` actually does:
+
+* Start the Horizon API server, a Node.js application.
+* Starts an HTTP server which serves the Horizon client library, `horizon.js`.
+
+Passing the `--dev` flag to `hz serve` puts it in development mode, which makes the following changes. (All of these can also be set individually with separate flags to `serve`.)
+
+* A RethinkDB server is automatically started (`--start-rethinkdb`). This server is specifically for this Horizon application, and will create a `rethinkdb_data` folder in the working directory when started.
+* Horizon is served in "insecure mode," without requiring SSL/TLS (`--secure no`).
+* The permissions system is disabled (`--permissions no`).
+* Tables and indexes will automatically be created if they don't exist (`--auto-create-table` and `--auto-create-index`).
+* Static files will be served from the `dist` directory (`--serve-static ./dist`).
+
+You can find the complete list of [command line flags][server] for `hz serve` in the documentation for the [Horizon server][server].
+
+In production (i.e., without the `--dev` flag), you'll use the `.hz/config.toml` file to set these and other options. See [Configuring Horizon][configuration] for details.
+
+[server]: /docs/server
+[config-file]: /docs/configuration
+
+## Talk to Horizon
+
+Load the `index.html` file in `example-app`. It's pretty short:
 
 ```html
-...
-<head>
-  ...
-  <script src="/horizon/horizon.js"></script>
-</head>
-...
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <script src="/horizon/horizon.js"></script>
+    <script>
+      var horizon = Horizon();
+      horizon.onReady(function() {
+        document.querySelector('h1').innerHTML = 'App works!'
+      });
+      horizon.connect();
+    </script>
+  </head>
+  <body>
+   <marquee><h1></h1></marquee>
+  </body>
+</html>
 ```
 
-After this script is loaded, you can connect to your running instance of the Horizon server.
+The two `script` tags do the work here. The first loads the actual Horizon client library, `horizon.js`; the second is a (very tiny) Horizon application:
 
+* `var horizon = Horizon()` instantiates a [Horizon][ho] object. This object only has a few methods on it, for handling connection-related events and for instantiating Horizon [Collections][co].
+* [onReady][hc] is an event handler that's executed when the client makes a successful connection to the server.
+* Our connection function simply fills in `"App works!"` into the `<h1>` tag in the document. Since this function only gets executed on a successful connection, it *does* verify that Horizon is working, but it's not leveraging RethinkDB for anything yet.
+* Also, we're sorry for the `<marquee>` tag.
+
+[ho]: /api/horizon
+[co]: /api/collection
+[hc]: /api/horizon/#onready
+
+## Horizon Collections
+
+The heart of Horizon is the `Collection` object, which lets you store, retrieve, and filter documents. Many `Collection` methods for reading and writing documents return [ReactivX][rx] Observables.
+
+[rx]: http://reactivex.io/
 
 ```js
-const horizon = Horizon();
-
-// Calling `.connect()` is optional. If you omit it, the connection will be established
-// on first use of the `horizon` object.
-horizon.connect();
-```
-
-From here you can start to interact with Horizon collections. Having `--dev` mode enabled on
-the Horizon server creates collections and indexes automatically so you can get your
-application setup with as little hassle as possible.
-
-> **Note:** With `--dev` mode enabled, collections and indexes will
-be created automatically, once you run a query that uses them.
-
-```js
-// This automatically creates the "messages" collection
+// Create a "messages" collection
 const chat = horizon("messages");
 ```
 
-Now, `chat` is a Horizon collection of documents. You can perform a
-variety of operations on this collection to filter them down to the ones
-you need. This most basic operations are [`.store`][store] and [`.fetch`][fetch]:
-
-### Storing documents
-
-To store documents into the collection, we use [`.store`][store].
+To store documents in the collection, use [store][st].
 
 ```js
-// Object being stored
 let message = {
   text: "What a beautiful horizon!",
   datetime: new Date(),
   author: "@dalanmiller"
 }
 
-// Storing a document
 chat.store(message);
 ```
 
-If we wanted, we could also add `.subscribe` at the end of [`.store`][store] and handle the document `id`s created by the server as well as any errors that occur with storing. Check out the `[`store` documentation][store] for details.
+To retrieve documents, use [fetch][fe].
 
-## Retrieving documents
-
-To retrieve messages from the collection we use [`.fetch`][fetch]. Here, we pass both a result and an error handler function to `.subscribe`.
+[st]: /api/collection/#store
+[fe]: /api/collection/#fetch
 
 ```js
 chat.fetch().subscribe(
@@ -98,55 +147,55 @@ chat.fetch().subscribe(
   })
 ```
 
+We use the ReactiveX [subscribe][sub] operator to receive items from the collection, as well as to provide an error handler.
+
+[sub]: http://reactivex.io/documentation/operators/subscribe.html
+
 ## Removing documents
 
-To remove documents from a collection, you can use either [`.remove`][remove] or [`.removeAll`][removeAll]:
+To remove documents from a collection, use either [remove][rem] or [removeAll][rema].
+
+[rem]:  /api/collection/#remove
+[rema]: /api/collection/#removeall
 
 ```js
-// These two queries are equivalent and will remove the document with id: 1.
+// These two queries are equivalent and will remove the document with id: 1
 chat.remove(1).subscribe((id) => { console.log(id) })
 chat.remove({id: 1}).subscribe((id) => {console.log(id)})
-```
 
-Or, if you have a set of documents that you'd like to remove you can pass them in as an array to [`.removeAll`][removeAll].
-
-```js
-
-// Will remove documents with ids 1, 2, and 3 from the collection.
+// Will remove documents with ids 1, 2, and 3 from the collection
 chat.removeAll([1, 2, 3])
 ```
-As with the other functions, you can chain `.subscribe` onto the remove functions and provide response and error handlers.
+
+As with the other functions, you can chain `subscribe` onto the remove functions to provide response and error handlers.
 
 ## Watching for changes
 
-We can also "listen" to an entire collection, query, or a single document by using [`.watch`][watch].
-This is very convenient for building apps that want to update state immediately as data changes
-in the database. Here are a few variations of how you can use [`.watch`][watch]:
+We can "listen" to an entire collection, query, or a single document by using [watch][]. This lets us build apps that update state immediately as data changes in the database.
+
+[watch]: /api/collection/#watch
 
 ```js
-// Watch all documents, if any of them change, call the handler function.
+// Watch all documents. If any of them change, call the handler function.
 chat.watch().subscribe((docs) => { console.log(docs)  })
 
 // Query all documents and sort them in ascending order by datetime,
 //  then if any of them change, the handler function is called.
 chat.order("datetime").watch().subscribe((docs) => { console.log(docs)  })
 
-// Find a single document in the collection, if it changes, call the handler function
+// Watch a single document in the collection.
 chat.find({author: "@dalanmiller"}).watch().subscribe((doc) => { console.log(doc) })
 ```
 
-By default, the handler you pass to `.subscribe` chained on [`.watch`][watch] will receive
-the entire collection of documents when one of them changes. This makes it easy when
-using frameworks such as [Vue][vue] or [React][react]
-allowing you to replace the current state with the new array given to you by Horizon.
+By default, the Observable returned from `watch` receives the entire collection of documents when a single one changes. This makes it easy to use frameworks such as [Vue][vue] or [React][react], allowing you to simply replace your existing copy of the collection with the new array returned by Horizon.
+
+[vue]: https://vuejs.org/
+[react]: https://facebook.github.io/react/
 
 ```js
-
-// Our current state of chat messages
 let chats = [];
 
-// Query chats with `.order` which by default
-//  is in ascending order.
+// Query chats with `.order`, which by default is in ascending order
 chat.order("datetime").watch().subscribe(
 
   // Returns the entire array
@@ -154,10 +203,7 @@ chat.order("datetime").watch().subscribe(
 
     // Here we replace the old value of `chats` with the new
     //  array. Frameworks such as React will re-render based
-    //  on the new values inserted into the array. Preventing you
-    //  from having to do modifications on the original array.
-    //
-    // In short, it's this easy! :cool:
+    //  on the new values inserted into the array.
     chats = newChats;
   },
 
@@ -166,20 +212,17 @@ chat.order("datetime").watch().subscribe(
   })
 ```
 
-To learn more about how Horizon works with React, check out the [complete Horizon & React example][example-apps].
+To learn more about how Horizon works with React, check out the [complete Horizon & React example][apps].
 
 [vue]: https://vuejs.org/
 [react]: https://facebook.github.io/react/
+[apps]: /examples
 
-# Putting it all together
+## Putting it all together
 
-Now that we have the basics covered, let's pretend we are building a
-simple chat application where the messages are displayed
-in ascending order. Here are some basic functions that would allow
-you to build such an app.
+Now that we have the basics covered, let's pretend we're building a simple chat application where the messages are displayed in ascending order.
 
 ```js
-
 let chats = [];
 
 // Retrieve all messages from the server
@@ -230,15 +273,8 @@ const updateMessage = message => {
 const deleteMessage = message => {
   chat.remove(message);
 };
-```
-
-And lastly, the [`.watch`][watch] method basically creates a listener on the chat collection. Using just `chat.watch()`, and the new updated results will be pushed to you any time they change on the server. You can also [`.watch`][watch] changes on a query or a single document.
-
-
-```js
 
 chat.watch().subscribe(chats => {
-  // Each time through it will returns all results of your query
     renderChats(allChats)
   },
 
@@ -247,79 +283,43 @@ chat.watch().subscribe(chats => {
 )
 ```
 
-You can also get notifications when the client connects and disconnects from the server
+You can also get notifications when the client connects and disconnects from the server:
 
-``` js
-  // Triggers when client successfully connects to server
-  horizon.onReady().subscribe(() => console.log("Connected to Horizon server"))
+```js
+// Triggers when client successfully connects to server
+horizon.onReady().subscribe(() => console.log("Connected to Horizon server"))
 
-  // Triggers when disconnected from server
-  horizon.onDisconnected().subscribe(() => console.log("Disconnected from Horizon server"))
+// Triggers when disconnected from server
+horizon.onDisconnected().subscribe(() => console.log("Disconnected from Horizon server"))
 ```
 
 From here, you could take any framework and add these functions to create a realtime chat application
-without writing a single line of backend code.
+without writing a single line of backend code!
 
-There's also plenty of other functions in the Horizon client library to meet your needs, including:
-[above][above], [below][below], [limit][limit], [replace][replace], and [upsert][upsert].
+## Integrating Horizon with an existing application
 
+While Horizon serves static files from the `dist` folder by default, you can use any method to serve your files. You have two options to include the Horizon client library:
 
-# Bringing your app to Horizon
+* Use `horizon.js` served by the Horizon server
+* Install `@horizon/client` as a dependency in your project
 
-If you already have an application in place but want to leverage
-the power of Horizon for your realtime data, here are a few scenarios that will
-be relevant to you:
+We recommend the first option, as that will prevent any possibly mismatches between the client library version and the Horizon server. However, if you're using [Webpack][] or a similar build setup, or there's requesting the `.js` library at load time isn't desirable, just add the client library as an NPM dependency (`npm install @horizon/client`).
 
-## Do I need to output all my files into the `dist` folder?
-
-The short and long answer is, **_no_**.
-
-If you are already using some other process to serve your static files, you absolutely
-do not need to now do Yet Another Refactor™️ just to get the power of Horizon. From your already existing code base you have two options to get include and then `require` the Horizon client library:
-
-1. Use `horizon.js` served by Horizon server (simplest option)
-1. Install `@horizon/client` as a dependency in your project
-
-We recommend using the `horizon.js` library as served by Horizon server for solely the
-reason that there will be no mismatches between your client library version and your
-current running version of Horizon server.
-
-This means somewhere in your application, you'll need to have:
+In your application, you'll need to include the Horizon client file, and specify the Horizon port number when initializing the connection.
 
 ```html
 <script src="localhost:8181/horizon/horizon.js"></script>
-```
 
-And then when you init the Horizon connection you need to specify the `host` property:
-
-```js
+// Specify the host property for initializing the Horizon connection
 const horizon = Horizon({host: 'localhost:8181'});
 ```
 
-However, if requesting the .js library at page load time isn't desirable, or you are using [webpack][webpack] and similar build setups for your front-end code, just add `npm install @horizon/client` to your project, and dependency wise, you'll be good to go.
+## Further reading
 
-Just remember that when you make connections to Horizon server to specify the port number (which is by default `8181`) when connecting.
+* Read about [Authentication][auth], including easy integration with OAuth providers such as Twitter and Github.
+* Read about Horizon's [Permissions][perm] and schema enforcement.
+* Read the [Collection][co] and [Horizon][ho] API documentation.
+* The [Horizon sample apps][apps] can help you integrate Horizon with popular frameworks such as React and Angular.
 
-[webpack]: https://webpack.github.io/
-
-## How do I add Horizon to X?
-
-If you already have an application written with React, Angular, or another framework, you should first check our [example applications](/example-apps) for different ways on how we have integrated Horizon into these frameworks.
-
-
-
-[above]: /api/collection#above
-[below]: /api/collection#below
-[Collection]: /api/collection
-[fetch]: /api/collection#fetch
-[find]: /api/collection#find
-[findAll]: /api/collection#findall
-[Horizon]: /api/horizon
-[limit]: /api/collection#limit
-[order]: /api/collection#order
-[remove]: /api/collection#remove
-[removeAll]: /api/collection#removeall
-[replace]: /api/collection#replace
-[store]: /api/collection#store
-[upsert]: /api/collection#upsert
-[watch]: /api/collection#watch
+[auth]: /authentication
+[perm]: /permissions
