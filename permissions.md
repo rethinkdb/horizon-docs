@@ -11,11 +11,26 @@ A whitelist rule has three properties that define which operations it covers:
 
 * A [user group][users]
 * A query template describing the type of operation
-* Optionally: A validator function written in JavaScript that can be used to check the contents of the accessed documents, or to implement more complex permission checks
+* An optional validator function written in JavaScript that can be used to check the contents of the accessed documents, or to implement more complex permission checks
 
 [users]: /docs/users
 
 You can use the special `"default"` group to create rules that apply to all users, authenticated or not. Or use the `"authenticated"` group to cover authenticated users only.
+
+<div class="infobox" markdown="1">
+**A Horizon application allows _no_ access to collections by default, even for authenticated users!** You can use rules with the `anyRead` and `anyWrite` placeholders on each collection to grant access:
+
+```toml
+[groups.authenticated.rules.read]
+template = "collection('messages').anyRead()"
+
+[groups.authenticated.rules.write]
+template = "collection('messages').anyWrite()"
+```
+
+These rules would allow users in the `authenticated` group complete read and write access to the "messages" collection. Much finer-grained control is possible; read on for more information.
+</div>
+
 
 For example the following rule allows authenticated users to read their own messages from the `messages` collection:
 
@@ -64,8 +79,6 @@ template = "QUERY_TEMPLATE"
 validator = "VALIDATOR_FUNCTION"
 ```
 
-The values of the fields are as follows:
-
 * `GROUP_NAME` is the name of a [user group][users] to which the rule should apply.
 * `RULE_NAME` is an arbitrary name to identify the rule.
 * `QUERY_TEMPLATE` must be a string that described the Horizon query that the rule applies to. See the section on [Query templates](#templates) for details.
@@ -94,14 +107,7 @@ validator = """
 """
 ```
 
-You can extract the current schema from a Horizon cluster with the `hz get-schema` command:
-
-```bash
-# Export the current schema into `current_schema.toml`
-$ hz get-schema -o current_schema.toml
-```
-
-The `hz set-schema` command loads the new schema into the Horizon cluster:
+Load a schema file into the Horizon cluster with `hz set-schema`:
 
 ```bash
 # Import the schema from `new_schema.toml`
@@ -111,6 +117,13 @@ $ hz set-schema new_schema.toml
 `hz set-schema` replaces all existing rule, collection and index specifications. If loading the new schema causes collections to be deleted, the `hz set-schema` command will error. If you are sure that you want to delete those collections, you can specify the `--force` flag.
 
 The changed schema and permissions become effective immediately.
+
+You can extract the current schema from a Horizon cluster with the `hz get-schema` command:
+
+```bash
+# Export the current schema into `current_schema.toml`
+$ hz get-schema -o current_schema.toml
+```
 
 [toml]: https://github.com/toml-lang/toml
 
@@ -331,7 +344,6 @@ validator = """
 ```
 
 While there is no single rule that validates all results of the query, for each result there now is a matching rule for which the validator function passes.
-
 
 ## The `context` object {#validator_functions-context}
 
