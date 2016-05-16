@@ -249,11 +249,18 @@ The main use cases for validator functions are:
 * enforcing a data schema, including restrictions on value types or number ranges
 * implementing advanced restrictions that cannot be expressed with a query template
 
-A validator function receives three arguments. In order:
+A validator function receives either two or three arguments. For _read_ operations:
 
 * `context` is the current user document, as described in [Users and groups][users], or `null` if no user is logged in
-* `oldValue` contains the existing document before any write options, or `null`
-* `newValue` contains the new document the application wants to write
+* `value` is the document being read
+
+For _write_ operations:
+
+* `context` is the current user document, as described in [Users and groups][users], or `null` if no user is logged in
+* `oldValue` contains the existing document before any write options, or `null` if a new document is being inserted
+* `newValue` contains the new document the application wants to write, or `null` if a document is being removed
+
+The validator function is expected to return either `true` or `false`.
 
 This whitelist rule allows store operations as long as the stored documents match a certain schema:
 
@@ -285,8 +292,6 @@ validator = """
   }
 """
 ```
-
-A validator function for a read operation is called with two arguments, `context` and `value`. A validator function for a write operation is called with three arguments, `context`, `oldValue` and `newValue`. If a new document is inserted into the collection, `oldValue` is passed in as `null`. If a document gets removed, `newValue` will be `null`. The validator function is expected to return either `true` or `false`.
 
 ## Execution semantics {#validator_functions-semantics}
 
