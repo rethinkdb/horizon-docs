@@ -22,8 +22,8 @@ Options are shown with their default values.
 ```toml
 bind = [ "localhost" ]
 port = 8181
-key_file = "key.pem"
-cert_file = "cert.pem"
+key_file = "horizon-key.pem"
+cert_file = "horizon-cert.pem"
 ```
 
 ## App options
