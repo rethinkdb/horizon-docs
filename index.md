@@ -19,33 +19,34 @@ Horizon consists of three components:
 
     An overview of installing the RethinkDB and Horizon servers.
 
-* [Quickstart](/quickstart)
+* [Getting started](/docs/getting-started)
 
-    Quickly get up to speed on Horizon's basics.
+    Get up to speed on Horizon's basics.
 
 * The Horizon API
 
     Learn about the two JavaScript classes at the heart of Horizon:
 
     * [Horizon](/api/horizon) (the connection management class)
+
     * [Collection](/api/collection) (the data management class)
 
-* [Users and permissions](/users)
+* [Permissions](/docs/permissions)
 
-    How Horizon's users and permissions system works.
+    How Horizon's permissions and schema enforcement system works.
+
+* [Users and groups](/docs/users/)
+
+    An overview of Horizon's user management system.
 
 * [Authentication](/authentication)
 
     Integrating Horizon apps with Github, Twitter and other OAuth providers.
 
-* [Configuration](/config-file)
+* [Configuration](/docs/configuration)
 
     All about the Horizon configuration file, `.hz/config.toml`.
 
-* [Deploying Horizon](/deploy)
+* [Deploying Horizon](/docs/deployment)
 
     Deploying a Horizon application.
-
-## Horizon Tutorial
-
-*Coming soon:* Build a realtime chat application using Horizon and React.js, with support for multiple users and authorization integration with Github.

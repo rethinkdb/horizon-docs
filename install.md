@@ -12,7 +12,7 @@ active: install
 
 [ir]: http://rethinkdb.com/docs/install/
 
-Horizon is a [Node.js][njs] application. Please install the current stable versions of Node.js and npm (the Node.js package manager).
+Horizon is a [Node.js][njs] application. Please install the current stable versions of Node.js and npm (the Node.js package manager). Version 4.0 or higher of Node is required.
 
 [njs]: https://nodejs.org/
 
@@ -20,13 +20,13 @@ Horizon is a [Node.js][njs] application. Please install the current stable versi
 
 Install horizon from npm:
 
-    npm install -g Horizon
+    npm install -g horizon
 
 This will install Horizon and its command line tool, `hz`. (The same tool will also be installed as `horizon`.)
 
-**Now, go on to the [Quickstart][q]!**
+**Now, go on to [Getting Started][gs]!**
 
-[q]: /docs/quickstart
+[gs]: /docs/getting-started
 
 ## Working on Horizon itself
 
@@ -36,15 +36,11 @@ Clone the Horizon repository:
 
     git clone https://github.com/rethinkdb/horizon.git
 
-Link the client, server, and CLI directories:
+Link the client, server, and CLI directories using our handy setup script:
 
-    cd horizon/client
-    npm link
-    cd ../server
-    npm link
-    cd ../cli
-    npm link
+    cd horizon/test
+    ./setupDev.sh
 
 This will make the `hz` tool available globally, but will link it to your local copy of Horizon. When you update your copy of the Horizon repository, you'll need to run these commands again if the Horizon dependencies have been altered.
 
-**Now, go on to the [Quickstart][q]!**
+**Now, go on to [Getting Started][gs]!**
