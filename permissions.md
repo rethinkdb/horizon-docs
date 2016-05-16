@@ -9,23 +9,25 @@ Horizon's permission system is based on a query whitelist. Any operation on a Ho
 
 A whitelist rule has three properties that define which operations it covers:
 
-* A [user group][users], or the `"default"` group if it should apply to all users (TODO: Marc says there might also be an `"unauthenticated"` group. We should mention it here and probably use it in all the examples below as well, so they work without setting up authentication first.)
+* A [user group][users]
 * A query template describing the type of operation
 * Optionally: A validator function written in JavaScript that can be used to check the contents of the accessed documents, or to implement more complex permission checks
 
 [users]: /docs/users
 
-For example the following rule allows users in the `"default"` group to read their own messages from the `messages` collection:
+You can use the special `"default"` group to create rules that apply to all users, authenticated or not. Or use the `"authenticated"` group to cover authenticated users only.
+
+For example the following rule allows authenticated users to read their own messages from the `messages` collection:
 
 ```toml
-[groups.default.rules.read_own_messages]
+[groups.authenticated.rules.read_own_messages]
 template = "collection('messages').findAll({owner: userId()})"
 ```
 
 This rule allows users to store new messages, as long as the new message has a correctly set `owner` field, a `message` field of type `string`, and no additional fields (apart from the auto-generated document ID):
 
 ```toml
-[groups.default.rules.store_message]
+[groups.authenticated.rules.store_message]
 template = "collection('messages').store({owner: userId(), message: any()})"
 # The template allows any value for the `message` field. We restrict it to strings by
 # using a validator function:
@@ -80,10 +82,10 @@ indexes = [
   "owner"
 ]
 
-[groups.default.rules.read_own_messages]
+[groups.authenticated.rules.read_own_messages]
 template = "collection('messages').findAll({owner: userId()})"
 
-[groups.default.rules.store_message]
+[groups.authenticated.rules.store_message]
 template = "collection('messages').store({owner: userId(), message: any()})"
 validator = """
   (context, oldValue, newValue) => {
@@ -163,7 +165,7 @@ The `any()` placeholder matches any value.
 
 ```toml
 # Allow users to look up messages from any user
-[groups.default.rules.lookup_messages]
+[groups.authenticated.rules.lookup_messages]
 template = "collection('messages').findAll({owner: any()})"
 ```
 
@@ -171,7 +173,7 @@ You can also specify a list of legal values by passing them to the `any()` call:
 
 ```toml
 # Allow users to look up messages of type "shared" or "announcement"
-[groups.default.rules.lookup_public_messages]
+[groups.authenticated.rules.lookup_public_messages]
 template = "collection('messages').findAll({type: any('shared', 'announcement')})"
 ```
 
@@ -199,7 +201,7 @@ horizon('public_messages').order("year").above({year: 2015})
 `anyRead()` is not limited to whole collections. The following rule allows users to read their own messages, allowing them to add further restrictions or ordering constraints on the results:
 
 ```toml
-[groups.default.rules.read_own_messages]
+[groups.authenticated.rules.read_own_messages]
 template = "collection('messages').findAll({owner: userId()}).anyRead()"
 ```
 
@@ -219,7 +221,7 @@ The `userId()` placeholder matches the ID of the currently authenticated user (s
 
 ```toml
 # Allow users to read their own messages
-[groups.default.rules.read_own_messages]
+[groups.authenticated.rules.read_own_messages]
 template = "collection('messages').findAll({owner: userId()})"
 ```
 
@@ -237,7 +239,7 @@ The main use cases for validator functions are:
 This whitelist rule allows store operations as long as the stored documents match a certain schema:
 
 ```toml
-[groups.default.rules.store_message]
+[groups.authenticated.rules.store_message]
 template = "collection('messages').store(any())"
 # We require the message to be of the form {id: number, message: string} and have no
 # extra fields.
@@ -255,7 +257,7 @@ validator = """
 We can also use a validator to restrict the types of updates that can be performed on a document. Here we add a rule that allows users to increment a counter value:
 
 ```toml
-[groups.default.rules.store_message]
+[groups.authenticated.rules.store_message]
 template = "collection('messages').replace({id: any(), counter: any()})"
 # The counter can only be incremented by one step at a time
 validator = """
