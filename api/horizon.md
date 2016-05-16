@@ -46,7 +46,7 @@ var query = messages.store([
 ]);
 
 // ...but instead, writes are performed here
-query.forEach(uuid => {
+query.subscribe(uuid => {
     console.log('Document ${uuid} was created.');
 });
 ```
