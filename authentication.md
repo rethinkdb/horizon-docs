@@ -47,6 +47,7 @@ Your application will need a client ID and "secret" for each OAuth provider you 
 * [Facebook](https://developers.facebook.com/apps/)
 * [Github](https://github.com/settings/applications/new)
 * [Google](https://console.developers.google.com/project)
+* [Slack](https://api.slack.com/apps)
 * [Twitch](https://www.twitch.tv/kraken/oauth2/clients/new)
 * [Twitter](https://apps.twitter.com/app/new)
 
