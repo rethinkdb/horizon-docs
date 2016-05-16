@@ -57,7 +57,7 @@ Collection.fetch()
 
 Unlike [watch](#watch), the `fetch` command does not update in real time, but rather returns a "snapshot" of the result set as it exists when `fetch` is executed. The `fetch` or `watch` command ends a Horizon query.
 
-The Observable returned by `fetch` or `watch` may be iterated through with `[subscribe](#subscribe)` or `forEach`, or converted to an array with `toArray`.
+The Observable returned by `fetch` or `watch` may be iterated through with [subscribe](#subscribe) or `forEach`, or converted to an array with `toArray`.
 
 ```js
 const hz = Horizon();
@@ -126,7 +126,7 @@ This would produce output similar to:
 
 In the first case, the `id` value is an automatically generated UUID; in the second, it was supplied with Bob's message.
 
-When `subscribe` is chained off `[watch](#watch)`, it takes two callback functions:
+When `subscribe` is chained off [watch](#watch), it takes two callback functions:
 
 * `changefeed(result)`: a callback that receives a changefeed result document
 * `error(error)`: a callback that receives error information if an error occurs
