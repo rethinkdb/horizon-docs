@@ -26,13 +26,19 @@ Let's create a new Horizon application. Go to a directory you'd like to install 
 
 This will create the `example-app` directory and install a few files into it. (If you run `hz init` without giving it a directory, it will install these files into the current directory.)
 
-<div style="margin:0 auto;text-align:center"><img src="images/hz-dirs.png" width="351" height="181" /></div>
+    $ tree -a example-app
+    example-app
+    ├── .hz
+    │   └── config.toml
+    ├── dist
+    │   └── index.html
+    └── src
 
 Here's what these files and directories are:
 
 * `dist` is for static files. You can create files directly here, or use it as the output directory for a build system of your choice.
 * `src` is for source files for your build system. This isn't a convention you have to follow; Horizon doesn't touch anything in this directory.
-* `index.html` is a sample file. You'll replace this as you develop your application, but there's enough in it to verify that Horizon is installed and working.
+* `dist/index.html` is a sample file. You'll replace this as you develop your application, but there's enough in it to verify that Horizon is installed and working.
 * `.hz/config.toml` is a [TOML][] configuration file for the Horizon server.
 
 [TOML]: https://github.com/toml-lang/toml
@@ -43,7 +49,7 @@ Start Horizon to test it out:
 
     hz serve --dev
 
-You'll see a series of output messages as Horizon starts a RethinkDB server, ending with `Metadata synced with server, ready for queries.` Now, go to <http://localhost:8181>. You should see the message "It works!" scrolling across your screen.
+You'll see a series of output messages as Horizon starts a RethinkDB server, ending with `Metadata synced with server, ready for queries.` Now, go to <http://localhost:8181>. You should see the message "app works!" scrolling across your screen.
 
 Here's what `hz serve` actually does:
 
@@ -56,7 +62,7 @@ Passing the `--dev` flag to `hz serve` puts it in development mode, which makes 
 * Horizon is served in "insecure mode," without requiring SSL/TLS (`--secure no`).
 * The permissions system is disabled (`--permissions no`).
 * Tables and indexes will automatically be created if they don't exist (`--auto-create-table` and `--auto-create-index`).
-* Static files will be served from the `dist` directory (`--serve-static`).
+* Static files will be served from the `dist` directory (`--serve-static ./dist`).
 
 You can find the complete list of [command line flags][server] for `hz serve` in the documentation for the [Horizon server][server].
 
@@ -78,7 +84,7 @@ Load the `index.html` file in `example-app`. It's pretty short:
     <script>
       var horizon = Horizon();
       horizon.onReady(function() {
-        document.querySelector('h1').innerHTML = 'It works!'
+        document.querySelector('h1').innerHTML = 'app works!'
       });
       horizon.connect();
     </script>
@@ -93,7 +99,7 @@ The two `script` tags do the work here. The first loads the actual Horizon clien
 
 * `var horizon = Horizon()` instantiates a [Horizon][ho] object. This object only has a few methods on it, for handling connection-related events and for instantiating Horizon [Collections][co].
 * [onReady()][hc] is an event handler that's executed when the client makes a successful connection to the server.
-* Our connection function simply fills in `"It works!"` into the `<h1>` tag in the document. Since this function only gets executed on a successful connection, it *does* verify that Horizon is working, but it's not leveraging RethinkDB for anything yet.
+* Our connection function simply fills in `"app works!"` into the `<h1>` tag in the document. Since this function only gets executed on a successful connection, it *does* verify that Horizon is working, but it's not leveraging RethinkDB for anything yet.
 * Also, we're sorry for the `<marquee>` tag.
 
 [ho]: /api/horizon
