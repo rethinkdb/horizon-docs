@@ -49,6 +49,7 @@ Your application will need a client ID and "secret" for each OAuth provider you 
 * [Google](https://console.developers.google.com/project)
 * [Twitch](https://www.twitch.tv/kraken/oauth2/clients/new)
 * [Twitter](https://apps.twitter.com/app/new)
+* [Slack](https://api.slack.com/apps)
 
 Each provider will let you register your application, and will give you the client data you need to give Horizon.
 
