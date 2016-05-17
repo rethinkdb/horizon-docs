@@ -22,6 +22,7 @@ Options are shown with their default values.
 ```toml
 bind = [ "localhost" ]
 port = 8181
+secure = true
 key_file = "horizon-key.pem"
 cert_file = "horizon-cert.pem"
 ```
