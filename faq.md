@@ -114,6 +114,78 @@ database. This allows for much more sophisticated streaming operations,
 and scalability is dramatically simpler because the database has all
 the necessary information to allow for a scalable feeds implementation.
 
+## What is the relationship between Horizon and RethinkDB? ##
+
+Horizon is built by the RethinkDB team and uses RethinkDB as the
+underlying database. We built Horizon because many RethinkDB users
+asked for a simpler way to prototype, expand, and deploy realtime web
+apps. Since the RethinkDB team has accumilated a lot of experience
+helping many different teams build and scale realtime applications, we
+built Horizon to make this process dramatically easier and more
+accessible. Our goal with RethinkDB and Horizon is to make all apps
+realtime by default.
+
+## Are there plans to support other databases? ##
+
+While Horizon is designed to be database independent, it is built from
+the ground up based on a push architecture. This architecture requires
+a database with sophisticated realtime push functionality, and at the
+moment RethinkDB is the only database we're aware of that exposes the
+necessary realtime features. As soon as more databases start exposing
+scalable realtime push features, we'll extend Horizon to support them
+in addition to supporting RethinkDB.
+
+## Do I need to be a full stack developer to use Horizon? ##
+
+Horizon takes care of all the necessary backend and database
+challenges so that you can build apps without writing any backend
+code. If you're a front-end developer, you can use Horizon to build
+modern realtime apps without having to do any work on the backend.
+
+## Is Horizon limited to simple apps? ##
+
+Horizon exposes a powerful API that allows writing sophisticated
+realtime applications. However, we carefully designed Horizon to
+provide an upgrade path in case your application outgrows the Horizon
+API. If you need to add backend functionality, instead of using the
+standalone Horizon server you can require Horizon in Node.js as a
+library, and mix and match Horizon services along with the rest of the
+Node.js ecosystem. Since Horizon is built on top of RethinkDB, your
+app will have full access to the underlying database, and you can
+write arbitrarily complex code without being limited by Horizon
+functionality.
+
+## How does Horizon scale? ##
+
+Horizon relies on RethinkDB's clustering functionality for
+scalability. You can spin up as many Horizon servers as necessary to
+handle the web traffic, and shard the RethinkDB cluster to scale the
+realtime data layer. Horizon and RethinkDB are designed to support
+millions of realtime feeds and the combined push architecture makes
+scaling your apps simple and painless.
+
+## Can I use Horizon on mobile devices? ##
+
+Horizon ships with a JavaScript client library that can be used for
+building web and mobile apps with frameworks like React, Angular, or
+React Native. We're also working on specific platform client libraries
+that support the Horizon protocol. Client libraries for iOS and
+Android are coming soon.
+
+## How can I deploy Horizon apps? ##
+
+Since Horizon is open-source, you can deploy Horizon apps in the cloud
+(e.g. on Amazon AWS), a custom VPS, or on your own
+infrastructure. We're also working on a Horizon Cloud service that
+makes it possible to deploy and scale Horizon apps in a click of a
+button.
+
+## Does Horizon support GraphQL? ##
+
+Currently Horizon exposes a JavaScript API and does not support
+GraphQL. However, we're working on native GraphQL support in Horizon,
+and will make it available soon!
+
 ## How is Horizon licensed? ##
 
 Both the Horizon server and the client library are released under the
