@@ -358,7 +358,7 @@ messages.order("time", "descending");
 Delete a single document from a Collection.
 
 ```js
-Collection.remove(integer | object)
+Collection.remove(id | object)
 ```
 
 The `remove` method may be called with either an object to be deleted or an `id` value. In the object case, the object must include an `id` key.
@@ -385,7 +385,7 @@ messages.remove(101);
 Delete multiple documents from a Collection.
 
 ```js
-Collection.removeAll([integer, integer, ...] | [object, object, ...])
+Collection.removeAll([id, id, ...] | [object, object, ...])
 ```
 
 The `removeAll` method must be called with an array of objects to be deleted, or `id` values to remove. The objects must have `id` keys. You can mix `id` values and objects within the array.
