@@ -139,7 +139,7 @@ A basic rule with a query template looks like this:
 template = "collection('public_messages')"
 ```
 
-The `list_messages` rule allows read operations on the `public_messages` table, such as:
+The `list_messages` rule allows read operations on the `public_messages` collection, such as:
 
 ```js
 horizon('public_messages').fetch()
