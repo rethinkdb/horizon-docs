@@ -71,7 +71,7 @@ Passing the `--dev` flag to `hz serve` puts it in development mode, which makes 
 
 You can find the complete list of [command line flags][server] for `hz serve` in the documentation for the [Horizon server][server].
 
-In production (i.e., without the `--dev` flag), you'll use the `.hz/config.toml` file to set these and other options. See [Configuring Horizon][configuration] for details.
+In production (i.e., without the `--dev` flag), you'll use the `.hz/config.toml` file to set these and other options. See [Configuring Horizon][config-file] for details.
 
 [server]: /docs/server
 [config-file]: /docs/configuration
