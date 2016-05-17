@@ -3,8 +3,8 @@ layout: documentation
 title: Getting started with Horizon
 id: getting-started
 permalink: /docs/getting-started
+hero_image: images/getting-started.png
 ---
-<img class="header-image" src="images/getting-started.png"/>
 
 If you haven't installed Horizon, do so now. (Read the [Installation instructions][install] for more details.)
 
@@ -30,8 +30,15 @@ Let's create a new Horizon application. Go to a directory you'd like to install 
 
 This will create the `example-app` directory and install a few files into it. (If you run `hz init` without giving it a directory, it will install these files into the current directory.)
 
-<div style="margin:0 auto;text-align:center"><img src="images/hz-dirs.png" width="351" height="181" /></div>
-
+```
+$ tree example-app
+example-app/
+├── .hz
+│   └── config.toml
+├── dist
+│   └── index.html
+└── src
+```
 Here's what these files and directories are:
 
 * `dist` is for static files. You can create files directly here, or use it as the output directory for a build system of your choice.
