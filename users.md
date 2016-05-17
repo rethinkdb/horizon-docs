@@ -42,22 +42,28 @@ When a new user is created, they're automatically assigned to two user groups, `
 If you wanted to add data to this user record, you would `find` the record, make the change, and then `replace` it in the collection.
 
 ```js
-user = horizon.users.find("D6B8E9D0-CD96-4C01-BFD6-2AF43141F2A7");
-// add a 'name' key 
-user.data.name = "Bob";
-horizon.users.store(user);
+horizon.users.find("D6B8E9D0-CD96-4C01-BFD6-2AF43141F2A7").fetch().subscribe(
+    (user) => {
+        // add a 'name' key
+        user.data.name = "Bob";
+        horizon.users.store(user);
+    }
+);
 ```
 
 To add a user to a group, or remove them from a group, modify the `groups` field.
 
 ```js
-user = horizon.users.find("D6B8E9D0-CD96-4C01-BFD6-2AF43141F2A7");
-// add to the 'admin' group
-user.groups.push('admin');
-horizon.users.store(user);
+horizon.users.find("D6B8E9D0-CD96-4C01-BFD6-2AF43141F2A7").fetch().subscribe(
+    (user) => {
+        // add to the 'admin' group
+        user.groups.push('admin');
+        horizon.users.store(user);
+    }
+);
 ```
 
-**A Horizon application allows _no_ access to collections by default, even for authenticated users!** For more information, read the documentation on permissions.
+**A Horizon application allows _no_ access to collections by default, even for authenticated users!** For more information, read the documentation on [permissions][perm].
 
 ## See also
 
