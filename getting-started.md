@@ -4,6 +4,7 @@ title: Getting started with Horizon
 id: getting-started
 permalink: /docs/getting-started
 ---
+<img class="header-image" src="images/getting-started.png"/>
 
 If you haven't installed Horizon, do so now. (Read the [Installation instructions][install] for more details.)
 
