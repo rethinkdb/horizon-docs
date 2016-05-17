@@ -121,18 +121,26 @@ See [Authentication][auth] for more details.
 
 Returns a query for the current user, that you can run by calling either [`watch()`][watch] or [`fetch()`][fetch].
 
-The query result is a user object as described in [Users and groups][users], or an empty object if no user is logged in.
+The query result is a user object as described in [Users and groups][users], or an empty object if the user is unauthenticated.
 
 ```js
 const hz = Horizon();
 hz.currentUser().fetch().subscribe( (user) => console.log(JSON.stringify(user)) );
 ```
 
+`currentUser()` requires read [permissions][perm] on the user's document in the `"users"` collection. The following rule enables the required permissions:
+
+```toml
+[groups.default.rules.read_current_user]
+template = "collection('users').find({id: userId()})"
+```
+
+See [Permissions][perm] for more information on how to configure access rules, and [Authentication][auth] to find out how to configure user authentication on the Horizon server.
+
 [watch]: /api/collection/#watch
 [fetch]: /api/collection/#fetch
 [users]: /docs/users
-
-See [Authentication][auth] for more details.
+[perm]: /docs/permissions
 
 ## Horizon.authEndpoint {#authendpoint}
 
