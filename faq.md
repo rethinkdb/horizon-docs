@@ -16,14 +16,14 @@ distributed stream processing, and learning how to deploy and scale realtime sys
 learning curve is quite steep, and most of the initial work involves boilerplate
 code that is far removed from the primary task of building a realtime app.
 
-Horizon sets out to solve this problem. Developers can start building
-apps using their favorite front-end framework using Horizon's APIs
-without having to write any backend code.
+Horizon sets out to solve this problem. You can start building
+realtime apps using your favorite front-end framework and Horizon's
+APIs without having to write any backend code.
 
 Since Horizon stores data in RethinkDB, once the app gets sufficiently
-complex to need custom business logic on the backend, developers can
+complex to need custom business logic on the backend, you can
 incrementally add backend code at any time in the development cycle of
-their app.
+your app.
 
 ## How can I install Horizon? What are the prerequisites? ##
 
@@ -35,7 +35,7 @@ For more details, read the [Installation guide][ig].
 
 [ig]: /install
 
-## How do you start Horizon? ##
+## How do I get started with Horizon? ##
 
 You can initialize a new Horizon app and start it as follows:
 
@@ -114,7 +114,7 @@ database. This allows for much more sophisticated streaming operations,
 and scalability is dramatically simpler because the database has all
 the necessary information to allow for a scalable feeds implementation.
 
-## How will Horizon be licensed? ##
+## How is Horizon licensed? ##
 
 Both the Horizon server and the client library are released under the
 MIT license.
