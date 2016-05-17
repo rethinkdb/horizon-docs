@@ -135,7 +135,7 @@ thousands of realtime streams per node, and the ability to scale
 database nodes linearly. As other databases emerge with these
 properties, we'll extend Horizon to support them.
 
-## Do I need to be a full stack developer to use Horizon? ##
+## Do I need to be a full-stack developer to use Horizon? ##
 
 Horizon takes care of all the necessary web server and database
 challenges, such as setting up web sockets, handling connections, and
