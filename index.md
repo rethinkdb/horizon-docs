@@ -24,4 +24,3 @@ Horizon consists of three components:
 * [Users and groups](/docs/users/): an overview of Horizon's user management system.
 * [Authentication](/docs/auth): integrating Horizon apps with Github, Twitter and other OAuth providers.
 * [Configuration](/docs/configuration): all about the Horizon configuration file, `.hz/config.toml`.
-* [Deploying Horizon](/docs/deployment): deploying a Horizon application.
