@@ -15,38 +15,13 @@ Horizon consists of three components:
 
 ## Using Horizon
 
-* [Installing Horizon & RethinkDB](/install)
-
-    An overview of installing the RethinkDB and Horizon servers.
-
-* [Getting started](/docs/getting-started)
-
-    Get up to speed on Horizon's basics.
-
-* The Horizon API
-
-    Learn about the two JavaScript classes at the heart of Horizon:
-
+* [Installing Horizon & RethinkDB](/install): an overview of installing the RethinkDB and Horizon servers.
+* [Getting started](/docs/getting-started): get up to speed on Horizon's basics.
+* The Horizon API: learn about the two JavaScript classes at the heart of Horizon:
     * [Horizon](/api/horizon) (the connection management class)
-
     * [Collection](/api/collection) (the data management class)
-
-* [Permissions](/docs/permissions)
-
-    How Horizon's permissions and schema enforcement system works.
-
-* [Users and groups](/docs/users/)
-
-    An overview of Horizon's user management system.
-
-* [Authentication](/docs/auth)
-
-    Integrating Horizon apps with Github, Twitter and other OAuth providers.
-
-* [Configuration](/docs/configuration)
-
-    All about the Horizon configuration file, `.hz/config.toml`.
-
-* [Deploying Horizon](/docs/deployment)
-
-    Deploying a Horizon application.
+* [Permissions](/docs/permissions): how Horizon's permissions and schema enforcement system works.
+* [Users and groups](/docs/users/): an overview of Horizon's user management system.
+* [Authentication](/docs/auth): integrating Horizon apps with Github, Twitter and other OAuth providers.
+* [Configuration](/docs/configuration): all about the Horizon configuration file, `.hz/config.toml`.
+* [Deploying Horizon](/docs/deployment): deploying a Horizon application.
