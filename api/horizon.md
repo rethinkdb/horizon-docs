@@ -117,6 +117,23 @@ Check if the user has a valid authorization token (i.e., has logged in).
 
 See [Authentication][auth] for more details.
 
+## Horizon.currentUser {#currentuser}
+
+Returns a query for the current user, that you can run by calling either [`watch()`][watch] or [`fetch()`][fetch].
+
+The query result is a user object as described in [Users and groups][users], or an empty object if no user is logged in.
+
+```js
+const hz = Horizon();
+hz.currentUser().fetch().subscribe( (user) => console.log(JSON.stringify(user)) );
+```
+
+[watch]: /api/collection/#watch
+[fetch]: /api/collection/#fetch
+[users]: /docs/users
+
+See [Authentication][auth] for more details.
+
 ## Horizon.authEndpoint {#authendpoint}
 
 Return a previously-configured OAuth endpoint.
