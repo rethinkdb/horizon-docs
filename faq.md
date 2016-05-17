@@ -8,7 +8,7 @@ permalink: /faq
 ## Why Horizon?
 
 While technologies like [RethinkDB](http://www.rethinkdb.com) and
-[WebSocket](https://en.wikipedia.org/wiki/WebSocket) make it possible to build
+[WebSockets](https://en.wikipedia.org/wiki/WebSocket) make it possible to build
 engaging realtime apps, empirically there is still too much friction for most
 developers. Building realtime apps now requires understanding and manually
 orchestrating multiple systems across the software stack, understanding
@@ -37,7 +37,7 @@ For more details, read the [Installation guide][ig].
 
 ## How do I get started with Horizon? ##
 
-You can initialize a new Horizon app and start it as follows:
+You can create a new Horizon app and start it as follows:
 
     hz init my-app
     hz serve my-app --dev
@@ -119,30 +119,31 @@ the necessary information to allow for a scalable feeds implementation.
 Horizon is built by the RethinkDB team and uses RethinkDB as the
 underlying database. We built Horizon because many RethinkDB users
 asked for a simpler way to prototype, expand, and deploy realtime web
-apps. Since the RethinkDB team has accumilated a lot of experience
+apps. Since the RethinkDB team has accumulated a lot of experience
 helping many different teams build and scale realtime applications, we
-built Horizon to make this process dramatically easier and more
-accessible. Our goal with RethinkDB and Horizon is to make all apps
-realtime by default.
+designed Horizon to make this process dramatically easier and more
+accessible. Our goal with RethinkDB and Horizon is to make it easier
+to build JavaScript apps, and to make all apps realtime by default.
 
 ## Are there plans to support other databases? ##
 
-While Horizon is designed to be database independent, it is built from
-the ground up based on a push architecture. This architecture requires
-a database with sophisticated realtime push functionality, and at the
-moment RethinkDB is the only database we're aware of that exposes the
-necessary realtime features. As soon as more databases start exposing
-scalable realtime push features, we'll extend Horizon to support them
-in addition to supporting RethinkDB.
+While Horizon is designed to be database-independent, it is built from
+the ground up based on a push architecture. RethinkDB has three
+necessary properties for Horizon to function as a scalable realtime
+backend: a realtime push architecture, the ability to open tens of
+thousands of realtime streams per node, and the ability to scale
+database nodes linearly. As other databases emerge with these
+properties, we'll extend Horizon to support them.
 
 ## Do I need to be a full stack developer to use Horizon? ##
 
-Horizon takes care of all the necessary backend and database
-challenges so that you can build apps without writing any backend
-code. If you're a front-end developer, you can use Horizon to build
-modern realtime apps without having to do any work on the backend.
+Horizon takes care of all the necessary web server and database
+challenges, such as setting up web sockets, handling connections, and
+creating necessary endpoints. If you're a front-end developer, you can
+use Horizon to build modern realtime apps without writing any backend
+code.
 
-## Is Horizon limited to simple apps? ##
+## Is Horizon limited to simple applications? ##
 
 Horizon exposes a powerful API that allows writing sophisticated
 realtime applications. However, we carefully designed Horizon to
@@ -152,8 +153,8 @@ standalone Horizon server you can require Horizon in Node.js as a
 library, and mix and match Horizon services along with the rest of the
 Node.js ecosystem. Since Horizon is built on top of RethinkDB, your
 app will have full access to the underlying database, and you can
-write arbitrarily complex code without being limited by Horizon
-functionality.
+write arbitrarily complex code without being limited by Horizon's base
+APIs and tools.
 
 ## How does Horizon scale? ##
 
@@ -183,7 +184,8 @@ button.
 ## Does Horizon support GraphQL? ##
 
 Currently Horizon exposes a JavaScript API and does not support
-GraphQL. However, we're working on native GraphQL support in Horizon,
+GraphQL. However, we're working on native [GraphQL
+support](https://github.com/rethinkdb/horizon/issues/125) in Horizon,
 and will make it available soon!
 
 ## How is Horizon licensed? ##
