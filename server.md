@@ -7,7 +7,7 @@ permalink: /docs/server
 
 The `hz serve <project path>` command starts a Horizon server for the given Horizon project. Once started, it serves HTTP(S) requests for your application on the configured port.
 
-Every horizon server requires a RethinkDB server to connect to. Use the `--connect <RethinkDB host>` option to connect to an existing RethinkDB server, or use `--start-rethinkdb` to automatically start a local RethinkDB server.
+Every Horizon server requires a RethinkDB server to connect to. Use the `--connect <RethinkDB host>` option to connect to an existing RethinkDB server, or use `--start-rethinkdb` to automatically start a local RethinkDB server.
 
 # Command-line options {#options}
 
