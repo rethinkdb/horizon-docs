@@ -2,7 +2,7 @@
 layout: documentation
 title: Horizon authentication
 id: auth
-permalink: /docs/auth
+permalink: /docs/auth/
 ---
 
 Horizon uses [JSON Web Tokens][jwt] for user authentication, an [open industry standard][rfc7519]. Depending on your application, you can choose one of three types of authentication handling by passing the `authType` option to the [Horizon object constructor][hoc].

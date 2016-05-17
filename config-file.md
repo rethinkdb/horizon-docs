@@ -2,7 +2,7 @@
 layout: documentation
 title: The config.toml file
 id: configuration
-permalink: /docs/configuration
+permalink: /docs/configuration/
 ---
 
 Options for Horizon apps are set by a [TOML][] file in the app's root directory, `.hz/config.toml`. The example configuration file installed by `hz init` is fully commented; this documentation is taken from there.

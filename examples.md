@@ -2,7 +2,7 @@
 layout: documentation
 title: Example apps
 id: examples
-permalink: /docs/examples
+permalink: /docs/examples/
 ---
 
 To show how Horizon fits with your framework of choice, we've put together a handful of

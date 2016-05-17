@@ -2,7 +2,7 @@
 layout: documentation
 title: Users and groups
 id: users
-permalink: /docs/users
+permalink: /docs/users/
 ---
 
 When you use Horizon's [Authentication system][auth], user information is stored in a special Horizon [collection][coll], `users`. You can use the `users` collection the same way you use any other collection, or through a special shortcut accessor:

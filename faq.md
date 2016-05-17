@@ -2,7 +2,7 @@
 layout: documentation
 title: Frequently asked questions
 id: faq
-permalink: /faq
+permalink: /faq/
 ---
 
 ## Why Horizon?

@@ -2,7 +2,7 @@
 layout: documentation
 title: Getting started with Horizon
 id: getting-started
-permalink: /docs/getting-started
+permalink: /docs/getting-started/
 hero_image: images/getting-started.png
 ---
 

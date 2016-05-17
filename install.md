@@ -2,7 +2,7 @@
 layout: documentation
 title: Installing Horizon
 id: install
-permalink: /install
+permalink: /install/
 active: install
 ---
 

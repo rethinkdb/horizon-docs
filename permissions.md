@@ -2,7 +2,7 @@
 layout: documentation
 title: Permissions and schema enforcement
 id: permissions
-permalink: /docs/permissions
+permalink: /docs/permissions/
 ---
 
 Horizon's permission system is based on a query whitelist. Any operation on a Horizon collection is disallowed by default, unless there is a rule that allows the operation.
