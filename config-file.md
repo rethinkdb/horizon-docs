@@ -15,25 +15,26 @@ Options are shown with their default values.
 
 * `bind` controls which local interfaces will be listened on.
 * `port` controls which port will be listened on.
-* `insecure`: disable HTTPS and use HTTP instead.
+* `secure`: disable HTTPS and use HTTP instead when set to `false`.
 * `key_file`: HTTPS key file.
 * `cert_file`: HTTPS certificate file.
 
 ```toml
 bind = [ "localhost" ]
 port = 8181
+secure = true
 key_file = "horizon-key.pem"
 cert_file = "horizon-cert.pem"
 ```
 
 ## App options
 
-* `project`: change to the given directory on startup.
+* `project_name`: sets the name of the RethinkDB database used to store the application state.
 * `serve_static`: serve static files from the given directory.
 * `debug`: enable debug logging statements.
 
 ```toml
-project = "horizon"
+project_name = "horizon"
 serve_static = "dist"
 debug = false
 ```
