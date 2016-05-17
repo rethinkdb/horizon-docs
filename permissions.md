@@ -139,22 +139,20 @@ A basic rule with a query template looks like this:
 template = "collection('public_messages')"
 ```
 
-The `list_messages` rule allows operations as follows:
+The `list_messages` rule allows read operations on the `public_messages` collection, such as:
 
 ```js
-// This is ok:
-horizon('public_messages')
-
-// These are not ok:
-horizon('public_messages').findAll({type: "announcement"})
-horizon('public_messages').order("year")
-horizon('public_messages').order("year").above({year: 2015})
+horizon('public_messages').fetch()
+horizon('public_messages').watch()
+horizon('public_messages').findAll({type: "announcement"}).fetch()
+horizon('public_messages').order("year").fetch()
+horizon('public_messages').order("year").above({year: 2015}).fetch()
 ```
 
 You can specify additional operations behind the collection:
 
 ```toml
-# Allow listing public messages ordered by year
+# Specifically allow listing public messages ordered by year
 [groups.default.rules.list_messages_by_year]
 template = "collection('public_messages').order('year')"
 ```
@@ -193,28 +191,26 @@ template = "collection('messages').findAll({type: any('shared', 'announcement')}
 
 The `anyRead()` placeholder matches any read operation or chain of read operations that can be performed on a collection.
 
-It is often useful to allow additional read operations behind a specified template, since those operations can only further restrict the set of returned results, but never allow access to additional results. We can adapt the example rule from above to allow additional operations:
+Horizon implicitly adds `anyRead()` to the end of any read template, unless the template ends in `fetch()` or `watch()`. This is useful because adding additional read operations can only further restrict the set of returned results, but never allow access to additional results.
+
+To allow only a specific read query, just finish the template off with `fetch()` or `watch()`:
 
 ```toml
 [groups.default.rules.list_messages_any]
-template = "collection('public_messages').anyRead()"
+template = "collection('public_messages').fetch()"
 ```
 
-Now all of these are allowed:
+This restricts the allowed queries as follows:
 
 ```js
-// These are all ok now:
-horizon('public_messages')
-horizon('public_messages').findAll({type: "announcement"})
-horizon('public_messages').order("year")
-horizon('public_messages').order("year").above({year: 2015})
-```
+// This is still ok:
+horizon('public_messages').fetch()
 
-`anyRead()` is not limited to whole collections. The following rule allows users to read their own messages, allowing them to add further restrictions or ordering constraints on the results:
-
-```toml
-[groups.authenticated.rules.read_own_messages]
-template = "collection('messages').findAll({owner: userId()}).anyRead()"
+// These queries no longer match the template:
+horizon('public_messages').watch()
+horizon('public_messages').findAll({type: "announcement"}).fetch()
+horizon('public_messages').order("year").fetch()
+horizon('public_messages').order("year").above({year: 2015}).fetch()
 ```
 
 ### `anyWrite()` {#template-placeholders-anywrite}
@@ -315,7 +311,7 @@ We can use the following rule to enable reading only odd integers from this coll
 
 ```toml
 [groups.default.rules.read_odd]
-template = "collection('integers').anyRead()"
+template = "collection('integers')"
 validator = """
   (context, value) => {
     return value.id % 2 == 1;
@@ -345,7 +341,7 @@ Adding a second whitelist rule that allows reading even integers will make the q
 
 ```toml
 [groups.default.rules.read_even]
-template = "collection('integers').anyRead()"
+template = "collection('integers')"
 validator = """
   (context, value) => {
     return value.id % 2 == 0;
