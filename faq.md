@@ -3,6 +3,7 @@ layout: documentation
 title: Frequently asked questions
 id: faq
 permalink: /faq/
+active: faq
 ---
 
 ## Why Horizon?
