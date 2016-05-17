@@ -78,7 +78,6 @@ Here is an example for a full schema file including collection and index specifi
 ```toml
 [collections.messages]
 indexes = [
-  "id",
   "owner"
 ]
 
