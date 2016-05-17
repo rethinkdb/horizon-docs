@@ -18,7 +18,7 @@ Horizon is a [Node.js][njs] application. Please install the current stable versi
 
 ## Installing Horizon
 
-Install horizon from npm:
+Install Horizon from npm:
 
     npm install -g horizon
 
