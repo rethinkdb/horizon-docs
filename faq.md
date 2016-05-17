@@ -5,25 +5,50 @@ id: faq
 permalink: /faq
 ---
 
+## Why Horizon?
+
+While technologies like [RethinkDB](http://www.rethinkdb.com) and
+[WebSocket](https://en.wikipedia.org/wiki/WebSocket) make it possible to build
+engaging realtime apps, empirically there is still too much friction for most
+developers. Building realtime apps now requires understanding and manually
+orchestrating multiple systems across the software stack, understanding
+distributed stream processing, and learning how to deploy and scale realtime systems. The
+learning curve is quite steep, and most of the initial work involves boilerplate
+code that is far removed from the primary task of building a realtime app.
+
+Horizon sets out to solve this problem. Developers can start building
+apps using their favorite front-end framework using Horizon's APIs
+without having to write any backend code.
+
+Since Horizon stores data in RethinkDB, once the app gets sufficiently
+complex to need custom business logic on the backend, developers can
+incrementally add backend code at any time in the development cycle of
+their app.
+
 ## How can I install Horizon? What are the prerequisites? ##
 
-Horizon requires RethinkDB and Node.js. For more details, read the [Installation guide][ig].
+Horizon is built on top of RethinkDB and Node.js. You can install Horizon via `npm`:
+
+    npm install -g horizon
+
+For more details, read the [Installation guide][ig].
 
 [ig]: /install
 
 ## How do you start Horizon? ##
 
-    npm install -g horizon
+You can initialize a new Horizon app and start it as follows:
+
     hz init my-app
     hz serve my-app --dev
 
-For more details, read the [Installation guide][ig] and [Getting Started][gs].
+For more details, see the [Getting Started][gs] guide.
 
 [gs]: /docs/getting-started
 
 ## What does the code look like? ##
 
-Here is currently what you'd write on the front-end for a simple todo list application:
+Here is an example of what you'd write on the front-end for a simple todo list application:
 
 ```js
 // Connect to horizon
@@ -43,9 +68,7 @@ const todoCollection.watch().subscribe( todos => {
 });
 ```
 
-For more details, check out the [README][rc] for the Horizon client library.
-
-[rc]: https://github.com/rethinkdb/horizon/tree/next/client#horizon-client-library
+For more details, see the [Getting Started][gs] guide.
 
 ## How is Horizon different from Firebase? ##
 
@@ -93,5 +116,5 @@ the necessary information to allow for a scalable feeds implementation.
 
 ## How will Horizon be licensed? ##
 
-We still have to figure out the exact license, but Horizon will be
-fully open source (we'll probably use MIT or Apache).
+Both the Horizon server and the client library are released under the
+MIT license.
