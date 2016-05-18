@@ -21,7 +21,7 @@ const hz = Horizon();
 All arguments are optional. Pass them to `Horizon` in an object with option keys: `{secure: true}`.
 
 * `host`: the hostname of the Horizon server. This defaults to `window.location`, i.e., the machine that served the application to the client.
-* `secure`: a boolean indicating whether the server should use secure websockets. Defaults to `true`.
+* `secure`: a boolean indicating whether the server should use secure websockets. Defaults to `false` unless origin is using HTTPS.
 * `path`: the path the Horizon endpoint can be found under on `host`. Defaults to `"horizon"`.
 * `lazyWrites`: a boolean indicating whether write operations should be performed in a "lazy" fashion (see below). Defaults to `false`.
 * `authType`: a string indicating the authentication method to use for your application's users, one of `"unauthenticated"`, `"anonymous"`, or `"token"`. Defaults to `"unauthenticated"`. (See [Authentication][auth].)
