@@ -40,8 +40,8 @@ For more details, read the [Installation guide][ig].
 
 You can create a new Horizon app and start it as follows:
 
-    hz init my-app
-    hz serve my-app --dev
+    hz init my_app
+    hz serve my_app --dev
 
 For more details, see the [Getting Started][gs] guide.
 
