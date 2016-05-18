@@ -71,7 +71,7 @@ Note that you can create a [Collection][c] from the `Horizon` instance without c
 const hz = Horizon();
 
 // Get access to the messages collection
-const messages = hs('messages');
+const messages = hz('messages');
 
 // Start establishing the Horizon connection.
 // This step is optional. We can skip it and go directly to the next line.
