@@ -65,6 +65,24 @@ horizon.users.find("D6B8E9D0-CD96-4C01-BFD6-2AF43141F2A7").fetch().subscribe(
 
 **A Horizon application allows _no_ access to collections by default, even for authenticated users!** For more information, read the documentation on [permissions][perm].
 
+## Accessing session data
+
+You can check whether a user is currently authenticated using the [Horizon.hasAuthToken][ha] method, and access their information with [Horizon.currentUser][cu].
+
+```js
+if (Horizon.hasAuthToken()) {
+    console.log(Horizon.currentUser());
+} else {
+    console.log("No user info available");
+}
+```
+
+The `currentUser` is a user object as described in [Users and groups][users], or an empty object if the user is unauthenticated.
+
+[ha]:    /api/horizon/#hasauthtoken
+[cu]:    /api/horizon/#currentuser
+[users]: /docs/users
+
 ## See also
 
 * [Permissions and schema enforcement][perm]
