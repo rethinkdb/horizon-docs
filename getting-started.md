@@ -315,6 +315,8 @@ We recommend the first option, as that will prevent any possibly mismatches betw
 
 In your application, you'll need to include the Horizon client file, and specify the Horizon port number when initializing the connection.
 
+[webpack]: https://webpack.github.io/
+
 ```html
 <script src="localhost:8181/horizon/horizon.js"></script>
 
