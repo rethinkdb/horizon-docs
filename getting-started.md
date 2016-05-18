@@ -26,13 +26,13 @@ Interactions with Horizon are performed with the `hz` application. `hz` has a nu
 
 Let's create a new Horizon application. Go to a directory you'd like to install this application into and type:
 
-    hz init example-app
+    hz init example_app
 
-This will create the `example-app` directory and install a few files into it. (If you run `hz init` without giving it a directory, it will install these files into the current directory.)
+This will create the `example_app` directory and install a few files into it. (If you run `hz init` without giving it a directory, it will install these files into the current directory.)
 
 ```
-$ tree example-app
-example-app/
+$ tree example_app
+example_app/
 ├── .hz
 │   └── config.toml
 ├── dist
@@ -78,7 +78,7 @@ In production (i.e., without the `--dev` flag), you'll use the `.hz/config.toml`
 
 ## Talk to Horizon
 
-Load the `index.html` file in `example-app`. It's pretty short:
+Load the `index.html` file in `example_app`. It's pretty short:
 
 ```html
 <!doctype html>
