@@ -311,7 +311,7 @@ While Horizon serves static files from the `dist` folder by default, you can use
 * Use `horizon.js` served by the Horizon server
 * Install `@horizon/client` as a dependency in your project
 
-We recommend the first option, as that will prevent any possibly mismatches between the client library version and the Horizon server. However, if you're using [Webpack][wepback] or a similar build setup, or requesting the `.js` library at load time isn't desirable, just add the client library as an NPM dependency (`npm install @horizon/client`).
+We recommend the first option, as that will prevent any possibly mismatches between the client library version and the Horizon server. However, if you're using [Webpack][] or a similar build setup, or requesting the `.js` library at load time isn't desirable, just add the client library as an NPM dependency (`npm install @horizon/client`).
 
 In your application, you'll need to include the Horizon client file, and specify the Horizon port number when initializing the connection.
 
