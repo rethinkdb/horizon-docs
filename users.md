@@ -46,7 +46,7 @@ horizon.users.find("D6B8E9D0-CD96-4C01-BFD6-2AF43141F2A7").fetch().subscribe(
     (user) => {
         // add a 'name' key
         user.data.name = "Bob";
-        horizon.users.store(user);
+        horizon.users.replace(user);
     }
 );
 ```
@@ -58,7 +58,7 @@ horizon.users.find("D6B8E9D0-CD96-4C01-BFD6-2AF43141F2A7").fetch().subscribe(
     (user) => {
         // add to the 'admin' group
         user.groups.push('admin');
-        horizon.users.store(user);
+        horizon.users.replace(user);
     }
 );
 ```
