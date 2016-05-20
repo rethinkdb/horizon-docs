@@ -286,12 +286,12 @@ messages.find(101);
 ```
 
 You can use the Observaddsa `defaultIfEmpty` function to handle non-existing keys:
-```js
+```py
 var messages = hz('messages');
 messages.find(id).fetch().defaultIfEmpty().subscribe((msg) => {
   if (msg == null) {
     console.log("Message not found");
-    reburn;
+    return;
   }
   ...
 });
