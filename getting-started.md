@@ -66,7 +66,7 @@ Passing the `--dev` flag to `hz serve` puts it in development mode, which makes 
 * A RethinkDB server is automatically started (`--start-rethinkdb`). This server is specifically for this Horizon application, and will create a `rethinkdb_data` folder in the working directory when started.
 * Horizon is served in "insecure mode," without requiring SSL/TLS (`--secure no`).
 * The permissions system is disabled (`--permissions no`).
-* Tables and indexes will automatically be created if they don't exist (`--auto-create-table` and `--auto-create-index`).
+* Tables and indexes will automatically be created if they don't exist (`--auto-create-collection` and `--auto-create-index`).
 * Static files will be served from the `dist` directory (`--serve-static ./dist`).
 
 You can find the complete list of [command line flags][server] for `hz serve` in the documentation for the [Horizon server][server].
