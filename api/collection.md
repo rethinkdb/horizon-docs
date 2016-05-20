@@ -285,7 +285,7 @@ messages.find({id: 101});
 messages.find(101);
 ```
 
-You can use the Observaddsa `defaultIfEmpty` function to handle non-existing keys:
+You can use the Observables `defaultIfEmpty` function to handle non-existing keys:
 ```py
 var messages = hz('messages');
 messages.find(id).fetch().defaultIfEmpty().subscribe((msg) => {
