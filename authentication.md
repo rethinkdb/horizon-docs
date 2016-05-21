@@ -96,10 +96,9 @@ Use `authType: 'token'` when initializing Horizon in your client, and then use t
 ```js
 const horizon = Horizon({ authType: 'token' });
 if (!horizon.hasAuthToken()) {
-  horizon.authEndpoint('github').toPromise()
-    .then((endpoint) => {
+  horizon.authEndpoint('github').subscribe((endpoint) => {
       window.location.pathname = endpoint;
-    })
+    });
 } else {
   // We have a token already, do authenticated Horizon stuff here
 }
