@@ -51,7 +51,7 @@ query.subscribe(uuid => {
 });
 ```
 
-A `Horizon` object can be called as a function, taking a string as its argument. It returns a [Collection][c] object:
+A `Horizon` object can be called as a function, taking a string as its argument. It returns a [Collection][collection] object:
 
 ```js
 // Return the messages Collection
@@ -65,7 +65,7 @@ const messages = hz('messages');
 
 Establish a Horizon connection.
 
-Note that you can create a [Collection][c] from the `Horizon` instance without calling `connect()` first. Once you start using the collection, the connection will be automatically established.
+Note that you can create a [Collection][collection] from the `Horizon` instance without calling `connect()` first. Once you start using the collection, the connection will be automatically established.
 
 ```js
 const hz = Horizon();
@@ -137,6 +137,7 @@ template = "collection('users').find({id: userId()})"
 
 See [Permissions][perm] for more information on how to configure access rules, and [Authentication][auth] to find out how to configure user authentication on the Horizon server.
 
+[collection]: /api/collection
 [watch]: /api/collection/#watch
 [fetch]: /api/collection/#fetch
 [users]: /docs/users
