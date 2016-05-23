@@ -271,19 +271,34 @@ Collection.find(id | object)
 
 The `find` method may be called with either a key-value pair to match against (e.g., `{name: "agatha"}` or an `id` value to look up.
 
-```
+```js
 const hz = Horizon();
 const messages = hz("messages");
 
 // get the first message from Bob
-messages.find({from: "bob"});
+messages.find({from: "bob"}).fetch();
 
 // get the message with ID 101
-messages.find({id: 101});
+messages.find({id: 101}).fetch();
 
 // because we are fetching by the document ID, we can use a shorthand
-messages.find(101);
+messages.find(101).fetch();
 ```
+
+If no matching document exists, no result will be returned and no error will thrown. To explicitly check for this condition, use RxJS's [defaultIfEmpty][die] operator.
+
+```js
+messages.find(id).fetch().defaultIfEmpty().subscribe(
+    (msg) => {
+        if (msg == null) {
+            console.log('Message not found');
+            return;
+        }
+    }
+);
+```
+
+[die]: http://reactivex.io/documentation/operators/defaultifempty.html
 
 ## Collection.findAll {#findall}
 
