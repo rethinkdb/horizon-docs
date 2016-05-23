@@ -118,6 +118,15 @@ To delete all authentication tokens from localStorage, use `clearAuthTokens()`.
 Horizon.clearAuthTokens();
 ```
 
+## Accessing session data
+
+You can check whether a user is currently authenticated using the [Horizon.hasAuthToken][ha] method, and access their information with [Horizon.currentUser][cu]. For more information, read about [Users and groups][ug] and [Permissions and schema enforcement][perm].
+
+[ha]:   /api/horizon/#hasauthtoken
+[cu]:   /api/horizon/#currentuser
+[ug]:   /docs/users
+[perm]: /docs/permissions
+
 ## Notes about Horizon's OAuth support
 
 * Currently, no metadata from OAuth providers&mdash;for example, friend/following lists&mdash; can be requested. In the near future, Horizon will support authentication scopes for selected providers to request acess to these details, and returned metadata will be stored in the `Users` table.
