@@ -129,7 +129,7 @@ You can check whether a user is currently authenticated using the [Horizon.hasAu
 
 ## Notes about Horizon's OAuth support
 
-* Currently, no metadata from OAuth providers&mdash;for example, friend/following lists&mdash; can be requested. In the near future, Horizon will support authentication scopes for selected providers to request acess to these details, and returned metadata will be stored in the `Users` table.
+* Currently, no metadata from OAuth providers&mdash;for example, friend/following lists&mdash; can be requested. In the near future, Horizon will support authentication scopes for selected providers to request access to these details, and returned metadata will be stored in the `Users` table.
 * The redirection URL will be configurable in a future release.
 * [Passport][pp] integration is not currently on Horizon's roadmap; this decision was made to avoid tightly coupling Horizon with [Express][ex]. (A [Github issue][gi] may be opened to discuss this in the future.)
 
