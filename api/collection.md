@@ -285,6 +285,18 @@ messages.find({id: 101});
 messages.find(101);
 ```
 
+You can use the Observables `defaultIfEmpty` function to handle non-existing keys:
+```py
+var messages = hz('messages');
+messages.find(id).fetch().defaultIfEmpty().subscribe((msg) => {
+  if (msg == null) {
+    console.log("Message not found");
+    return;
+  }
+  ...
+});
+```
+
 ## Collection.findAll {#findall}
 
 Retrieve multiple documents from a Collection.
