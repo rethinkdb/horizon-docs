@@ -49,15 +49,14 @@ messages.order("id").findAll({from: "bob"}).fetch().subscribe(msg => console.log
 
 ## Collection.fetch {#fetch}
 
-Return a [RxJS Observable](http://reactivex.io/rxjs/class/es6/Observable.js~Observable.html) containing the query result set.
+Return a [RxJS Observable](http://reactivex.io/rxjs/class/es6/Observable.js~Observable.html) containing the query result set as an array.
+
 
 ```js
 Collection.fetch()
 ```
 
 Unlike [watch](#watch), the `fetch` command does not update in real time, but rather returns a "snapshot" of the result set as it exists when `fetch` is executed. The `fetch` or `watch` command ends a Horizon query.
-
-The Observable returned by `fetch` or `watch` may be iterated through with [subscribe](#subscribe), or converted to an array with `toArray`.
 
 ```js
 const hz = Horizon();
@@ -81,7 +80,7 @@ Collection.watch().subscribe(changefeedFunction, errorFunction)
 
 This method is not actually part of the `Collection` class, but is instead a [RxJS method](http://reactivex.io/rxjs/class/es6/Observable.js~Observable.html#instance-method-subscribe).
 
-When `subscribe` is chained off a read function (i.e., [fetch](#fetch)) it takes three callback functions:
+When `subscribe` is chained off a read function (i.e., [watch](#watch)) it takes three callback functions:
 
 * `next(result)`: a callback that receives a single document as the Collection is iterated through
 * `error(error)`: a callback that receives error information if an error occurs
@@ -96,6 +95,8 @@ hz("messages").fetch().subscribe(
     () => console.log('Results fetched')
 );
 ```
+
+Note that when `subscribe` is chained after [fetch](#fetch), the `next` callback will receive a single array containing the entire result set at once.
 
 When chained off a write function (e.g., [store](#store), [upsert](#upsert)), it takes two callback functions:
 
@@ -136,7 +137,8 @@ Read the documentation for `watch` for more details on returned changefeed dowcu
 ## Collection.watch {#watch}
 
 
-Convert a query into a [changefeed][feed]. This returns an Observable which receives real-time updates of the query's result set.
+Convert a query into a [changefeed][feed]. This returns a [RxJS Observable](http://reactivex.io/rxjs/class/es6/Observable.js~Observable.html) containing the query result set.
+
 
 [feed]: https://rethinkdb.com/docs/changefeeds/javascript/
 
@@ -315,10 +317,10 @@ const hz = Horizon();
 const messages = hz("messages");
 
 // get all messages from Bob, Agatha and Dave
-messages.findAll({from: "bob"}, {from: "agatha"}, {from: "dave"});
+var messageList = messages.findAll({from: "bob"}, {from: "agatha"}, {from: "dave"}).fetch();
 
 // get all messages from Jane and all messages with a high priority
-messages.findAll({from: "jane"}, {priority: "high"});
+var messageList = messages.findAll({from: "jane"}, {priority: "high"}).fetch();
 ```
 
 ## Collection.limit {#limit}
@@ -336,7 +338,7 @@ const hz = Horizon();
 const users = hz("users");
 
 // get the 10 most prolific posters
-users.order("postCount", "descending").limit(10);
+users.order("postCount", "descending").limit(10).fetch();
 ```
 
 ## Collection.order {#order}
@@ -359,13 +361,13 @@ const hz = Horizon();
 const messages = hz("messages");
 
 // get all messages, ordered ascending by ID value
-messages.order("id", "ascending");
+messages.order("id", "ascending").fetch();
 
 // "ascending" is the default, so it can be left out
 messages.order("id");
 
 // get all messages ordered by time, most recent first
-messages.order("time", "descending");
+messages.order("time", "descending").fetch();
 ```
 
 ## Collection.remove {#remove}
@@ -383,7 +385,10 @@ const hz = Horizon();
 const messages = hz("messages");
 
 // get the message with an ID of 101
-var messageObject = messages.find(101);
+var messageObject;
+messages.find(101).fetch().subscribe(
+    (result) => { messageObject = result; }
+);
 
 // delete that object
 messages.remove(messageObject);
@@ -410,7 +415,7 @@ const hz = Horizon();
 const messages = hz("messages");
 
 // get all messages from Bob and Agatha...
-var messageList = messages.findAll({from: "bob"}, {from: "agatha"});
+var messageList = messages.findAll({from: "bob"}, {from: "agatha"}).fetch();
 
 // ...and delete them
 messages.removeAll(messageList);
