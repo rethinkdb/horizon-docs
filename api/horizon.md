@@ -91,7 +91,9 @@ Close a Horizon connection.
 
 Receive status updates about the connection to the Horizon server.
 
-Calling `status()` without any arguments returns an `Observable`. Alternatively you can pass in a callback to execute when the status of the connection changes. Any arguments passed to `status()` will be treated as if passed to `Observable.subscribe(args...)`.
+Calling `status()` without any arguments returns an [RxJS Observable][rjso]. Alternatively you can pass in a callback to execute when the status of the connection changes. Any arguments passed to `status()` will be treated as if passed to `Observable.subscribe(args...)`.
+
+[rjso]: http://reactivex.io/rxjs/class/es6/Observable.js~Observable.html
 
 The emitted status objects can be one of the following:
 
