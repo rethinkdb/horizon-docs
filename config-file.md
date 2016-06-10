@@ -9,6 +9,14 @@ Options for Horizon apps are set by a [TOML][] file in the app's root directory,
 
 [TOML]: https://github.com/toml-lang/toml
 
+Note that any of these options can be overridden with environment variables of the form `HZ_<OPTION>`, where `<OPTION>` is the name of the option listed in this file. To override the `serve_static` setting, for instance, you could use:
+
+```sh
+export HZ_SERVE_STATIC="./static"
+```
+
+This would override the setting in the `config.toml` file. However, if the `--serve-static` option were passed to the `hz serve` command, that would take priority over both the configuration file and any environment variables: configuration precedence is command line flags first, environment variables next, configuration file last.
+
 Options are shown with their default values.
 
 ## Networking options
