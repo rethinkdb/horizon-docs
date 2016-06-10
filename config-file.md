@@ -43,13 +43,13 @@ debug = false
 
 * `connect`: connect to an existing RethinkDB instance at the specified host/port.
 * `start_rethinkdb`: run an internal RethinkDB instance for Horizon.
-* `auto_create_table`: creates a table when one is needed but does not exist.
+* `auto_create_collection`: creates a collection with its corresponding RethinkDB table when one is accessed but does not exist.
 * `auto_create_index`: creates an index when one is needed but does not exist.
 
 ```toml
 connect = "localhost:28015"
 start_rethinkdb = false
-auto_create_table = false
+auto_create_collection = false
 auto_create_index = false
 ```
 
