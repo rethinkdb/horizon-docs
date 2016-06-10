@@ -314,7 +314,7 @@ While Horizon serves static files from the `dist` folder by default, you can use
 We recommend the first option, as that will prevent any possibly mismatches between the client library version and the Horizon server. In your application, you'll need to include the Horizon client file, and specify the Horizon port number when initializing the connection.
 
 ```html
-<script src="localhost:8181/horizon/horizon.js"></script>
+<script src="/horizon/horizon.js"></script>
 
 <script>
 // Specify the host property for initializing the Horizon connection
