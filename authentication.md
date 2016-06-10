@@ -11,8 +11,8 @@ Horizon uses [JSON Web Tokens][jwt] for user authentication, an [open industry s
 [rfc7519]: https://tools.ietf.org/html/rfc7519 "RFC 7519: JSON Web Token (JWT)"
 [hoc]:     /api/horizon/#constructor
 
-* `unauthenticated`: share a single token among all users, and do not create entries in the Horizon user table. This essentially bypasses Horizon's authentication system, and is best for applications that don't need to store any user data.
-* `anonymous`: generate a unique token for each new user, and create an entry in the users table for the generated token. This allows authentication through the generated token, which is stored client-side in [localStorage][ls]. Your application will need to prompt for username and password.
+* `unauthenticated`: do not generate a web token, and do not create entries in the Horizon user table. This essentially bypasses Horizon's authentication system, and is best for applications that don't need to store any user data.
+* `anonymous`: generate a unique token for each new user, and create an entry in the users table for the generated token. This allows authentication through the generated token, which is stored client-side in [localStorage][ls].
 * `token`: verify a user's identify via a third-party [OAuth][] service provider. As with `anonymous`, the returned JWT will be stored client-side.
 
 [ls]:    https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage
@@ -22,7 +22,7 @@ Horizon uses [JSON Web Tokens][jwt] for user authentication, an [open industry s
 
 ## Unauthenticated
 
-The first auth type is unauthenticated. One web token is shared by all unauthenticated users. To create a connection using the 'unauthenticated' method do:
+The first auth type is unauthenticated. This creates no web token, and Horizon does no user management whatsoever. To create a connection using the 'unauthenticated' method do:
 
 ```js
 const horizon = Horizon({ authType: 'unauthenticated' });
@@ -32,13 +32,13 @@ This is the default authentication method and provides no means to separate user
 
 ## Anonymous
 
-The second auth type is anonymous. If anonymous authentication is enabled in the config, any user requesting anonymous authentication will be given a new JWT, with no other confirmation necessary. The server will create a user entry in the users table for this JWT, with no other way to authenticate as this user than by passing the JWT back. (This is done under the hood with the jwt being stored in localStorage and passed back on subsequent requests automatically).
+The second auth type is anonymous. If anonymous authentication is enabled in the config, any user requesting anonymous authentication will be given a new JWT, with no other confirmation necessary. The server will create a user entry in the users table for this token, with no other way to authenticate as this user than by passing the token back. (This is done "under the hood," with the JWT stored in localStorage and passed back automatically on subsequent requests.)
 
 ```js
 const horizon = Horizon({ authType: 'anonymous' });
 ```
 
-This type of authentication is useful when you need to differentiate users but don't want to use a popular 3rd party to authenticate them. This is essentially the means of "Creating an account" or "Signing up" for people who use your website.
+In effect, this authentication type creates a "temporary user" for use with the current session. This allows user information to be saved while that session is active, but the user has no way of reauthenticating with the same account if the token is lost. (Note that the temporary user ID is stored in the Horizon database, and must be cleaned up manually.)
 
 # Using OAuth
 
