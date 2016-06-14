@@ -415,14 +415,19 @@ The `removeAll` method must be called with an array of objects to be deleted, or
 const hz = Horizon();
 const messages = hz("messages");
 
-// get all messages from Bob and Agatha...
-var messageList = messages.findAll({from: "bob"}, {from: "agatha"}).fetch();
-
-// ...and delete them
-messages.removeAll(messageList);
-
 // delete messages with the IDs 101, 103 and 109
 messages.removeAll([101, 103, 109]);
+
+// find and delete all messages from Bob and Agatha
+// this example uses RxJS's "map" command to execute the removeAll and return
+// another observable to pass to subscribe for reporting purposes
+messages.findAll({from: 'bob'}, {from: 'agatha'}).fetch()
+    .mergeMap(messageList => messages.removeAll(messageList))
+    .subscribe({
+        next(id)   { console.log(`id ${id} was removed`) },
+        error(err) { console.error(`Error: ${err}`) },
+        complete() { console.log('All items removed successfully') }
+    });
 ```
 
 ## Collection.replace {#replace}
