@@ -554,3 +554,4 @@ The `fetch` and `watch` methods return [RxJS Observables][rjso], and make the fo
 * [share()](http://reactivex.io/rxjs/class/es6/Observable.js~Observable.html#instance-method-share)
 * [mergeMap()](http://reactivex.io/rxjs/class/es6/Observable.js~Observable.html#instance-method-mergeMap)
 * [defaultIfEmpty()](http://reactivex.io/rxjs/class/es6/Observable.js~Observable.html#instance-method-defaultIfEmpty)
+* [take()](http://reactivex.io/rxjs/class/es6/Observable.js~Observable.html#instance-method-take)
