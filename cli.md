@@ -89,7 +89,7 @@ Note that the certificate created by `create-cert` uses no local identity inform
 
 Extract the currently defined Horizon schema, including validation rules, collection and index specifications, as a TOML file. For an example of this command in practice, read the section on "Configuring rules" in [Permissions and schema enforcement][perm].
 
-[perm]: /permissions/#configuring
+[perm]: /docs/permissions/#configuring
 
 Run `hz get-schema -h` for details on options.
 
@@ -103,4 +103,4 @@ Manually create a JSON Web Token for a user, allowing user bootstrapping. This i
 
 For more details, read "Making an admin auth token" in [Permissions and schema enforcement][admin].
 
-[admin]: /permissions/#admin
+[admin]: /docs/permissions/#admin
