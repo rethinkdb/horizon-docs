@@ -12,7 +12,7 @@ active: install
 
 [ir]: http://rethinkdb.com/docs/install/
 
-Horizon is a [Node.js][njs] application. Please install the current stable versions of Node.js and npm (the Node.js package manager). Version 4.0 or higher of Node is required.
+Horizon is a [Node.js][njs] application. Please install the current stable versions of Node.js and npm (the Node.js package manager). Version 4.4 or higher of Node is required.
 
 [njs]: https://nodejs.org/
 
