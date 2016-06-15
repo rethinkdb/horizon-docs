@@ -23,4 +23,7 @@ Horizon consists of three components:
 * [Permissions](/docs/permissions): how Horizon's permissions and schema enforcement system works.
 * [Users and groups](/docs/users/): an overview of Horizon's user management system.
 * [Authentication](/docs/auth): integrating Horizon apps with Github, Twitter and other OAuth providers.
+* Running the Horizon server:
+    * [CLI](/docs/cli): running the `hz` command line tool.
+    * [Embedding](/docs/embed): using Horizon with web frameworks like Express and Koa.
 * [Configuration](/docs/configuration): all about the Horizon configuration file, `.hz/config.toml`.

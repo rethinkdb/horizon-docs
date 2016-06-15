@@ -5,6 +5,11 @@ id: permissions
 permalink: /docs/permissions/
 ---
 
+* Table of Contents
+{:toc}
+
+# The whitelist
+
 Horizon's permission system is based on a query whitelist. Any operation on a Horizon collection is disallowed by default, unless there is a rule that allows the operation.
 
 A whitelist rule has three properties that define which operations it covers:
@@ -30,7 +35,6 @@ template = "collection('messages').anyWrite()"
 
 These rules would allow users in the `authenticated` group complete read and write access to the "messages" collection. Much finer-grained control is possible; read on for more information.
 </div>
-
 
 For example the following rule allows authenticated users to read their own messages from the `messages` collection:
 
@@ -350,3 +354,39 @@ validator = """
 ```
 
 While there is no single rule that validates all results of the query, for each result there now is a matching rule for which the validator function passes.
+
+# Making an admin auth token {#admin}
+
+To log in as the admin user initially, your application will need to be bootstrapped using the [hz make-token](/cli/#make-token) command.
+
+From the directory of your Horizon application, stop the server if it's running. (If you haven't run it yet, you'll need to initialize the database; the easiest way to do that is to start in development mode with `hz serve --dev`, then stop the server.) Then run:
+
+```sh
+hz make-token admin
+```
+
+A JSON Web Token will be printed to the console. Copy that token, and create a Horizon object with it:
+
+```js
+var horizon = Horizon({
+    authType: {
+        token: "<token>",
+        storeLocally: false
+    }
+});
+horizon.connect();
+```
+
+(The `storeLocally` option controls whether the token should be preserved in the browser's local storage area; if you set it to `true`, you'll remain logged in as the admin from this browser.)
+
+The `make-token` command can be used to create a token for any user that exists in Horizon's user database. If you wished to manually create a token for a user with the ID value of '4C720BD1-2729-46BA-9213-ED84DEDE3120`, you can create the user first:
+
+```js
+horizon('users').store({id: '4C720BD1-2729-46BA-9213-ED84DEDE3120'});
+```
+
+And then get the token from the command line:
+
+```sh
+hz make-token 4C720BD1-2729-46BA-9213-ED84DEDE3120
+```

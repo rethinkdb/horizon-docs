@@ -40,7 +40,7 @@ const horizon = Horizon({ authType: 'anonymous' });
 
 In effect, this authentication type creates a "temporary user" for use with the current session. This allows user information to be saved while that session is active, but the user has no way of reauthenticating with the same account if the token is lost. (Note that the temporary user ID is stored in the Horizon database, and must be cleaned up manually.)
 
-# Using OAuth
+# Using OAuth {#oauth}
 
 Your application will need a client ID and "secret" for each OAuth provider you want to connect with. The providers Horizon currently supports are:
 
@@ -55,7 +55,7 @@ Each provider will let you register your application, and will give you the clie
 
 ## Configuring the server
 
-In order to use OAuth with Horizon, you'll need to configure a TLS certificate so you can serve assets with HTTPS, and either specify the `--key-file` and `--cert-file` options to `hz serve` or add them to the server's `.hz/config.toml` file. (See [The config.toml file][cf] for more details.) You can create a self-signed certificate with `hz create-cert`
+In order to use OAuth with Horizon, you'll need to configure a TLS certificate so you can serve assets with HTTPS, and either specify the `--key-file` and `--cert-file` options to `hz serve` or add them to the server's `.hz/config.toml` file. (See [The config.toml file][cf] for more details.) You can create a self-signed certificate with `hz create-cert`.
 
 [cf]: /docs/configuration
 
@@ -88,6 +88,10 @@ Verify the configuration by running `hz serve` and browsing to `https://localhos
 ```
 
 If instead you only see empty brackets (e.g., `{ }`), ensure you've restarted the Horizon server, and that it's using the `.hz/config.toml` file you've edited.
+
+**Note:** If your application embeds Horizon rather than using `hz serve`, you'll need to pass the OAuth endpoint to that object. Read "Configuring OAuth providers" in [Embedding Horizon][eh] for details.
+
+[eh]: /docs/embed
 
 ## Configuring the client application
 
