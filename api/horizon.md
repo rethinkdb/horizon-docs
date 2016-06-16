@@ -24,7 +24,10 @@ All arguments are optional. Pass them to `Horizon` in an object with option keys
 * `secure`: a boolean indicating whether the server should use secure websockets. Defaults to `true` if static site is served via HTTPS, `false` otherwise.
 * `path`: the path the Horizon endpoint can be found under on `host`. Defaults to `"horizon"`.
 * `lazyWrites`: a boolean indicating whether write operations should be performed in a "lazy" fashion (see below). Defaults to `false`.
-* `authType`: a string indicating the authentication method to use for your application's users, one of `"unauthenticated"`, `"anonymous"`, or `"token"`. Defaults to `"unauthenticated"`. (See [Authentication][auth].)
+* `authType`: either a string indicating the authentication method to use for your application's users, or a JSON Web Token to use for authentication. This is useful for bootstrapping the admin user, or for integrating with non-browser-based authentication methods.
+    * Valid strings are `"unauthenticated"`, `"anonymous"`, or `"token"`. Defaults to `"unauthenticated"`.
+    * To use a JWT, pass an object of the following form: `{token: <TOKEN>, storeLocally: [true|false]}`. If `storeLocally` is `true` (the default), the token will be stored in the browser's local storage; if `false`, you'll need to re-authenticate every time you create a Horizon object.
+    * See [Authentication][auth] for more information about authentication methods and token creation.
 
 ## Lazy writes
 
