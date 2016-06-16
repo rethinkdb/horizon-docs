@@ -11,8 +11,8 @@ Getting Horizon up and running using Docker is easy as singing "Row Row Row Your
 
 ### Our Docker Images
 
-We provide two Docker images currently up on Docker Hub. `horizon-dev` is for development purposes and `horizon` is for your production environment.
 
+We provide two Docker images currently up on Docker Hub. `rethinkdb/horizon-dev` is for development purposes and `rethinkdb/horizon` is for your production environment.
 Image | `horizon-dev` | `horizon`
 ------| ------------- | --------------
 `--dev`| ✅ | ❌
