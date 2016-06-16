@@ -7,12 +7,12 @@ permalink: /docker
 
 ## Using Horizon with Docker
 
-Getting Horizon up and running using Docker is easy as singing "Row Row Row Your Boat" 🚢! Using Horizon with Docker makes for a great experience where you actually only need
+Getting Horizon up and running using Docker is easy as singing "Row Row Row Your Boat" 🚢! Using Horizon with Docker makes for a great experience to quickly getting started with Horizon with only having `node` and `npm` as dependencies.
 
 ### Our Docker Images
 
+We provide two Docker images currently up on Docker Hub. `horizon-dev` is for development purposes and `horizon` is for your production environment.
 
-We provide two Docker images currently up on Docker Hub. `rethinkdb/horizon-dev` is for development purposes and `rethinkdb/horizon` is for your production environment.
 Image | `horizon-dev` | `horizon`
 ------| ------------- | --------------
 `--dev`| ✅ | ❌
