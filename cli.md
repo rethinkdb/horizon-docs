@@ -48,6 +48,9 @@ Every Horizon server requires a RethinkDB server to connect to. Use the `--conne
 * `--allow-anonymous [yes|no]` Allow anonymous users. See [Authentication][auth] for details. Default: `no`
 * `--auth PROVIDER,ID,SECRET` Enable an auth provider with the given options. E.g. `facebook,ID,SECRET`. See [Authentication][auth] for details.
 * `--auth-redirect URL` The URL to redirect to upon completing authentication. Default: `/`
+* `--access-control-allow-origin`: A host that can access auth settings in production (i.e., set the [Access-Control-Allow-Origin HTTP header][acao]). `"*"` may be specified as a wildcard. Default: `''`
+
+[acao]: https://developer.mozilla.org/en-US/docs/Web/HTTP/Access_control_CORS#Access-Control-Allow-Origin
 
 ### Development options
 
@@ -74,6 +77,7 @@ In development mode (`hz serve --dev`), the following flags are enabled by defau
 * `--allow-unauthenticated yes`
 * `--allow-anonymous yes`
 * `--serve-static ./dist`
+* `--access-control-allow-origin '*'`
 
 Development mode makes it easy to run a local Horizon instance during application development. Because permission checking is disabled and collections and indexes get automatically created, new application code can be tested without additional configuration.
 

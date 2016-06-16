@@ -33,6 +33,7 @@ port = 8181
 secure = true
 key_file = "horizon-key.pem"
 cert_file = "horizon-cert.pem"
+access_control_allow_origin = ""
 ```
 
 ## App options
@@ -91,8 +92,11 @@ secret = "0000000000000000000000000000000"
 
 If the `id` and `secret` pairs are set for a given service, that service is enabled for authentication.
 
-In addition, there are three authentication-related options that are not tied to a specific service:
+In addition, there are four authentication-related options that are not tied to a specific service:
 
 * `allow_anonymous`: issues new accounts to users without an auth provider. Default: `false`
 * `allow_unauthenticated`: allows connections that are not tied to a user id. Default: `false`
 * `auth_redirect`: specifies where users will be redirected to after login. Default: `"/"`
+* `access_control_allow_origin`: specifies a host that can access auth settings in production (i.e., set the [Access-Control-Allow-Origin HTTP header][acao]). `"*"` may be specified as a wildcard.
+
+[acao]: https://developer.mozilla.org/en-US/docs/Web/HTTP/Access_control_CORS#Access-Control-Allow-Origin
