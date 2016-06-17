@@ -18,6 +18,10 @@ Horizon uses [JSON Web Tokens][jwt] for user authentication, an [open industry s
 [ls]:    https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage
 [OAuth]: http://oauth.net
 
+You may also pass an already-created JWT to `authType`; this is useful for bootstrapping the admin user, or for integrating with non-browser-based authentication methods. Read "Making an admin auth token" in [Permissions and schema enforcement][admin] for more details.
+
+[admin]: /docs/permissions/#admin
+
 # Using local authentication
 
 ## Unauthenticated
