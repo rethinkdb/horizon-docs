@@ -23,7 +23,7 @@ Used alone, both containers require that you inject a `RETHINKDB_URI` environmen
 The development image only requires that you mount the root of your Horizon application into the container at `/usr/app`. For example:
 
 ```
-docker run -e RETHINKDB_URI=172.0.0.2:28015 -v ./:/usr/app rethinkdb/horizon-dev
+docker run -e RETHINKDB_URI=EXAMPLE_HOST:28015 -v ./:/usr/app rethinkdb/horizon-dev
 ```
 
 The production image also requires the `RETHINKDB_URI` environment variable and the mounting of the Horizon application at `/usr/app` within the container. No other opinions are made about your deployment configuration but the container is easily configurable by adding more environment variables.
