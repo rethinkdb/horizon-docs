@@ -2,7 +2,7 @@
 layout: api
 title: Collection
 id: api-collection
-permalink: /api/collection
+permalink: /api/collection/
 ---
 
 The `Collection` object represents a group of related documents, and is backed by a RethinkDB table. Documents in a `Collection` are identified by a unique key stored in the `id` field.
@@ -49,15 +49,15 @@ messages.order("id").findAll({from: "bob"}).fetch().subscribe(msg => console.log
 
 ## Collection.fetch {#fetch}
 
-Return a [RxJS Observable](http://reactivex.io/rxjs/class/es6/Observable.js~Observable.html) containing the query result set.
+Return a [RxJS Observable][rjso] containing the query result set as an array.
+
+[rjso]: http://reactivex.io/rxjs/class/es6/Observable.js~Observable.html
 
 ```js
 Collection.fetch()
 ```
 
 Unlike [watch](#watch), the `fetch` command does not update in real time, but rather returns a "snapshot" of the result set as it exists when `fetch` is executed. The `fetch` or `watch` command ends a Horizon query.
-
-The Observable returned by `fetch` or `watch` may be iterated through with [subscribe](#subscribe) or `forEach`, or converted to an array with `toArray`.
 
 ```js
 const hz = Horizon();
@@ -81,7 +81,7 @@ Collection.watch().subscribe(changefeedFunction, errorFunction)
 
 This method is not actually part of the `Collection` class, but is instead a [RxJS method](http://reactivex.io/rxjs/class/es6/Observable.js~Observable.html#instance-method-subscribe).
 
-When `subscribe` is chained off a read function (i.e., [fetch](#fetch)) it takes three callback functions:
+When `subscribe` is chained off a read function (i.e., [watch](#watch)) it takes three callback functions:
 
 * `next(result)`: a callback that receives a single document as the Collection is iterated through
 * `error(error)`: a callback that receives error information if an error occurs
@@ -96,6 +96,8 @@ hz("messages").fetch().subscribe(
     () => console.log('Results fetched')
 );
 ```
+
+Note that when `subscribe` is chained after [fetch](#fetch), the `next` callback will receive a single array containing the entire result set at once.
 
 When chained off a write function (e.g., [store](#store), [upsert](#upsert)), it takes two callback functions:
 
@@ -136,7 +138,8 @@ Read the documentation for `watch` for more details on returned changefeed dowcu
 ## Collection.watch {#watch}
 
 
-Convert a query into a [changefeed][feed]. This returns an Observable which receives real-time updates of the query's result set.
+Convert a query into a [changefeed][feed]. This returns a [RxJS Observable][rjso] containing the query result set.
+
 
 [feed]: https://rethinkdb.com/docs/changefeeds/javascript/
 
@@ -271,19 +274,34 @@ Collection.find(id | object)
 
 The `find` method may be called with either a key-value pair to match against (e.g., `{name: "agatha"}` or an `id` value to look up.
 
-```
+```js
 const hz = Horizon();
 const messages = hz("messages");
 
 // get the first message from Bob
-messages.find({from: "bob"});
+messages.find({from: "bob"}).fetch();
 
 // get the message with ID 101
-messages.find({id: 101});
+messages.find({id: 101}).fetch();
 
 // because we are fetching by the document ID, we can use a shorthand
-messages.find(101);
+messages.find(101).fetch();
 ```
+
+If no matching document exists, no result will be returned and no error will thrown. To explicitly check for this condition, use RxJS's [defaultIfEmpty][die] operator.
+
+```js
+messages.find(id).fetch().defaultIfEmpty().subscribe(
+    (msg) => {
+        if (msg == null) {
+            console.log('Message not found');
+            return;
+        }
+    }
+);
+```
+
+[die]: http://reactivex.io/documentation/operators/defaultifempty.html
 
 ## Collection.findAll {#findall}
 
@@ -300,10 +318,10 @@ const hz = Horizon();
 const messages = hz("messages");
 
 // get all messages from Bob, Agatha and Dave
-messages.findAll({from: "bob"}, {from: "agatha"}, {from: "dave"});
+var messageList = messages.findAll({from: "bob"}, {from: "agatha"}, {from: "dave"}).fetch();
 
 // get all messages from Jane and all messages with a high priority
-messages.findAll({from: "jane"}, {priority: "high"});
+var messageList = messages.findAll({from: "jane"}, {priority: "high"}).fetch();
 ```
 
 ## Collection.limit {#limit}
@@ -321,7 +339,7 @@ const hz = Horizon();
 const users = hz("users");
 
 // get the 10 most prolific posters
-users.order("postCount", "descending").limit(10);
+users.order("postCount", "descending").limit(10).fetch();
 ```
 
 ## Collection.order {#order}
@@ -344,13 +362,13 @@ const hz = Horizon();
 const messages = hz("messages");
 
 // get all messages, ordered ascending by ID value
-messages.order("id", "ascending");
+messages.order("id", "ascending").fetch();
 
 // "ascending" is the default, so it can be left out
 messages.order("id");
 
 // get all messages ordered by time, most recent first
-messages.order("time", "descending");
+messages.order("time", "descending").fetch();
 ```
 
 ## Collection.remove {#remove}
@@ -358,7 +376,7 @@ messages.order("time", "descending");
 Delete a single document from a Collection.
 
 ```js
-Collection.remove(integer | object)
+Collection.remove(id | object)
 ```
 
 The `remove` method may be called with either an object to be deleted or an `id` value. In the object case, the object must include an `id` key.
@@ -368,7 +386,10 @@ const hz = Horizon();
 const messages = hz("messages");
 
 // get the message with an ID of 101
-var messageObject = messages.find(101);
+var messageObject;
+messages.find(101).fetch().subscribe(
+    (result) => { messageObject = result; }
+);
 
 // delete that object
 messages.remove(messageObject);
@@ -385,7 +406,7 @@ messages.remove(101);
 Delete multiple documents from a Collection.
 
 ```js
-Collection.removeAll([integer, integer, ...] | [object, object, ...])
+Collection.removeAll([id, id, ...] | [object, object, ...])
 ```
 
 The `removeAll` method must be called with an array of objects to be deleted, or `id` values to remove. The objects must have `id` keys. You can mix `id` values and objects within the array.
@@ -394,14 +415,19 @@ The `removeAll` method must be called with an array of objects to be deleted, or
 const hz = Horizon();
 const messages = hz("messages");
 
-// get all messages from Bob and Agatha...
-var messageList = messages.findAll({from: "bob"}, {from: "agatha"});
-
-// ...and delete them
-messages.removeAll(messageList);
-
 // delete messages with the IDs 101, 103 and 109
 messages.removeAll([101, 103, 109]);
+
+// find and delete all messages from Bob and Agatha
+// this example uses RxJS's "map" command to execute the removeAll and return
+// another observable to pass to subscribe for reporting purposes
+messages.findAll({from: 'bob'}, {from: 'agatha'}).fetch()
+    .mergeMap(messageList => messages.removeAll(messageList))
+    .subscribe({
+        next(id)   { console.log(`id ${id} was removed`) },
+        error(err) { console.error(`Error: ${err}`) },
+        complete() { console.log('All items removed successfully') }
+    });
 ```
 
 ## Collection.replace {#replace}
@@ -516,3 +542,21 @@ messages.upsert([
     }
 ]);
 ```
+
+## RxJS Observable methods and operators
+
+The `fetch` and `watch` methods return [RxJS Observables][rjso], and make the following methods available:
+
+* [publishReplay()](http://reactivex.io/rxjs/class/es6/Observable.js~Observable.html#instance-method-publishReplay)
+* [scan()](http://reactivex.io/rxjs/class/es6/Observable.js~Observable.html#instance-method-scan)
+* [filter()](http://reactivex.io/rxjs/class/es6/Observable.js~Observable.html#instance-method-filter)
+* [map()](http://reactivex.io/rxjs/class/es6/Observable.js~Observable.html#instance-method-map)
+* [toArray()](http://reactivex.io/rxjs/class/es6/Observable.js~Observable.html#instance-method-toArray)
+* [do()](http://reactivex.io/rxjs/class/es6/Observable.js~Observable.html#instance-method-do)
+* [catch()](http://reactivex.io/rxjs/class/es6/Observable.js~Observable.html#instance-method-catch)
+* [concatMap()](http://reactivex.io/rxjs/class/es6/Observable.js~Observable.html#instance-method-concatMap)
+* [filter()](http://reactivex.io/rxjs/class/es6/Observable.js~Observable.html#instance-method-filter)
+* [share()](http://reactivex.io/rxjs/class/es6/Observable.js~Observable.html#instance-method-share)
+* [mergeMap()](http://reactivex.io/rxjs/class/es6/Observable.js~Observable.html#instance-method-mergeMap)
+* [defaultIfEmpty()](http://reactivex.io/rxjs/class/es6/Observable.js~Observable.html#instance-method-defaultIfEmpty)
+* [take()](http://reactivex.io/rxjs/class/es6/Observable.js~Observable.html#instance-method-take)

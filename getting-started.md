@@ -2,7 +2,8 @@
 layout: documentation
 title: Getting started with Horizon
 id: getting-started
-permalink: /docs/getting-started
+permalink: /docs/getting-started/
+hero_image: /images/docs/getting-started.png
 ---
 
 If you haven't installed Horizon, do so now. (Read the [Installation instructions][install] for more details.)
@@ -25,12 +26,19 @@ Interactions with Horizon are performed with the `hz` application. `hz` has a nu
 
 Let's create a new Horizon application. Go to a directory you'd like to install this application into and type:
 
-    hz init example-app
+    hz init example_app
 
-This will create the `example-app` directory and install a few files into it. (If you run `hz init` without giving it a directory, it will install these files into the current directory.)
+This will create the `example_app` directory and install a few files into it. (If you run `hz init` without giving it a directory, it will install these files into the current directory.)
 
-<div style="margin:0 auto;text-align:center"><img src="images/hz-dirs.png" width="351" height="181" /></div>
-
+```
+$ tree example_app
+example_app/
+├── .hz
+│   └── config.toml
+├── dist
+│   └── index.html
+└── src
+```
 Here's what these files and directories are:
 
 * `dist` is for static files. You can create files directly here, or use it as the output directory for a build system of your choice.
@@ -58,19 +66,19 @@ Passing the `--dev` flag to `hz serve` puts it in development mode, which makes 
 * A RethinkDB server is automatically started (`--start-rethinkdb`). This server is specifically for this Horizon application, and will create a `rethinkdb_data` folder in the working directory when started.
 * Horizon is served in "insecure mode," without requiring SSL/TLS (`--secure no`).
 * The permissions system is disabled (`--permissions no`).
-* Tables and indexes will automatically be created if they don't exist (`--auto-create-table` and `--auto-create-index`).
+* Tables and indexes will automatically be created if they don't exist (`--auto-create-collection` and `--auto-create-index`).
 * Static files will be served from the `dist` directory (`--serve-static ./dist`).
 
 You can find the complete list of [command line flags][server] for `hz serve` in the documentation for the [Horizon server][server].
 
-In production (i.e., without the `--dev` flag), you'll use the `.hz/config.toml` file to set these and other options. See [Configuring Horizon][configuration] for details.
+In production (i.e., without the `--dev` flag), you'll use the `.hz/config.toml` file to set these and other options. See [Configuring Horizon][config-file] for details.
 
 [server]: /docs/server
 [config-file]: /docs/configuration
 
 ## Talk to Horizon
 
-Load the `index.html` file in `example-app`. It's pretty short:
+Load the `index.html` file in `example_app`. It's pretty short:
 
 ```html
 <!doctype html>
@@ -303,16 +311,27 @@ While Horizon serves static files from the `dist` folder by default, you can use
 * Use `horizon.js` served by the Horizon server
 * Install `@horizon/client` as a dependency in your project
 
-We recommend the first option, as that will prevent any possibly mismatches between the client library version and the Horizon server. However, if you're using [Webpack][] or a similar build setup, or requesting the `.js` library at load time isn't desirable, just add the client library as an NPM dependency (`npm install @horizon/client`).
-
-In your application, you'll need to include the Horizon client file, and specify the Horizon port number when initializing the connection.
+We recommend the first option, as that will prevent any possibly mismatches between the client library version and the Horizon server. In your application, you'll need to include the Horizon client file, and specify the Horizon port number when initializing the connection.
 
 ```html
-<script src="localhost:8181/horizon/horizon.js"></script>
+<script src="/horizon/horizon.js"></script>
+
+<script>
+// Specify the host property for initializing the Horizon connection
+const horizon = Horizon({host: 'localhost:8181'});
+</script>
+```
+
+However, if you're using [Webpack][] or a similar build setup, or requesting the `.js` library at load time isn't desirable, just add the client library as an NPM dependency (`npm install @horizon/client`).
+
+```js
+import Horizon from '@horizon/client';
 
 // Specify the host property for initializing the Horizon connection
 const horizon = Horizon({host: 'localhost:8181'});
 ```
+
+[webpack]: https://webpack.github.io/
 
 ## Further reading
 

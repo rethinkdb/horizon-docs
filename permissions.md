@@ -2,8 +2,13 @@
 layout: documentation
 title: Permissions and schema enforcement
 id: permissions
-permalink: /docs/permissions
+permalink: /docs/permissions/
 ---
+
+* Table of Contents
+{:toc}
+
+# The whitelist
 
 Horizon's permission system is based on a query whitelist. Any operation on a Horizon collection is disallowed by default, unless there is a rule that allows the operation.
 
@@ -30,7 +35,6 @@ template = "collection('messages').anyWrite()"
 
 These rules would allow users in the `authenticated` group complete read and write access to the "messages" collection. Much finer-grained control is possible; read on for more information.
 </div>
-
 
 For example the following rule allows authenticated users to read their own messages from the `messages` collection:
 
@@ -139,22 +143,20 @@ A basic rule with a query template looks like this:
 template = "collection('public_messages')"
 ```
 
-The `list_messages` rule allows operations as follows:
+The `list_messages` rule allows read operations on the `public_messages` collection, such as:
 
 ```js
-// This is ok:
-horizon('public_messages')
-
-// These are not ok:
-horizon('public_messages').findAll({type: "announcement"})
-horizon('public_messages').order("year")
-horizon('public_messages').order("year").above({year: 2015})
+horizon('public_messages').fetch()
+horizon('public_messages').watch()
+horizon('public_messages').findAll({type: "announcement"}).fetch()
+horizon('public_messages').order("year").fetch()
+horizon('public_messages').order("year").above({year: 2015}).fetch()
 ```
 
 You can specify additional operations behind the collection:
 
 ```toml
-# Allow listing public messages ordered by year
+# Specifically allow listing public messages ordered by year
 [groups.default.rules.list_messages_by_year]
 template = "collection('public_messages').order('year')"
 ```
@@ -193,28 +195,26 @@ template = "collection('messages').findAll({type: any('shared', 'announcement')}
 
 The `anyRead()` placeholder matches any read operation or chain of read operations that can be performed on a collection.
 
-It is often useful to allow additional read operations behind a specified template, since those operations can only further restrict the set of returned results, but never allow access to additional results. We can adapt the example rule from above to allow additional operations:
+Horizon implicitly adds `anyRead()` to the end of any read template, unless the template ends in `fetch()` or `watch()`. This is useful because adding additional read operations can only further restrict the set of returned results, but never allow access to additional results.
+
+To allow only a specific read query, just finish the template off with `fetch()` or `watch()`:
 
 ```toml
 [groups.default.rules.list_messages_any]
-template = "collection('public_messages').anyRead()"
+template = "collection('public_messages').fetch()"
 ```
 
-Now all of these are allowed:
+This restricts the allowed queries as follows:
 
 ```js
-// These are all ok now:
-horizon('public_messages')
-horizon('public_messages').findAll({type: "announcement"})
-horizon('public_messages').order("year")
-horizon('public_messages').order("year").above({year: 2015})
-```
+// This is still ok:
+horizon('public_messages').fetch()
 
-`anyRead()` is not limited to whole collections. The following rule allows users to read their own messages, allowing them to add further restrictions or ordering constraints on the results:
-
-```toml
-[groups.authenticated.rules.read_own_messages]
-template = "collection('messages').findAll({owner: userId()}).anyRead()"
+// These queries no longer match the template:
+horizon('public_messages').watch()
+horizon('public_messages').findAll({type: "announcement"}).fetch()
+horizon('public_messages').order("year").fetch()
+horizon('public_messages').order("year").above({year: 2015}).fetch()
 ```
 
 ### `anyWrite()` {#template-placeholders-anywrite}
@@ -315,7 +315,7 @@ We can use the following rule to enable reading only odd integers from this coll
 
 ```toml
 [groups.default.rules.read_odd]
-template = "collection('integers').anyRead()"
+template = "collection('integers')"
 validator = """
   (context, value) => {
     return value.id % 2 == 1;
@@ -345,7 +345,7 @@ Adding a second whitelist rule that allows reading even integers will make the q
 
 ```toml
 [groups.default.rules.read_even]
-template = "collection('integers').anyRead()"
+template = "collection('integers')"
 validator = """
   (context, value) => {
     return value.id % 2 == 0;
@@ -354,3 +354,39 @@ validator = """
 ```
 
 While there is no single rule that validates all results of the query, for each result there now is a matching rule for which the validator function passes.
+
+# Making an admin auth token {#admin}
+
+To log in as the admin user initially, your application will need to be bootstrapped using the [hz make-token](/cli/#make-token) command.
+
+From the directory of your Horizon application, stop the server if it's running. (If you haven't run it yet, you'll need to initialize the database; the easiest way to do that is to start in development mode with `hz serve --dev`, then stop the server.) Then run:
+
+```sh
+hz make-token admin
+```
+
+A JSON Web Token will be printed to the console. Copy that token, and create a Horizon object with it:
+
+```js
+var horizon = Horizon({
+    authType: {
+        token: "<token>",
+        storeLocally: false
+    }
+});
+horizon.connect();
+```
+
+(The `storeLocally` option controls whether the token should be preserved in the browser's local storage area; if you set it to `true`, you'll remain logged in as the admin from this browser.)
+
+The `make-token` command can be used to create a token for any user that exists in Horizon's user database. If you wished to manually create a token for a user with the ID value of '4C720BD1-2729-46BA-9213-ED84DEDE3120`, you can create the user first:
+
+```js
+horizon('users').store({id: '4C720BD1-2729-46BA-9213-ED84DEDE3120'});
+```
+
+And then get the token from the command line:
+
+```sh
+hz make-token 4C720BD1-2729-46BA-9213-ED84DEDE3120
+```
