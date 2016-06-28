@@ -228,81 +228,120 @@ To learn more about how Horizon works with React, check out the [complete Horizo
 
 ## Putting it all together
 
-Now that we have the basics covered, let's pretend we're building a simple chat application where the messages are displayed in ascending order.
+Now that we have the basics covered, let's pretend we're building a simple chat application where the messages are displayed in ascending order. We now have to get a little opinionated and choose a front-end framework. For the purposes of this quick demo, we'll use Vue.js. 
+
+The first step is to initialize our Horizon app directory:
+
+```sh
+$ hz init chat-app
+Created new project directory chat-app
+Created chat-app/src directory
+Created chat-app/dist directory
+Created chat-app/dist/index.html example
+Created chat-app/.hz directory
+Created chat-app/.hz/config.toml
+```
+
+Now, we'll `cd` into the `chat-app` directory and start putting files into `dist`, the automatically-created static file directory. All files in here will be served by default in Horizon.
+
+Let's start first with `app.js`. The key parts here are listening to the stream of chat messages with a `.watch()` query, as well as being able to input a new message with the `.store()` query. Here's what your `app.js` should look like: 
 
 ```js
-let chats = [];
+const horizon = new Horizon()
+const messages = horizon('messages')
 
-// Retrieve all messages from the server
-const retrieveMessages = () => {
-  chat.order('datetime')
-  // fetch all results as an array
-  .fetch()
-  // Retrieval successful, update our model
-  .subscribe((newChats) => {
-      chats = chats.concat(newChats);
-    },
-    // Error handler
-    error => console.log(error),
-    // onCompleted handler
-    () => console.log('All results received!')
-    )
-};
-
-// Retrieve an single item by id
-const retrieveMessage = id => {
-  chat.find(id).fetch()
-    // Retrieval successful
-    .subscribe(result => {
-      chats.push(result);
-    },
-    // Error occurred
-    error => console.log(error))
-};
-
-// Store new item
-const storeMessage = (message) => {
-   chat.store(message)
-    .subscribe(
-      // Returns id of saved objects
-      result => console.log(result),
-      // Returns server error message
+const app = new Vue({
+  el: '#app',
+  template: `
+    <div>
+      <div id="chatMessages">
+        <ul>
+          <li v-for="message in messages">
+            {{ message.text }}
+          </li>
+        </ul>
+      </div>
+      <div id="input">
+        <input @keyup.enter="sendMessage" ></input>
+      </div>
+    </div>
+  `,
+  data: {
+    // Our dynamic list of chat messages
+    messages: []
+  },
+  created() {
+    // Subscribe to messages
+    messages.order('datetime', 'descending').limit(10).watch()
+    .subscribe(allMessages => {
+        // Make a copy of the array and reverse it, so newest images push into
+        // the messages feed from the bottom of the rendered list. (Otherwise
+        // they appear initially at the top and move down)
+        this.messages = [...allMessages].reverse()
+      },
+      // When error occurs on server
       error => console.log(error)
     )
-};
 
-// Replace item that has equal `id` field
-//  or insert if it doesn't exist.
-const updateMessage = message => {
-  chat.replace(message);
-};
+    // Triggers when client successfully connects to server
+    horizon.onReady().subscribe(
+      () => console.log("Connected to Horizon server")
+    )
 
-// Remove item from collection
-const deleteMessage = message => {
-  chat.remove(message);
-};
-
-chat.watch().subscribe(chats => {
-    renderChats(allChats)
+    // Triggers when disconnected from server
+    horizon.onDisconnected().subscribe(
+      () => console.log("Disconnected from Horizon server")
+    )
   },
-
-  // When error occurs on server
-  error => console.log(error),
-)
+  methods: {
+    sendMessage(event) {
+      messages.store({
+        text: event.target.value, // Current value inside <input> tag
+        datetime: new Date() // Warning clock skew!
+      }).subscribe(
+          // Returns id of saved objects
+          result => console.log(result),
+          // Returns server error message
+          error => console.log(error)
+        )
+        // Clear input for next message
+        event.target.value = ''
+    }
+  }
+})
 ```
 
-You can also get notifications when the client connects and disconnects from the server:
+Now, we'll need to replace the boilerplate in the `index.html` file with code that loads Horizon, Vue.js, and our application.
 
-```js
-// Triggers when client successfully connects to server
-horizon.onReady().subscribe(() => console.log("Connected to Horizon server"))
-
-// Triggers when disconnected from server
-horizon.onDisconnected().subscribe(() => console.log("Disconnected from Horizon server"))
+```html
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="/horizon/horizon.js"></script>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.25/vue.js"></script>
+    <script type="text/javascript" src="/app.js"></script>
+  </body>
+</html>
 ```
 
-From here, you could take any framework and add these functions to create a realtime chat application
-without writing a single line of backend code!
+So your app directory should look like this:
+
+```
+chat-app
+├── .hz
+│   └── config.toml
+├── dist
+│   ├── app.js
+│   ├── index.html
+└── src
+```
+
+You can now run `hz serve --dev` and load your working chat application at <http://localhost:8181>. Open it in multiple browser tabs to watch the application update instantly! 
+
+From here, you could take any framework and add these functions to create a realtime chat application without writing a single line of backend code!
 
 ## Integrating Horizon with an existing application
 
