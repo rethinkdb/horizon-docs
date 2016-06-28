@@ -220,97 +220,100 @@ To learn more about how Horizon works with React, check out the [complete Horizo
 
 ## Putting it all together
 
-Now that we have the basics covered, let's pretend we're building a simple chat application where the messages are displayed in ascending order. We now have to get a little opinionated and choose a front-end framework. For the purposes of this quick demo I'm going to use Vue.js and in the end we don't even need all the functions we wrote to have fully functioning chat. 
+Now that we have the basics covered, let's pretend we're building a simple chat application where the messages are displayed in ascending order. We now have to get a little opinionated and choose a front-end framework. For the purposes of this quick demo, we'll use Vue.js. 
 
-The first step is to initialize our Horizon app directory. To do this, we run `hz init app`, where you will see output like this:
+The first step is to initialize our Horizon app directory:
 
 ```sh
-$ hz init app
-Created new project directory app
-Created app/src directory
-Created app/dist directory
-Created app/dist/index.html example
-Created app/.hz directory
-Created app/.hz/config.toml
+$ hz init chat-app
+Created new project directory chat-app
+Created chat-app/src directory
+Created chat-app/dist directory
+Created chat-app/dist/index.html example
+Created chat-app/.hz directory
+Created chat-app/.hz/config.toml
 ```
 
-We now want to `cd` into the `app` directory and start putting files into the automatically created `dist` directory. All files in here will be served by default in Horizon. Let's start first with `app.js`. The key parts here are listening to the stream of chat messages with a `.watch()` query, as well as being able to input a new message with the `.store()` query. Here's what your `app.js` should look like: 
+Now, we'll `cd` into the `chat-app` directory and start putting files into `dist`, the automatically-created static file directory. All files in here will be served by default in Horizon.
+
+Let's start first with `app.js`. The key parts here are listening to the stream of chat messages with a `.watch()` query, as well as being able to input a new message with the `.store()` query. Here's what your `app.js` should look like: 
 
 ```js
-// app.js
 const horizon = new Horizon()
 const messages = horizon('messages')
 
 const app = new Vue({
-	el: '#app',
-	template: `
-		<div>
-			<div id="chatMessages">
-				<ul>
-					<li v-for="message in messages">
-						{{ message.text }}
-					</li>
-				</ul>
-			</div>
-			<div id="input">
-				<input @keyup.enter="sendMessage" ></input>
-			</div>
-		</div>
-	`,
-	data: {
-		messages: [] // Our dynamic list of chat messages
-	},
-	created() {
+  el: '#app',
+  template: `
+    <div>
+      <div id="chatMessages">
+        <ul>
+          <li v-for="message in messages">
+            {{ message.text }}
+          </li>
+        </ul>
+      </div>
+      <div id="input">
+        <input @keyup.enter="sendMessage" ></input>
+      </div>
+    </div>
+  `,
+  data: {
+    // Our dynamic list of chat messages
+    messages: []
+  },
+  created() {
+    // Subscribe to messages
+    messages.order('datetime', 'descending').limit(10).watch()
+    .subscribe(allMessages => {
+        // Make a copy of the array and reverse it, so newest images push into
+        // the messages feed from the bottom of the rendered list. (Otherwise
+        // they appear initially at the top and move down)
+        this.messages = [...allMessages].reverse()
+      },
+      // When error occurs on server
+      error => console.log(error)
+    )
 
-		// Subscribe to messages and update `this.messages` when new ones are added
-		messages.order('datetime', 'descending').limit(10).watch().subscribe(allMessages => {
-			// Make a copy of the array and reverse it, so newest images push into the messages
-			//  feed from the bottom of the rendered list. (Otherwise they appear initially at the top
-			//  and move down)
- 	   		this.messages = [...allMessages].reverse()
-  		},
-  		// When error occurs on server
-		  error => console.log(error)
-		)
+    // Triggers when client successfully connects to server
+    horizon.onReady().subscribe(
+      () => console.log("Connected to Horizon server")
+    )
 
-		// Triggers when client successfully connects to server
-		horizon.onReady().subscribe(() => console.log("Connected to Horizon server"))
-
-		// Triggers when disconnected from server
-		horizon.onDisconnected().subscribe(() => console.log("Disconnected from Horizon server"))
-	},
-	methods: {
-		sendMessage(event){
-			messages.store({
-				text: event.target.value, // Current value inside <input> tag
-				datetime: new Date() // Warning clock skew!
-			}).subscribe(
-		      // Returns id of saved objects
-   			  result => console.log(result),
-	   		  // Returns server error message
-		      error => console.log(error)
-  			)
-  			// Clear input for next message
-  			event.target.value = ''
-		}
-	}
-
+    // Triggers when disconnected from server
+    horizon.onDisconnected().subscribe(
+      () => console.log("Disconnected from Horizon server")
+    )
+  },
+  methods: {
+    sendMessage(event) {
+      messages.store({
+        text: event.target.value, // Current value inside <input> tag
+        datetime: new Date() // Warning clock skew!
+      }).subscribe(
+          // Returns id of saved objects
+          result => console.log(result),
+          // Returns server error message
+          error => console.log(error)
+        )
+        // Clear input for next message
+        event.target.value = ''
+    }
+  }
 })
-
 ```
 
-> By default there's some boilerplate in the `index.html` file, you can test this works by running `hz serve --dev` at the root of the `app` directory. After you see the "app works" message marquee across the screen, you can move to the next step.
-
-Now the `app.js` file expects an `html` file that has an element with an id of `app`, this looks like this:
+Now, we'll need to replace the boilerplate in the `index.html` file with code that loads Horizon, Vue.js, and our application.
 
 ```html
-<!-- index.html -->
+<!DOCTYPE html>
 <html>
-  <head></head>
+  <head>
+    <script src="/horizon/horizon.js"></script>
+  </head>
   <body>
-  	 <div id="app"></div>
-     <script type="text/javascript" src="/horizon/horizon.js"></script>
-  	 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.25/vue.js"></script>
+    <div id="app"></div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.25/vue.js"></script>
     <script type="text/javascript" src="/app.js"></script>
   </body>
 </html>
@@ -318,9 +321,8 @@ Now the `app.js` file expects an `html` file that has an element with an id of `
 
 So your app directory should look like this:
 
-```sh
-$ tree -aL 2
-.
+```
+chat-app
 ├── .hz
 │   └── config.toml
 ├── dist
@@ -329,10 +331,9 @@ $ tree -aL 2
 └── src
 ```
 
-You can now run `hz serve --dev` and load your working chat application at <a href="http://localhost:8181">`localhost:8181`</a>. Open it in multiple browser tabs to watch the application update instantly! 
+You can now run `hz serve --dev` and load your working chat application at <http://localhost:8181>. Open it in multiple browser tabs to watch the application update instantly! 
 
-From here, you could take any framework and add these functions to create a realtime chat application
-without writing a single line of backend code!
+From here, you could take any framework and add these functions to create a realtime chat application without writing a single line of backend code!
 
 ## Integrating Horizon with an existing application
 
