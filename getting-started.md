@@ -238,37 +238,41 @@ We now want to `cd` into the `app` directory and start putting files into the au
 
 ```js
 // app.js
+const horizon = new Horizon()
+const messages = horizon('messages')
+
 const app = new Vue({
 	el: '#app',
 	template: `
-		<div id="chatMessages">
-			<ul>
-				<li v-for="message in messages">
-					{{ message }}
-				</li>
-			</ul>
-		</div>
-		<div id="input">
-			<input id="messageInput" @keyup.enter="sendMessage" ></input>
+		<div>
+			<div id="chatMessages">
+				<ul>
+					<li v-for="message in messages">
+						{{ message.text }}
+					</li>
+				</ul>
+			</div>
+			<div id="input">
+				<input @keyup.enter="sendMessage" ></input>
+			</div>
 		</div>
 	`,
 	data: {
-		messages = []; // Our dynamic list of chat messages
+		messages: [] // Our dynamic list of chat messages
 	},
 	created() {
-	
+
 		// Subscribe to messages and update `this.messages` when new ones are added
-		chat.order('datetime', 'descending').limit(10).watch().subscribe(allMessages => {
+		messages.order('datetime', 'descending').limit(10).watch().subscribe(allMessages => {
 			// Make a copy of the array and reverse it, so newest images push into the messages
 			//  feed from the bottom of the rendered list. (Otherwise they appear initially at the top
 			//  and move down)
  	   		this.messages = [...allMessages].reverse()
   		},
-
   		// When error occurs on server
-		  error => console.log(error),
+		  error => console.log(error)
 		)
-		
+
 		// Triggers when client successfully connects to server
 		horizon.onReady().subscribe(() => console.log("Connected to Horizon server"))
 
@@ -277,22 +281,22 @@ const app = new Vue({
 	},
 	methods: {
 		sendMessage(event){
-			chats.store({
+			messages.store({
 				text: event.target.value, // Current value inside <input> tag
-				datetime: new Date() // Warning clock skew! 
+				datetime: new Date() // Warning clock skew!
 			}).subscribe(
 		      // Returns id of saved objects
-   			   result => console.log(result),
-	   		   // Returns server error message
+   			  result => console.log(result),
+	   		  // Returns server error message
 		      error => console.log(error)
   			)
-  			
   			// Clear input for next message
   			event.target.value = ''
 		}
 	}
-	
+
 })
+
 ```
 
 > By default there's some boilerplate in the `index.html` file, you can test this works by running `hz serve --dev` at the root of the `app` directory. After you see the "app works" message marquee across the screen, you can move to the next step.
@@ -301,11 +305,11 @@ Now the `app.js` file expects an `html` file that has an element with an id of `
 
 ```html
 <!-- index.html -->
-<!DOCTYPE html>
 <html>
   <head></head>
   <body>
   	 <div id="app"></div>
+     <script type="text/javascript" src="/horizon/horizon.js"></script>
   	 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.25/vue.js"></script>
     <script type="text/javascript" src="/app.js"></script>
   </body>
