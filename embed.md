@@ -21,22 +21,25 @@ const express = require('express');
 const horizon = require('@horizon/server');
 
 const app = express();
-const http_server = app.listen(8181);
-const options = { auth: { token_secret: 'my_super_secret_secret' } };
-const horizon_server = horizon(http_server, options);
+const httpServer = app.listen(8181);
+const options = {
+    project_name: 'myProject',
+    auth: { token_secret: 'my_super_secret_secret' }
+};
+const horizonServer = horizon(httpServer, options);
 
 console.log('Listening on port 8181.');
 ```
 
-Express and Horizon are required, and Express is instantiated with `app.listen()`. Then the resulting `http_server` object is passed to `horizon` along with an option object. Options that can be passed to the Horizon server constructor are identical to the similarly-named options that can be defined in the [configuration file][cf], with the same defaults:
+Express and Horizon are required, and Express is instantiated with `app.listen()`. Then the resulting `httpServer` object is passed to `horizon` along with an option object. Options that can be passed to the Horizon server constructor are identical to the similarly-named options that can be defined in the [configuration file][cf], with the same defaults:
 
-* `project_name`
+* `project_name`: `'horizon'`
 * `rdb_host`: `'localhost'`
 * `rdb_port`: `28015`
 * `auto_create_collection`: `false`
 * `auto_create_index`: `false`
 * `permissions`: `true`
-* `path`: `'/horizon;`
+* `path`: `'/horizon'`
 * `auth`:
     * `success_redirect`: `'/'`
     * `failure_redirect`: `'/'`
@@ -61,10 +64,10 @@ OAuth endpoints cannot be set up through the options passed to the Horizon serve
 
 ```js
 // ... initialization code as above for Express
-const horizon_server = horizon(http_server, options);
+const horizonServer = horizon(httpServer, options);
 
-horizon_server.add_auth_provider(
-    horizon_instance.auth.github,
+horizonServer.add_auth_provider(
+    horizon.auth.github,
     { id: 'id', secret: 'secret', path: 'github' }
 );
 ```
@@ -87,32 +90,32 @@ const https = require('https');
 
 // Attach the horizon server to two http servers
 // one on [::]:8181 over HTTPS and one on 127.0.0.1:8282 over HTTP
-const on_http_request = (req, res) => {
+const onHttpRequest = (req, res) => {
     res.writeHead(404);
     res.end('File not found.');
 };
 
-const public_server = https.createServer({
+const publicServer = https.createServer({
     key: fs.readFileSync('key.pem'),
     cert: fs.readFileSync('cert.pem'),
-}, on_http_request);
+}, onHttpRequest);
 
-const loopback_server = http.createServer(on_http_request);
+const loopbackServer = http.createServer(on_http_request);
 
-public_server.listen(8181);
-loopback_server.listen(8282, '127.0.0.1');
+publicServer.listen(8181);
+loopbackServer.listen(8282, '127.0.0.1');
 
-const horizon_server = horizon([public_server, loopback_server], {
-    project_name: 'foo',
+const horizonServer = horizon([publicServer, loopbackServer], {
+    project_name: 'myProjectName',
     auth: {       
-      token_secret: 'bar',
+      token_secret: 'foo-bar',
       allow_anonymous: true,
       allow_unauthenticated: true,
     },
 });
 
 // Add Twitch authentication
-horizon_server.add_auth_provider(horizon.auth.twitch, {
+horizonServer.add_auth_provider(horizon.auth.twitch, {
     path: 'twitch',
     id: '0000000000000000000000000000000',
     secret: '0000000000000000000000000000000',
@@ -120,8 +123,8 @@ horizon_server.add_auth_provider(horizon.auth.twitch, {
 
 // Shut down the server after 60 seconds
 setTimeout(() => {
-    horizon_server.close();
-    public_server.close();
-    loopback_server.close();
+    horizonServer.close();
+    publicServer.close();
+    loopbackServer.close();
 }, 60000);
 ```
