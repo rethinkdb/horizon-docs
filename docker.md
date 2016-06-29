@@ -108,7 +108,7 @@ horizon:
 
 Instead of adding environment variables, you could modify the `command` proprety to add the equivalent `hz serve` flags. We think using the variables keeps the file more readable.
 
-#### Starting it up
+### Starting it up
 
 You can now run `docker-compose up`, and after downloading the `rethinkdb` and `rethinkdb/horizon` Docker images, your application should now be running and secured with TLS (look for the green lock next to the URL in your browser). You can daemonize this setup by adding `-d` like so - `docker-compose up -d`.
 
