@@ -246,6 +246,7 @@ Now, we'll `cd` into the `chat-app` directory and start putting files into `dist
 
 Let's start first with `app.js`. The key parts here are listening to the stream of chat messages with a `.watch()` query, as well as being able to input a new message with the `.store()` query. Here's what your `app.js` should look like: 
 
+{% raw %}
 ```js
 const horizon = new Horizon()
 const messages = horizon('messages')
@@ -310,6 +311,7 @@ const app = new Vue({
   }
 })
 ```
+{% endraw %}
 
 Now, we'll need to replace the boilerplate in the `index.html` file with code that loads Horizon, Vue.js, and our application.
 

@@ -2,7 +2,7 @@
 layout: documentation
 title: Using Horizon with Docker
 id: docker
-permalink: /docs/docker
+permalink: /docs/docker/
 ---
 
 It's quick and easy to get Horizon up and running with Docker! The only dependencies are current versions of `node` and `npm`.
