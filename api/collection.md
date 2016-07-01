@@ -8,9 +8,9 @@ permalink: /api/collection/
 The `Collection` object represents a group of related documents, and is backed by a RethinkDB table. Documents in a `Collection` are identified by a unique key stored in the `id` field.
 
 ```js
-// connect to the Horizon server
-const Horizon = require("horizon");
-const hz = Horizon();
+// connect to the Horizon server, after Horizon has been loaded via
+// <script> tag or require
+const hz = new Horizon();
 
 // get a handle to a Collection
 const messages = hz("messages");
@@ -60,7 +60,7 @@ Collection.fetch()
 Unlike [watch](#watch), the `fetch` command does not update in real time, but rather returns a "snapshot" of the result set as it exists when `fetch` is executed. The `fetch` or `watch` command ends a Horizon query.
 
 ```js
-const hz = Horizon();
+const hz = new Horizon();
 
 hz("messages").fetch().subscribe(
     result => console.log('Result:', result),
@@ -88,7 +88,7 @@ When `subscribe` is chained off a read function (i.e., [watch](#watch)) it takes
 * `complete()`: a callback executed when the result set has been iterated through completely
 
 ```js
-const hz = Horizon();
+const hz = new Horizon();
 
 hz("messages").fetch().subscribe(
     result => console.log('Result:', result),
@@ -150,7 +150,7 @@ Collection.watch({options})
 The `watch` command takes one option, `rawChanges`. If set `true`, your application will receive the actual change documents from the RethinkDB changefeed, rather than having Horizon update the result set for you based on the change documents. (Read the RethinkDB [changefeed documentation][feed] for more details on change documents.)
 
 ```js
-const hz = Horizon();
+const hz = new Horizon();
 
 // get a handle to the channels table in a multi channel chat application
 const channels = hz("channels");
@@ -217,7 +217,7 @@ Values in key-value pairs may be numbers, strings, or even arrays or objects; no
 The `above` method is often used in conjunction with [order](#order), but it may appear after any Horizon method with the exception of [find](#find) and [limit](#limit). (However, `limit` may appear after `above`.)
 
 ```js
-const hz = Horizon();
+const hz = new Horizon();
 const messages = hz("messages");
 
 // get all messages with an ID over 100, sorted
@@ -248,7 +248,7 @@ Values in key-value pairs may be numbers, strings, or even arrays or objects; no
 The `below` method may _only_ be used after [order](#order), although other methods may be used after it.
 
 ```js
-const hz = Horizon();
+const hz = new Horizon();
 const messages = hz("messages");
 
 // get all messages with an ID below 100, sorted
@@ -275,7 +275,7 @@ Collection.find(id | object)
 The `find` method may be called with either a key-value pair to match against (e.g., `{name: "agatha"}` or an `id` value to look up.
 
 ```js
-const hz = Horizon();
+const hz = new Horizon();
 const messages = hz("messages");
 
 // get the first message from Bob
@@ -314,7 +314,7 @@ Collection.findAll(object[, object, ...])
 The `findAll` method can be called with one or more key-value pairs to match against (e.g., `{email: "bob@example.com"}`. Every document that matches the pairs will be returned in a list. (If no documents match, an empty list, `[]`, will be returned.)
 
 ```
-const hz = Horizon();
+const hz = new Horizon();
 const messages = hz("messages");
 
 // get all messages from Bob, Agatha and Dave
@@ -335,7 +335,7 @@ Collection.limit(integer)
 The `limit` command takes a single argument, an integer representing the number of items to limit the results to.
 
 ```js
-const hz = Horizon();
+const hz = new Horizon();
 const users = hz("users");
 
 // get the 10 most prolific posters
@@ -358,7 +358,7 @@ Fields passed to `order` may contain numbers, strings, or even arrays or objects
 The optional second argument must be a string indication sort direction, either `"ascending"` or `"descending"`. The default is `"ascending"`.
 
 ```js
-const hz = Horizon();
+const hz = new Horizon();
 const messages = hz("messages");
 
 // get all messages, ordered ascending by ID value
@@ -382,7 +382,7 @@ Collection.remove(id | object)
 The `remove` method may be called with either an object to be deleted or an `id` value. In the object case, the object must include an `id` key.
 
 ```js
-const hz = Horizon();
+const hz = new Horizon();
 const messages = hz("messages");
 
 // get the message with an ID of 101
@@ -412,7 +412,7 @@ Collection.removeAll([id, id, ...] | [object, object, ...])
 The `removeAll` method must be called with an array of objects to be deleted, or `id` values to remove. The objects must have `id` keys. You can mix `id` values and objects within the array.
 
 ```js
-const hz = Horizon();
+const hz = new Horizon();
 const messages = hz("messages");
 
 // delete messages with the IDs 101, 103 and 109
@@ -441,7 +441,7 @@ Collection.replace(object | list of objects)
 The `replace` method can be called either with an object representing a single document, or a list of objects. The objects must have `id` values that already exist in the collection or an error will be raised.
 
 ```js
-const hz = Horizon();
+const hz = new Horizon();
 const messages = hz("messages");
 
 // Replace a single document. This will raise an error if there is not an
@@ -478,7 +478,7 @@ Collection.store(object | list of objects)
 The `store` method can be called either with an object representing a single document, or a list of objects. The objects must have unique `id` values, and must have `id` values that do not already exist in the collection or an error will be raised.
 
 ```js
-const hz = Horizon();
+const hz = new Horizon();
 const messages = hz("messages");
 
 // Store a single document. There must not be a document with an id of 1 in

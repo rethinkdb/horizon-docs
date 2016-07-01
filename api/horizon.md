@@ -8,9 +8,9 @@ permalink: /api/horizon/
 The `Horizon` object instantiates and manages the connection to the Horizon server.
 
 ```js
-// connect to the Horizon server
-const Horizon = require('horizon');
-const hz = Horizon();
+// connect to the Horizon server, after Horizon has been loaded via
+// <script> tag or require
+const hz = new Horizon();
 ```
 
 * Table of Contents
@@ -34,7 +34,7 @@ All arguments are optional. Pass them to `Horizon` in an object with option keys
 When `lazyWrites` is set to `true`, Horizon queries that modify a Collection will not perform their writes when the query is first executed, but instead perform then when the Observable returned by the query is iterated through.
 
 ```js
-const hz = Horizon({lazyWrites: true});
+const hz = new Horizon({lazyWrites: true});
 
 // because lazyWrites is set, nothing is sent to the server here...
 var query = messages.store([
@@ -73,7 +73,7 @@ Establish a Horizon connection.
 Note that you can create a [Collection][col] from the `Horizon` instance without calling `connect()` first. Once you start using the collection, the connection will be automatically established.
 
 ```js
-const hz = Horizon();
+const hz = new Horizon();
 
 // Get access to the messages collection
 const messages = hz('messages');
@@ -131,7 +131,7 @@ Returns a query for the current user, that you can run by calling either [`watch
 The query result is a user object as described in [Users and groups][users], or an empty object if the user is unauthenticated.
 
 ```js
-const hz = Horizon();
+const hz = new Horizon();
 hz.currentUser().fetch().subscribe( (user) => console.log(JSON.stringify(user)) );
 ```
 
