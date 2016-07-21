@@ -136,6 +136,7 @@ You can check whether a user is currently authenticated using the [Horizon.hasAu
 
 ## Notes about Horizon's OAuth support
 
+* The authorization callback URL defaults to `https://<hostname>/horizon/<servicename>`. For Github, for instance, your callback would be `https://yourapp.com/horizon/github`. This can be changed with the `path` option to the `add_auth_provider` method. (See [Embedding Horizon][eh] for details on this option.)
 * Currently, no metadata from OAuth providers&mdash;for example, friend/following lists&mdash; can be requested. In the near future, Horizon will support authentication scopes for selected providers to request access to these details, and returned metadata will be stored in the `Users` table.
 * The redirection URL will be configurable in a future release.
 * [Passport][pp] integration is not currently on Horizon's roadmap; this decision was made to avoid tightly coupling Horizon with [Express][ex]. (A [Github issue][gi] may be opened to discuss this in the future.)
@@ -143,3 +144,4 @@ You can check whether a user is currently authenticated using the [Horizon.hasAu
 [pp]: http://passportjs.org
 [ex]: http://expressjs.com
 [gi]: https://github.com/rethinkdb/horizon/issues/new
+[eh]: /docs/embed
