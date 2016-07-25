@@ -543,6 +543,13 @@ messages.upsert([
 ]);
 ```
 
+## Aggregates and models
+
+Queries on multiple Horizon Collections can be combined using the [Horizon.aggregate()][hzagg] method, and aggregates can be turned into parameterized templates using the [Horizon.model()][hzmod] method. Read their documentation for details.
+
+[hzagg]: /api/horizon/#aggregate
+[hzmod]: /api/horizon/#model
+
 ## RxJS Observable methods and operators
 
 The `fetch` and `watch` methods return [RxJS Observables][rjso], and make the following methods available:
