@@ -430,67 +430,30 @@ messages.findAll({from: 'bob'}, {from: 'agatha'}).fetch()
     });
 ```
 
-## Collection.replace {#replace}
-
-Replace one or more existing documents within a Collection.
-
-```js
-Collection.replace(object | list of objects)
-```
-
-The `replace` method can be called either with an object representing a single document, or a list of objects. The objects must have `id` values that already exist in the collection or an error will be raised.
-
-```js
-const hz = new Horizon();
-const messages = hz("messages");
-
-// Replace a single document. This will raise an error if there is not an
-// existing document in the messages collection with an id value of 1.
-messages.replace({
-    id: 1,
-    from: "bob",
-    text: "Hello from RethinkDB"
-});
-
-// Replace multiple documents at once. All documents must already exist.
-messages.replace([
-    {
-        id: 2,
-        from: "agatha",
-        text: "Meet at Smugglers' Cove on Saturday"
-    },
-    {
-        id: 3,
-        from: "bob",
-        text: "Would Superman lose in a fight against Wonder Woman?"
-    }
-]);
-```
-
-## Collection.store {#store}
+## Collection.insert {#insert}
 
 Insert one or more new documents into a Collection.
 
 ```js
-Collection.store(object | list of objects)
+Collection.insert(object | list of objects)
 ```
 
-The `store` method can be called either with an object representing a single document, or a list of objects. The objects must have unique `id` values, and must have `id` values that do not already exist in the collection or an error will be raised.
+The `insert` method can be called either with an object representing a single document, or a list of objects. The objects must have unique `id` values, and must have `id` values that do not already exist in the collection or an error will be raised.
 
 ```js
 const hz = new Horizon();
 const messages = hz("messages");
 
-// Store a single document. There must not be a document with an id of 1 in
+// Insert a single document. There must not be a document with an id of 1 in
 // the messages collection.
-messages.store({
+messages.insert({
     id: 1,
     from: "bob",
     text: "Hello from RethinkDB"
 });
 
-// Store multiple documents at once. All documents must be new.
-messages.store([
+// Insert multiple documents at once. All documents must be new.
+messages.insert([
     {
         id: 2,
         from: "agatha",
@@ -504,44 +467,80 @@ messages.store([
 ]);
 ```
 
-## Collection.upsert {#upsert}
+## Collection.replace {#replace}
+
+Replace one or more existing documents within a Collection.
+
+```js
+Collection.replace(object | list of objects)
+```
+
+This is similar to `insert`, but instead of requiring documents to have new `id` values, `replace` requires documents to have *existing* `id` values in the Collection. If you try to insert new documents with `replace`, an error will be raised.
+
+## Collection.store {#store}
 
 Insert one or more documents into a Collection, replacing existing ones or inserting new ones based on `id` value.
 
 ```js
-Collection.upsert(object | list of objects)
+Collection.store(object | list of objects)
 ```
 
-The `upsert` method can be called either with an object representing a single document, or a list of objects. Depending on whether the documents passed to `upsert` already exist in the collection as determined by their `id` values, the documents will either be inserted into the documents as new members of the collection (cf. [store](#store)) or replace the existing documents with the same `id` (cf. [replace](#replace)).
+The `store` method is a combination of `insert` and `replace`:
+
+* If the `id` value of a document does not exist in the Collection, `store` acts as `insert`;
+* If the `id` value of a document *does* exist in the Collection, `store` acts as `replace`.
+
+## Collection.update {#update}
+
+Modify one or more existing documents within a Collection.
 
 ```js
-const hz = Horizon();
+Collection.update(object | list of objects)
+```
+
+The `update` method can be called either with an object representing a single document, or a list of objects. The objects must have `id` values that already exist in the collection or an error will be raised. This functions similarly to `replace`, but the `update` command will only change the specified fields in documents it affects; unspecified fields will be left untouched. (This is similar to a ReQL [merge][] operation.)
+
+[merge]: http://rethinkdb.com/api/javascript/merge/
+
+```js
+const hz = new Horizon();
 const messages = hz("messages");
 
-// Upsert (update or insert) a single document. If there is an existing
-// document in the messages collection with an id of 1, it will be replaced;
-// otherwise, it will be inserted.
-messages.upsert({
+// Update a single document. This will raise an error if there is not an
+// existing document in the messages collection with an id value of 1.
+messages.update({
     id: 1,
     from: "bob",
     text: "Hello from RethinkDB"
 });
 
-// Upsert multiple documents at once. The previously inserted document with
-// id of 1 will be replaced.
-messages.upsert([
+// Update multiple documents at once. All documents must already exist.
+// Fields that are not specified in the update command will be left
+// unmodified.
+messages.update([
     {
-        id: 2,
-        from: "agatha",
+        id: 1,
         text: "Meet at Smugglers' Cove on Saturday"
     },
     {
-        id: 1,
-        from: "bob",
+        id: 2,
         text: "Would Superman lose in a fight against Wonder Woman?"
     }
 ]);
 ```
+
+## Collection.upsert {#upsert}
+
+Update one or more documents in a Collection, modifying existing ones or inserting new ones based on `id` value.
+
+```js
+Collection.upsert(object | list of objects)
+```
+
+The `upsert` method is a combination of `insert` and `update`:
+
+* If the `id` value of a document does not exist in the Collection, `upsert` acts as `insert`;
+* If the `id` value of a document *does* exist in the Collection, `upsert` acts as `update`.
 
 ## RxJS Observable methods and operators
 
