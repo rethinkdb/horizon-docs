@@ -32,6 +32,7 @@ Every Horizon server requires a RethinkDB server to connect to. Use the `--conne
 * `--serve-static [PATH]` Enable serving static files via HTTP(S). You can additionally specify the path from which static files will be served (default: `./dist`).
 * `--config PATH` Which [config file][config-file] to use. Default: `.hz/config.toml`
 * `--debug [yes|no]` Print additional debug output. Default: `no`
+* `--schema-file [PATH]` Use a given schema file for the database. If the specified schema conflicts with the existing database, a warning will be printed to the console and the option will be ignored. (Use `hz schema apply --force` to override this.)
 
 ### Network options
 
@@ -78,6 +79,7 @@ In development mode (`hz serve --dev`), the following flags are enabled by defau
 * `--allow-anonymous yes`
 * `--serve-static ./dist`
 * `--access-control-allow-origin '*'`
+* `--schema-file .hz/schema.toml`
 
 Development mode makes it easy to run a local Horizon instance during application development. Because permission checking is disabled and collections and indexes get automatically created, new application code can be tested without additional configuration.
 
@@ -89,17 +91,17 @@ Create a private and public TLS certificate pair for development. Running this w
 
 Note that the certificate created by `create-cert` uses no local identity information; the data is completely random. If you need to use an existing certificate or credentials, you'll have to create the certificate on your own using `openssl` or a similar tool.
 
-# get-schema
+# schema save
 
-Extract the currently defined Horizon schema, including validation rules, collection and index specifications, as a TOML file. For an example of this command in practice, read the section on "Configuring rules" in [Permissions and schema enforcement][perm].
+Save the currently defined Horizon schema, including validation rules, collection and index specifications, as a TOML file. For an example of this command in practice, read the section on "Configuring rules" in [Permissions and schema enforcement][perm].
 
 [perm]: /docs/permissions/#configuring
 
-Run `hz get-schema -h` for details on options.
+Run `hz schema save -h` for details on options.
 
-# set-schema
+# schema apply
 
-Load a previously-extracted schema into a Horizon cluster. Run `hz set-schema -h` for details on options.
+Load a previously-extracted schema into a Horizon cluster. Run `hz schema apply -h` for details on options.
 
 # make-token
 

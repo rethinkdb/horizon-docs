@@ -110,22 +110,28 @@ validator = """
 """
 ```
 
-Load a schema file into the Horizon cluster with `hz set-schema`:
+Load a schema file into the Horizon cluster with `hz schema apply`:
 
 ```bash
-# Import the schema from `new_schema.toml`
-$ hz set-schema new_schema.toml
+# Load the default schema, .hz/schema.toml
+$ hz schema apply
+
+# Load the schema from new_schema.toml
+$ hz schema apply new_schema.toml
 ```
 
-`hz set-schema` replaces all existing rule, collection and index specifications. If loading the new schema causes collections to be deleted, the `hz set-schema` command will error. If you are sure that you want to delete those collections, you can specify the `--force` flag.
+`hz schema apply` replaces all existing rule, collection and index specifications. If loading the new schema causes collections to be deleted, the `hz schema apply` command will error. If you are sure that you want to delete those collections, you can specify the `--force` flag.
 
 The changed schema and permissions become effective immediately.
 
-You can extract the current schema from a Horizon cluster with the `hz get-schema` command:
+You can extract the current schema from a Horizon cluster with `hz schema save`:
 
 ```bash
-# Export the current schema into `current_schema.toml`
-$ hz get-schema -o current_schema.toml
+# Save the current schema to current_schema.toml
+$ hz schema save -o current_schema.toml
+
+# Save the current schema to the default file (.hz/schema.toml)
+$ hz schema save
 ```
 
 [toml]: https://github.com/toml-lang/toml
