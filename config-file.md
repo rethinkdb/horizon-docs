@@ -87,9 +87,15 @@ access_control_allow_origin = ""
 
 ## secrets.toml
 
-Horizon supports OAuth authentication for Facebook, Google, Twitter, Github and Twitch. Each enabled service appears in its own TOML table and has two key/value pairs, `id` and `secret`.
+Horizon supports OAuth authentication for Facebook, Google, Twitter, Github and Twitch, as well as Auth0 single sign-on. Each enabled service appears in its own TOML table and has two key/value pairs, `id` and `secret`.
 
 ```toml
+[auth.auth0]
+host = "0000.00.auth0.com"
+id = "0000000000000000000000000"
+secret = "00000000000000000000000000000000000000000000000000"
+redirect_url = ""
+
 [auth.facebook]
 id = "000000000000000"
 secret = "00000000000000000000000000000000"

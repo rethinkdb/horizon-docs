@@ -54,6 +54,7 @@ Your application will need a client ID and "secret" for each OAuth provider you 
 * [Slack](https://api.slack.com/apps)
 * [Twitch](https://www.twitch.tv/kraken/oauth2/clients/new)
 * [Twitter](https://apps.twitter.com/app/new)
+* [Auth0](https://auth0.com)
 
 Each provider will let you register your application, and will give you the client data you need to give Horizon.
 
@@ -63,7 +64,7 @@ In order to use OAuth with Horizon, you'll need to configure a TLS certificate s
 
 [cf]: /docs/configuration
 
-You'll need to enter `client_id` and `client_secret` values in the `.hz/config.toml` file for your server. Toward the bottom of the automatically generated file, you'll see commented-out sample OAuth settings. Uncomment the appropriate lines and replace the dummy values with the ones you've received from the application provider. Adding Github OAuth configuration data would look like this:
+You'll need to enter `id` and `secret` values in the `.hz/config.toml` file for your server (along with `host` and `redirect_url` values for Auth0). Toward the bottom of the automatically generated file, you'll see commented-out sample settings. Uncomment the appropriate lines and replace the dummy values with the ones you've received from the application provider. Adding Github OAuth configuration data would look like this:
 
 ```toml
 # [auth.facebook]
