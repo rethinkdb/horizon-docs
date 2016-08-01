@@ -127,11 +127,11 @@ The changed schema and permissions become effective immediately.
 You can extract the current schema from a Horizon cluster with `hz schema save`:
 
 ```bash
-# Save the current schema to current_schema.toml
-$ hz schema save -o current_schema.toml
-
 # Save the current schema to the default file (.hz/schema.toml)
 $ hz schema save
+
+# Save the current schema to current_schema.toml
+$ hz schema save -o current_schema.toml
 ```
 
 [toml]: https://github.com/toml-lang/toml
