@@ -64,7 +64,7 @@ In order to use OAuth with Horizon, you'll need to configure a TLS certificate s
 
 [cf]: /docs/configuration
 
-You'll need to enter `id` and `secret` values in the `.hz/config.toml` file for your server (along with `host` and `redirect_url` values for Auth0). Toward the bottom of the automatically generated file, you'll see commented-out sample settings. Uncomment the appropriate lines and replace the dummy values with the ones you've received from the application provider. Adding Github OAuth configuration data would look like this:
+You'll need to enter `id` and `secret` values in the `.hz/secrets.toml` file for your server (along with `host` and `redirect_url` values for Auth0). Toward the bottom of the automatically generated file, you'll see commented-out sample settings. Uncomment the appropriate lines and replace the dummy values with the ones you've received from the application provider. Adding Github OAuth configuration data would look like this:
 
 ```toml
 # [auth.facebook]
