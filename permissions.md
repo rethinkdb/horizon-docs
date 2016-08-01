@@ -300,9 +300,9 @@ validator = """
 
 ## Execution semantics {#validator_functions-semantics}
 
-Validator functions are executed in a restricted context. They cannot perform any i/o and cannot access external data other than what is passed to the validator function through its arguments.
+Validator functions are executed in a restricted context. They cannot perform any I/O and cannot access external data other than what is passed to the validator function through its arguments.
 
-The validator function of any matching rule is called once for each document that an operation touches. In case of a read query, every result document is validated through the validator function. For write operations, the validator function is executed for each document before it gets stored, replaced or removed by the write.
+The validator function of any matching rule is called once for each document that an operation touches. In case of a read query, every result document is validated through the validator function. For write operations, the validator function is executed atomically on the latest version of each document before the document is written. (If there are many concurrent writes being made to the same document, it is possible for this step to fail, but an error will be thrown to the application in such cases.)
 
 If an operation encounters a document for which no matching rule with a passing validator function exists, the operation will error.
 
