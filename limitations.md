@@ -23,6 +23,7 @@ Setting up a Horizon server under Windows has not been extensively tested.
 
 ## Limitations
 
+* Collection names may not start with  `hz_`. Using this prefix will result in an error.
 * Horizon operations are non-atomic (even with single documents).
 * User records for "anonymous" users need to be removed from the `users` collection manually after their JSON Web Tokens expire.
 * The Horizon client cannot automatically reconnect to the Horizon server if the connection is lost.
