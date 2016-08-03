@@ -22,6 +22,8 @@ The `hz serve <project path>` command starts a Horizon server for the given Hori
 
 Every Horizon server requires a RethinkDB server to connect to. Use the `--connect <RethinkDB host>` option to connect to an existing RethinkDB server, or use `--start-rethinkdb` to automatically start a local RethinkDB server. (Note that the `--dev` option for development mode includes `--start-rethinkdb` by default.)
 
+Note that if you are using a database from a Horizon 1.x application, the `serve` command will exit with an error. Use [hz migrate]{#migrate} to upgrade your database in place.
+
 ## Command-line options {#serve-options}
 
 `hz serve` supports the following command-line options:
@@ -99,9 +101,17 @@ Save the currently defined Horizon schema, including validation rules, collectio
 
 Run `hz schema save -h` for details on options.
 
+If you use the default schema filename (`.hz/schema.toml`), existing schema files will be preserved, renamed to `schema.toml_` with a datestamp appended.
+
 # schema apply
 
 Load a previously-extracted schema into a Horizon cluster. Run `hz schema apply -h` for details on options.
+
+While the schema format changed with Horizon 2.0, `schema apply` will read pre-2.0 files. (Use `schema save` to rewrite them in the current format.)
+
+# migrate
+
+Migrate a Horizon database from the 1.x to 2.x internal format. This command must be used on databases created with Horizon 1.x applications; Horizon will exit with an error if the `serve` command is executed with an old format database.
 
 # make-token
 
