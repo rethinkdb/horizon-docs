@@ -45,7 +45,7 @@ Now your Horizon application is being served on [localhost:8181](http://localhos
 
 ## A basic production deployment with Docker
 
-Once you have your Hoirzon app ready, it's very easy to get it deployed with Docker Compose. With the following setup, we are going to:
+Once you have your Horizon app ready, it's very easy to get it deployed with Docker Compose. With the following setup, we are going to:
 
 1. Install Docker
 2. Install Let's Encrypt and create certificates
