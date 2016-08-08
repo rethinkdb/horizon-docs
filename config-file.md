@@ -53,18 +53,29 @@ serve_static = "dist"
 debug = false
 ```
 
-## RethinkDB options (config.toml)
+## RethinkDB options (config.toml) {#rdbopts}
 
-* `connect`: connect to an existing RethinkDB instance at the specified host/port.
+* `connect`: connect to an existing RethinkDB instance. This may be a host:port combination (e.g., `rethinkdb.example.com:28015`) or a `rethinkdb://[username:pasword@host:port[/database]` URI:
+    * `rethinkdb://rethinkdb.example.com:28015`
+    * `rethinkdb://dbuser:badpassword@rethinkdb.example.com:28015/horizondb`
 * `start_rethinkdb`: run an internal RethinkDB instance for Horizon.
 * `auto_create_collection`: creates a collection with its corresponding RethinkDB table when one is accessed but does not exist.
 * `auto_create_index`: creates an index when one is needed but does not exist.
+* `rdb_timeout`: timeout to make the connection to the RethinkDB cluster, in seconds.
+
+RethinkDB connection information may alternatively be specified with individual options:
+
+* `rdb_host`: hostname
+* `rdb_port`: port
+* `rdb_user`: username for RethinkDB authentication
+* `rdb_password`: password for RethinkDB authentication
 
 ```toml
 connect = "localhost:28015"
 start_rethinkdb = false
 auto_create_collection = false
 auto_create_index = false
+rdb_timeout = 20
 ```
 
 __Warning:__ Tables and indexes are not lightweight objects, and allowing ad hoc creation could potentially expose your service to denial-of-service attacks. The `auto_create_*` options should not be enabled on a publicly-accessible service.

@@ -40,9 +40,19 @@ Note that if you are using a database from a Horizon 1.x application, the `serve
 
 * `--bind HOST, -b HOST` The host name or IP address that the Horizon server should listen on for incoming requests. Can be specified multiple times to bind to multiple addresses. Default: `localhost`
 * `--port PORT, -p PORT` The port number the Horizon server should listen on for incoming requests. Default: `8181`
-* `--connect HOST:PORT, -c HOST:PORT` The host and port of the RethinkDB server to connect to. Default: `localhost:28015`
+* `--connect HOST:PORT, -c HOST:PORT` The host and port of the RethinkDB server to connect to, or a `rethinkdb://` URI string (see [RethinkDB options][rdbopts] in the configuration file documentation for details). Default: `localhost:28015`
 * `--key-file PATH` The key file to use for the HTTPS server. Default: `./horizon-key.pem`
 * `--cert-file PATH` The certificate to use for the HTTPS server. Default: `./horizon-cert.pem`
+* `--rdb_timeout SECONDS`: timeout to make the connection to the RethinkDB cluster, in seconds. Default: 20
+
+[rdbopts]: /docs/configuration/#rdbopts
+
+The following options provide alternatives to specifying these values in the `--connect` string:
+
+* `--rdb_host HOSTNAME`
+* `--rdb_port PORT`
+* `--rdb_user USERNAME`
+* `--rdb_password PASSWORD`
 
 ### Authentication options
 
