@@ -6,6 +6,12 @@ permalink: /install/
 active: install
 ---
 
+## Before you start
+
+Horizon is a rapidly evolving framework, and depending on your use case, there's still a chance of encountering bugs or unusual quirks. Read the [limitations][l] page for important notes and caveats.
+
+[l]: /docs/limitations
+
 ## Prerequisites
 
 **Before installing Horizon, you must install the RethinkDB server.** Consult [Installing RethinkDB][ir] for downloads and installation instructions.

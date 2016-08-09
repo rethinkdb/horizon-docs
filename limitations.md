@@ -5,6 +5,15 @@ id: limitations
 permalink: /docs/limitations/
 ---
 
+## Horizon is rapidly evolving
+
+* Some APIs and processes may (or will!) change in future releases.
+* While a plug-in architecture is planned, it's not here yet.
+* Integrating Horizon with existing code is possible, but it's still a work in progress. (See [Embedding Horizon][eh] for more details.)
+* There Will Be Bugs.
+
+Currently, Horizon is well-suited for a simple to moderately complex front-end application. It's possible to build a new Node app with Horizon, but it may be something of an adventure. Porting an *existing* Node application to Horizon may be difficult or even impossible. All of this will change in the future!
+
 ## Requirements
 
 Horizon should be compatible with most popular browsers, although it hasn't been extensively tested with older versions. If you expect to run Horizon on browsers that do not support JavaScript ES6 promises, you will need to supply a polyfill to support them, such as [es6-promise][ep].
