@@ -365,8 +365,6 @@ While there is no single rule that validates all results of the query, for each 
 
 To log in as the admin user initially, your application will need to be bootstrapped using the [hz make-token](/cli/#make-token) command.
 
-From the directory of your Horizon application, stop the server if it's running. (If you haven't run it yet, you'll need to initialize the database; the easiest way to do that is to start in development mode with `hz serve --dev`, then stop the server.) Then run:
-
 ```sh
 hz make-token admin
 ```
@@ -385,13 +383,7 @@ horizon.connect();
 
 (The `storeLocally` option controls whether the token should be preserved in the browser's local storage area; if you set it to `true`, you'll remain logged in as the admin from this browser.)
 
-The `make-token` command can be used to create a token for any user that exists in Horizon's user database. If you wished to manually create a token for a user with the ID value of '4C720BD1-2729-46BA-9213-ED84DEDE3120`, you can create the user first:
-
-```js
-horizon('users').store({id: '4C720BD1-2729-46BA-9213-ED84DEDE3120'});
-```
-
-And then get the token from the command line:
+The `make-token` command can be used to create a token for any user, whether or not that user already exists in Horizon's user database. If you wished to manually create a token for a user with the ID value of '4C720BD1-2729-46BA-9213-ED84DEDE3120`:
 
 ```sh
 hz make-token 4C720BD1-2729-46BA-9213-ED84DEDE3120

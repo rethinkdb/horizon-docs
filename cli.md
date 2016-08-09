@@ -125,7 +125,13 @@ Migrate a Horizon database from the 1.x to 2.x internal format. This command mus
 
 # make-token
 
-Manually create a JSON Web Token for a user, allowing user bootstrapping. This is necessary to log in as the Horizon admin user the first time.
+Manually create a JSON Web Token for a user, allowing user bootstrapping. This is necessary to log in as the Horizon admin user the first time. Simply pass the user ID value to `make-token` as the argument:
+
+```
+hz make-token [user-id]
+```
+
+The JWT will be printed to the console.
 
 For more details, read "Making an admin auth token" in [Permissions and schema enforcement][admin].
 
