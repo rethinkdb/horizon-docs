@@ -95,14 +95,14 @@ The format for an index specification is as follows:
 ```toml
 [collections.COLLECTION_NAME]
 [[collections.COLLECTION_NAME.indexes]]
-fields = ['field_name', 'field_name']
+fields = [['field_name']]
 ```
 
 * `COLLECTION_NAME` is the name of the collection with the index.
-* `fields` is an array of one or more field names.
+* `fields` is an array of arrays, each array containing one or more field names. (Due to limitations with the TOML format, this must be specified in this fashion.)
     * One field name creates a [simple index][rdb-si].
     * Two or more field names create a [compound index][rdb-ci].
-    * Compound indexes can be nested, e.g., `fields = ['username', ['from', 'to']]`.
+    * Compound indexes can be nested, e.g., `fields = [['username'], ['from', 'to']]`.
 
 [rdb-si]: https://www.rethinkdb.com/docs/secondary-indexes/javascript/#simple-indexes
 [rdb-ci]: https://www.rethinkdb.com/docs/secondary-indexes/javascript/#compound-indexes
