@@ -72,7 +72,7 @@ Note that permissions are not enforced when running the Horizon server in [devel
 
 # Configuring rules {#configuring}
 
-You can define whitelist rules as part of a schema file using the [TOML][toml] configuration format.
+You can define whitelist rules and indexes as part of a schema file using the [TOML][toml] configuration format.
 
 The format for a whitelist rule specification is as follows:
 
@@ -90,13 +90,29 @@ validator = "VALIDATOR_FUNCTION"
 
 You can have an arbitrary number of rule specifications in your schema file.
 
+The format for an index specification is as follows:
+
+```toml
+[collections.COLLECTION_NAME]
+[[collections.COLLECTION_NAME.indexes]]
+fields = ['field_name', 'field_name']
+```
+
+* `COLLECTION_NAME` is the name of the collection with the index.
+* `fields` is an array of one or more field names.
+    * One field name creates a [simple index][rdb-si].
+    * Two or more field names create a [compound index][rdb-ci].
+    * Compound indexes can be nested, e.g., `fields = ['username', ['from', 'to']]`.
+
+[rdb-si]: https://www.rethinkdb.com/docs/secondary-indexes/javascript/#simple-indexes
+[rdb-ci]: https://www.rethinkdb.com/docs/secondary-indexes/javascript/#compound-indexes
+
 Here is an example for a full schema file including collection and index specifications and the example rules from above:
 
 ```toml
 [collections.messages]
-indexes = [
-  "owner"
-]
+[[collections.messages.indexes]]
+fields = ['owner']
 
 [groups.authenticated.rules.read_own_messages]
 template = "collection('messages').findAll({owner: userId()})"
