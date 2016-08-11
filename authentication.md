@@ -24,6 +24,10 @@ You may also pass an already-created JWT to `authType`; this is useful for boots
 
 # Using local authentication
 
+<div class="infobox" markdown="1">
+Note that Horizon does _not_ have any "baked-in" local user/password authentication. The only fully-supported authentication method for individual user accounts is OAuth through a third-party provider.
+</div>
+
 ## Unauthenticated
 
 The first auth type is unauthenticated. This creates no web token, and Horizon does no user management whatsoever. To create a connection using the 'unauthenticated' method do:
