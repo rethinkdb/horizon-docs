@@ -16,7 +16,7 @@ const hz = new Horizon();
 const messages = hz("messages");
 ```
 
-Collections that do not exist will automatically be created. Note that a collection name may not start with the prefix `hz_`.
+Collections that do not exist will automatically be created in development mode, or in production if the `auto-create-collection` option is set. Note that a collection name may not start with the prefix `hz_`.
 
 Methods on a `Collection` object allow you to create, read, update and delete documents. Selections can be performed by matching on any field by passing an object to match against.
 
