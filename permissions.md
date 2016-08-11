@@ -99,10 +99,9 @@ fields = [['field_name']]
 ```
 
 * `COLLECTION_NAME` is the name of the collection with the index.
-* `fields` is an array of arrays, each array containing one or more field names. (Due to limitations with the TOML format, this must be specified in this fashion.)
+* `fields` is an array of one or more arrays, each array containing one field name. (This format is for future extensibility, when Horizon will support nested-field indexes.)
     * One field name creates a [simple index][rdb-si].
     * Two or more field names create a [compound index][rdb-ci].
-    * Compound indexes can be nested, e.g., `fields = [['username'], ['from', 'to']]`.
 
 [rdb-si]: https://www.rethinkdb.com/docs/secondary-indexes/javascript/#simple-indexes
 [rdb-ci]: https://www.rethinkdb.com/docs/secondary-indexes/javascript/#compound-indexes
@@ -112,7 +111,7 @@ Here is an example for a full schema file including collection and index specifi
 ```toml
 [collections.messages]
 [[collections.messages.indexes]]
-fields = ['owner']
+fields = [['owner']]
 
 [groups.authenticated.rules.read_own_messages]
 template = "collection('messages').findAll({owner: userId()})"
