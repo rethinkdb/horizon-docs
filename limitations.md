@@ -12,6 +12,8 @@ permalink: /docs/limitations/
 * Integrating Horizon with existing code is possible, but it's still a work in progress. (See [Embedding Horizon][eh] for more details.)
 * There Will Be Bugs.
 
+[eh]: /docs/embed
+
 Currently, Horizon is well-suited for a simple to moderately complex front-end application. It's possible to build a new Node app with Horizon, but it may be something of an adventure. Porting an *existing* Node application to Horizon may be difficult or even impossible. All of this will change in the future!
 
 ## Requirements
