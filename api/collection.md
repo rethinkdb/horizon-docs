@@ -544,18 +544,4 @@ The `upsert` method is a combination of `insert` and `update`:
 
 ## RxJS Observable methods and operators
 
-The `fetch` and `watch` methods return [RxJS Observables][rjso], and make the following methods available:
-
-* [publishReplay()](http://reactivex.io/rxjs/class/es6/Observable.js~Observable.html#instance-method-publishReplay)
-* [scan()](http://reactivex.io/rxjs/class/es6/Observable.js~Observable.html#instance-method-scan)
-* [filter()](http://reactivex.io/rxjs/class/es6/Observable.js~Observable.html#instance-method-filter)
-* [map()](http://reactivex.io/rxjs/class/es6/Observable.js~Observable.html#instance-method-map)
-* [toArray()](http://reactivex.io/rxjs/class/es6/Observable.js~Observable.html#instance-method-toArray)
-* [do()](http://reactivex.io/rxjs/class/es6/Observable.js~Observable.html#instance-method-do)
-* [catch()](http://reactivex.io/rxjs/class/es6/Observable.js~Observable.html#instance-method-catch)
-* [concatMap()](http://reactivex.io/rxjs/class/es6/Observable.js~Observable.html#instance-method-concatMap)
-* [filter()](http://reactivex.io/rxjs/class/es6/Observable.js~Observable.html#instance-method-filter)
-* [share()](http://reactivex.io/rxjs/class/es6/Observable.js~Observable.html#instance-method-share)
-* [mergeMap()](http://reactivex.io/rxjs/class/es6/Observable.js~Observable.html#instance-method-mergeMap)
-* [defaultIfEmpty()](http://reactivex.io/rxjs/class/es6/Observable.js~Observable.html#instance-method-defaultIfEmpty)
-* [take()](http://reactivex.io/rxjs/class/es6/Observable.js~Observable.html#instance-method-take)
+The `fetch` and `watch` methods return [RxJS Observables][rjso], and make all of the `Observable` methods available.
