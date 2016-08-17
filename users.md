@@ -20,22 +20,14 @@ const users = horizon('users');
 const users = horizon.users;
 ```
 
-When a new user is created, they're automatically assigned to two user groups, `default` and `authenticated`. User groups are used to assign permissions; for more information about the way the permission system works, read [Permissions and schema enforcement][perm]. The document created for each new user contains their unique ID, a list of groups they belong to, OAuth providers they've authenticated with (if any), and a `data` field to store application-specific data in. Here's the schema:
+When a new user is created, they're automatically assigned to two user groups, `default` and `authenticated`. User groups are used to assign permissions; for more information about the way the permission system works, read [Permissions and schema enforcement][perm]. The document created for each new user contains their unique ID and a list of groups they belong to:
 
 [perm]: /docs/permissions
 
 ```json
 {
     "id": "D6B8E9D0-CD96-4C01-BFD6-2AF43141F2A7",
-    "groups": [ "default", "authenticated" ],
-    "providers": {
-        "google": { /* third-party user profile /* }
-    },
-    "data": {
-        "key1": "value1",
-        "key2": "value2",
-        ...
-    }
+    "groups": [ "default", "authenticated" ]
 }
 ```
 
