@@ -106,7 +106,7 @@ horizon:
     - "8181:80"
 ```
 
-Instead of adding environment variables, you could modify the `command` proprety to add the equivalent `hz serve` flags. We think using the variables keeps the file more readable.
+Instead of adding environment variables, you could modify the `command` property to add the equivalent `hz serve` flags. We think using the variables keeps the file more readable.
 
 ### Starting it up
 
