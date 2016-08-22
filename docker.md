@@ -9,7 +9,7 @@ It's quick and easy to get Horizon up and running with Docker! The only dependen
 
 ## Our Docker images
 
-We provide two Docker images on Docker Hub: `horizon-dev` is for development purposes, and `horizon` is for your production environment.
+We provide two Docker images on Docker Hub: [horizon-dev](https://hub.docker.com/r/rethinkdb/horizon-dev/) is for development purposes, and [horizon](https://hub.docker.com/r/rethinkdb/horizon/) is for your production environment.
 
 Image | `horizon-dev` | `horizon`
 ------| ------------- | --------------
