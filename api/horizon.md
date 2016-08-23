@@ -177,10 +177,10 @@ const hz = new Horizon();
 var userId = 100;
 hz.aggregate({
     userId: userId,
-    user: horizon('users').find(userId),
+    user: hz('users').find(userId),
     activity: {
-        posts: horizon('posts').findAll({user: userId}),
-        topComments: horizon('comments').findAll({user: userId}).order('rating', 'descending').limit(10)
+        posts: hz('posts').findAll({user: userId}),
+        topComments: hz('comments').findAll({user: userId}).order('rating', 'descending').limit(10)
     }
 }).watch().subscribe(subscribeFunction);
 ```
