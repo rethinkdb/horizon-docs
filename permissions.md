@@ -72,7 +72,7 @@ Note that permissions are not enforced when running the Horizon server in [devel
 
 # Configuring rules {#configuring}
 
-You can define whitelist rules as part of a schema file using the [TOML][toml] configuration format.
+You can define whitelist rules and indexes as part of a schema file using the [TOML][toml] configuration format.
 
 The format for a whitelist rule specification is as follows:
 
@@ -90,13 +90,28 @@ validator = "VALIDATOR_FUNCTION"
 
 You can have an arbitrary number of rule specifications in your schema file.
 
+The format for an index specification is as follows:
+
+```toml
+[collections.COLLECTION_NAME]
+[[collections.COLLECTION_NAME.indexes]]
+fields = [['field_name']]
+```
+
+* `COLLECTION_NAME` is the name of the collection with the index.
+* `fields` is an array of one or more arrays, each array containing one field name. (This format is for future extensibility, when Horizon will support nested-field indexes.)
+    * One field name creates a [simple index][rdb-si].
+    * Two or more field names create a [compound index][rdb-ci].
+
+[rdb-si]: https://www.rethinkdb.com/docs/secondary-indexes/javascript/#simple-indexes
+[rdb-ci]: https://www.rethinkdb.com/docs/secondary-indexes/javascript/#compound-indexes
+
 Here is an example for a full schema file including collection and index specifications and the example rules from above:
 
 ```toml
 [collections.messages]
-indexes = [
-  "owner"
-]
+[[collections.messages.indexes]]
+fields = [['owner']]
 
 [groups.authenticated.rules.read_own_messages]
 template = "collection('messages').findAll({owner: userId()})"
@@ -110,22 +125,28 @@ validator = """
 """
 ```
 
-Load a schema file into the Horizon cluster with `hz set-schema`:
+Load a schema file into the Horizon cluster with `hz schema apply`:
 
 ```bash
-# Import the schema from `new_schema.toml`
-$ hz set-schema new_schema.toml
+# Load the default schema, .hz/schema.toml
+$ hz schema apply
+
+# Load the schema from new_schema.toml
+$ hz schema apply new_schema.toml
 ```
 
-`hz set-schema` replaces all existing rule, collection and index specifications. If loading the new schema causes collections to be deleted, the `hz set-schema` command will error. If you are sure that you want to delete those collections, you can specify the `--force` flag.
+`hz schema apply` replaces all existing rule, collection and index specifications. If loading the new schema causes collections to be deleted, the `hz schema apply` command will error. If you are sure that you want to delete those collections, you can specify the `--force` flag.
 
 The changed schema and permissions become effective immediately.
 
-You can extract the current schema from a Horizon cluster with the `hz get-schema` command:
+You can extract the current schema from a Horizon cluster with `hz schema save`:
 
 ```bash
-# Export the current schema into `current_schema.toml`
-$ hz get-schema -o current_schema.toml
+# Save the current schema to the default file (.hz/schema.toml)
+$ hz schema save
+
+# Save the current schema to current_schema.toml
+$ hz schema save -o current_schema.toml
 ```
 
 [toml]: https://github.com/toml-lang/toml
@@ -294,9 +315,9 @@ validator = """
 
 ## Execution semantics {#validator_functions-semantics}
 
-Validator functions are executed in a restricted context. They cannot perform any i/o and cannot access external data other than what is passed to the validator function through its arguments.
+Validator functions are executed in a restricted context. They cannot perform any I/O and cannot access external data other than what is passed to the validator function through its arguments.
 
-The validator function of any matching rule is called once for each document that an operation touches. In case of a read query, every result document is validated through the validator function. For write operations, the validator function is executed for each document before it gets stored, replaced or removed by the write.
+The validator function of any matching rule is called once for each document that an operation touches. In case of a read query, every result document is validated through the validator function. For write operations, the validator function is executed atomically on the latest version of each document before the document is written. (If there are many concurrent writes being made to the same document, it is possible for this step to fail, but an error will be thrown to the application in such cases.)
 
 If an operation encounters a document for which no matching rule with a passing validator function exists, the operation will error.
 
@@ -359,8 +380,6 @@ While there is no single rule that validates all results of the query, for each 
 
 To log in as the admin user initially, your application will need to be bootstrapped using the [hz make-token](/cli/#make-token) command.
 
-From the directory of your Horizon application, stop the server if it's running. (If you haven't run it yet, you'll need to initialize the database; the easiest way to do that is to start in development mode with `hz serve --dev`, then stop the server.) Then run:
-
 ```sh
 hz make-token admin
 ```
@@ -379,13 +398,7 @@ horizon.connect();
 
 (The `storeLocally` option controls whether the token should be preserved in the browser's local storage area; if you set it to `true`, you'll remain logged in as the admin from this browser.)
 
-The `make-token` command can be used to create a token for any user that exists in Horizon's user database. If you wished to manually create a token for a user with the ID value of '4C720BD1-2729-46BA-9213-ED84DEDE3120`, you can create the user first:
-
-```js
-horizon('users').store({id: '4C720BD1-2729-46BA-9213-ED84DEDE3120'});
-```
-
-And then get the token from the command line:
+The `make-token` command can be used to create a token for any user, whether or not that user already exists in Horizon's user database. If you wished to manually create a token for a user with the ID value of '4C720BD1-2729-46BA-9213-ED84DEDE3120`:
 
 ```sh
 hz make-token 4C720BD1-2729-46BA-9213-ED84DEDE3120

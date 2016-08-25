@@ -166,3 +166,88 @@ Horizon.clearAuthTokens();
 See [Authentication][auth] for more details.
 
 [auth]: /docs/auth
+
+## Horizon.aggregate {#aggregate}
+
+Combine the results of multiple Horizon queries into one result set.
+
+```js
+const hz = new Horizon();
+
+var userId = 100;
+hz.aggregate({
+    userId: userId,
+    user: hz('users').find(userId),
+    activity: {
+        posts: hz('posts').findAll({user: userId}),
+        topComments: hz('comments').findAll({user: userId}).order('rating', 'descending').limit(10)
+    }
+}).watch().subscribe(subscribeFunction);
+```
+
+(In real code, [subscribe()][sub] would contain a callback function to receive the Observable results from [watch()][watch].)
+
+[sub]: /api/collection/#subscribe
+
+The values for fields in aggregates may contain:
+
+* Horizon queries
+* Literals (as in the `userId` field above)
+* Objects (as in the `activity` field above)
+* Observables
+* Promises
+* Arrays
+
+Observables inside an aggregate are called when the aggregate is subscribed to, and behave identically whether the aggregate is called with `fetch()` or `watch()`. So an aggregate such as the following:
+
+```js
+hz.aggregate({
+    counter: Observable.timer(0, 1000),
+    result: hz('foo').find('bar')
+}).watch().subscribe({ next(x) { console.log(x) }});
+```
+
+will be emitted every time the document in the `result` query is changed and every time the counter is incremented.
+
+Arrays are not flattened. A field/value such as `dogShow: [hz('owners'), hz('pets')]` will result in output similar to `[['bob', 'agatha', ...], ['fluffy', 'fido', ...]]`. (Use [merge()][merge] for a union query.)
+
+[merge]: /api/collection/#merge
+
+Aggregates can be nested, although this is equivalent to simply using objects for the "inner" aggregates.
+
+```js
+/// this...
+hz.aggregate({
+    foo: hz.aggregate({ ... })
+});
+
+// ...is equivalent to this
+hz.aggregate({
+    foo: { ... }
+});
+```
+
+## Horizon.model {#model}
+
+Create a template for aggregates, using parameters.
+
+The [aggregate example](#aggregate) could be rewritten with `model` this way:
+
+```js
+const hz = new Horizon();
+
+const userModel = hz.model((userId) => {
+    return {
+        userId: userId,
+        user: horizon('users').find(userId),
+        activity: {
+            posts: horizon('posts').findAll({user: userId}),
+            topComments: horizon('comments').findAll({user: userId}).order('rating', 'descending').limit(10)
+        }
+    }
+});
+
+userModel(100).watch().subscribe(subscribeFunction);
+```
+
+You can do anything with `model` that you can do with `aggregate`, including nesting models.

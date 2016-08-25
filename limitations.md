@@ -35,10 +35,12 @@ Setting up a Horizon server under Windows has not been extensively tested.
 ## Limitations
 
 * Horizon operations are non-atomic (even with single documents).
-* Horizon will not automatically retry writes that have version conflicts; while these writes will fail, it is up to the application to retry.
 * User records for "anonymous" users need to be removed from the `users` collection manually after their JSON Web Tokens expire.
 * The Horizon client cannot automatically reconnect to the Horizon server if the connection is lost.
 * If the client manually reconnects to the server, active subscriptions will not automatically resume. They must be set up again by the client application.
+* The only realtime access provided to the underlying RethinkDB database is through [changefeeds][cf].
+
+[cf]: https://rethinkdb.com/docs/changefeeds/javascript/
 
 ## Planned features
 

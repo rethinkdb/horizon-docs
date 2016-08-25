@@ -22,6 +22,8 @@ The `hz serve <project path>` command starts a Horizon server for the given Hori
 
 Every Horizon server requires a RethinkDB server to connect to. Use the `--connect <RethinkDB host>` option to connect to an existing RethinkDB server, or use `--start-rethinkdb` to automatically start a local RethinkDB server. (Note that the `--dev` option for development mode includes `--start-rethinkdb` by default.)
 
+Note that if you are using a database from a Horizon 1.x application, the `serve` command will exit with an error. Use [hz migrate]{#migrate} to upgrade your database in place.
+
 ## Command-line options {#serve-options}
 
 `hz serve` supports the following command-line options:
@@ -30,16 +32,26 @@ Every Horizon server requires a RethinkDB server to connect to. Use the `--conne
 
 * `--project-name NAME, -n NAME` Name of the Horizon project. Determines the name of the RethinkDB database that stores the project data.
 * `--serve-static [PATH]` Enable serving static files via HTTP(S). You can additionally specify the path from which static files will be served (default: `./dist`).
-* `--config PATH` Which [config file][config-file] to use. Default: `.hz/config.toml`
 * `--debug [yes|no]` Print additional debug output. Default: `no`
+* `--schema-file [PATH]` Use a given schema file for the database. If the specified schema conflicts with the existing database, a warning will be printed to the console and the option will be ignored. (Use `hz schema apply --force` to override this.)
 
 ### Network options
 
 * `--bind HOST, -b HOST` The host name or IP address that the Horizon server should listen on for incoming requests. Can be specified multiple times to bind to multiple addresses. Default: `localhost`
 * `--port PORT, -p PORT` The port number the Horizon server should listen on for incoming requests. Default: `8181`
-* `--connect HOST:PORT, -c HOST:PORT` The host and port of the RethinkDB server to connect to. Default: `localhost:28015`
+* `--connect HOST:PORT, -c HOST:PORT` The host and port of the RethinkDB server to connect to, or a `rethinkdb://` URI string (see [RethinkDB options][rdbopts] in the configuration file documentation for details). Default: `localhost:28015`
 * `--key-file PATH` The key file to use for the HTTPS server. Default: `./horizon-key.pem`
 * `--cert-file PATH` The certificate to use for the HTTPS server. Default: `./horizon-cert.pem`
+* `--rdb_timeout SECONDS`: timeout to make the connection to the RethinkDB cluster, in seconds. Default: 20
+
+[rdbopts]: /docs/configuration/#rdbopts
+
+The following options provide alternatives to specifying these values in the `--connect` string:
+
+* `--rdb_host HOSTNAME`
+* `--rdb_port PORT`
+* `--rdb_user USERNAME`
+* `--rdb_password PASSWORD`
 
 ### Authentication options
 
@@ -78,6 +90,7 @@ In development mode (`hz serve --dev`), the following flags are enabled by defau
 * `--allow-anonymous yes`
 * `--serve-static ./dist`
 * `--access-control-allow-origin '*'`
+* `--schema-file .hz/schema.toml`
 
 Development mode makes it easy to run a local Horizon instance during application development. Because permission checking is disabled and collections and indexes get automatically created, new application code can be tested without additional configuration.
 
@@ -89,21 +102,35 @@ Create a private and public TLS certificate pair for development. Running this w
 
 Note that the certificate created by `create-cert` uses no local identity information; the data is completely random. If you need to use an existing certificate or credentials, you'll have to create the certificate on your own using `openssl` or a similar tool.
 
-# get-schema
+# schema save
 
-Extract the currently defined Horizon schema, including validation rules, collection and index specifications, as a TOML file. For an example of this command in practice, read the section on "Configuring rules" in [Permissions and schema enforcement][perm].
+Save the currently defined Horizon schema, including validation rules, collection and index specifications, as a TOML file. For an example of this command in practice, read the section on "Configuring rules" in [Permissions and schema enforcement][perm].
 
 [perm]: /docs/permissions/#configuring
 
-Run `hz get-schema -h` for details on options.
+Run `hz schema save -h` for details on options.
 
-# set-schema
+If you use the default schema filename (`.hz/schema.toml`), existing schema files will be preserved, renamed to `schema.toml_` with a datestamp appended.
 
-Load a previously-extracted schema into a Horizon cluster. Run `hz set-schema -h` for details on options.
+# schema apply
+
+Load a previously-extracted schema into a Horizon cluster. Run `hz schema apply -h` for details on options.
+
+While the schema format changed with Horizon 2.0, `schema apply` will read pre-2.0 files. (Use `schema save` to rewrite them in the current format.)
+
+# migrate
+
+Migrate a Horizon database from the 1.x to 2.x internal format. This command must be used on databases created with Horizon 1.x applications; Horizon will exit with an error if the `serve` command is executed with an old format database.
 
 # make-token
 
-Manually create a JSON Web Token for a user, allowing user bootstrapping. This is necessary to log in as the Horizon admin user the first time.
+Manually create a JSON Web Token for a user, allowing user bootstrapping. This is necessary to log in as the Horizon admin user the first time. Simply pass the user ID value to `make-token` as the argument:
+
+```
+hz make-token [user-id]
+```
+
+The JWT will be printed to the console.
 
 For more details, read "Making an admin auth token" in [Permissions and schema enforcement][admin].
 

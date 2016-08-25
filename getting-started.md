@@ -34,7 +34,9 @@ This will create the `example_app` directory and install a few files into it. (I
 $ tree example_app
 example_app/
 ├── .hz
-│   └── config.toml
+│   ├── config.toml
+│   ├── schema.toml
+│   └── secrets.toml
 ├── dist
 │   └── index.html
 └── src
@@ -45,6 +47,10 @@ Here's what these files and directories are:
 * `src` is for source files for your build system. This isn't a convention you have to follow; Horizon doesn't touch anything in this directory.
 * `dist/index.html` is a sample file. You'll replace this as you develop your application, but there's enough in it to verify that Horizon is installed and working.
 * `.hz/config.toml` is a [TOML][] configuration file for the Horizon server.
+* `.hz/schema.toml` is the default schema file. This creates one group, `admin`, and a ruleset for that group, `carte_blanche`, allowing members to execute any query. (By default *only* this group has database access in production! Read [permissions][perm] for more details.)
+* `.hz/secrets.toml` stores authentication options for the application.
+
+**Note:** In Horizon 1.x, authentication options were stored in `config.toml`.
 
 [TOML]: https://github.com/toml-lang/toml
 

@@ -16,6 +16,8 @@ const hz = new Horizon();
 const messages = hz("messages");
 ```
 
+Collections that do not exist will automatically be created in development mode, or in production if the `auto-create-collection` option is set. Note that a collection name may not start with the prefix `hz_`.
+
 Methods on a `Collection` object allow you to create, read, update and delete documents. Selections can be performed by matching on any field by passing an object to match against.
 
 ```js
@@ -541,6 +543,13 @@ The `upsert` method is a combination of `insert` and `update`:
 
 * If the `id` value of a document does not exist in the Collection, `upsert` acts as `insert`;
 * If the `id` value of a document *does* exist in the Collection, `upsert` acts as `update`.
+
+## Aggregates and models
+
+Queries on multiple Horizon Collections can be combined using the [Horizon.aggregate()][hzagg] method, and aggregates can be turned into parameterized templates using the [Horizon.model()][hzmod] method. Read their documentation for details.
+
+[hzagg]: /api/horizon/#aggregate
+[hzmod]: /api/horizon/#model
 
 ## RxJS Observable methods and operators
 

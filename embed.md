@@ -128,3 +128,16 @@ setTimeout(() => {
     loopbackServer.close();
 }, 60000);
 ```
+
+## Accessing the Rethinkdb `r` object
+
+When running in embedded mode, you can write [native ReQL queries][reql] by accessing `r` on the `horizon` object.
+
+[reql]: http://rethinkdb.com/docs/introduction-to-reql/
+
+```js
+const horizon = require('@horizon/server');
+const conn = horizon._reql_conn.connection();
+
+var doc = horizon.r.db('horizon').table('users').get(3).run(conn, callback);
+```
