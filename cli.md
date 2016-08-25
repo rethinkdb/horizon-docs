@@ -32,7 +32,6 @@ Note that if you are using a database from a Horizon 1.x application, the `serve
 
 * `--project-name NAME, -n NAME` Name of the Horizon project. Determines the name of the RethinkDB database that stores the project data.
 * `--serve-static [PATH]` Enable serving static files via HTTP(S). You can additionally specify the path from which static files will be served (default: `./dist`).
-* `--config PATH` Which [config file][config-file] to use. Default: `.hz/config.toml`
 * `--debug [yes|no]` Print additional debug output. Default: `no`
 * `--schema-file [PATH]` Use a given schema file for the database. If the specified schema conflicts with the existing database, a warning will be printed to the console and the option will be ignored. (Use `hz schema apply --force` to override this.)
 
