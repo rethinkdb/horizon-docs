@@ -9,23 +9,18 @@ It's quick and easy to get Horizon up and running with Docker! The only dependen
 
 ## Our Docker images
 
-We provide two Docker images on Docker Hub: [horizon-dev](https://hub.docker.com/r/rethinkdb/horizon-dev/) is for development purposes, and [horizon](https://hub.docker.com/r/rethinkdb/horizon/) is for your production environment.
+We provide an automatically built [horizon](https://hub.docker.com/r/rethinkdb/horizon/) image on Docker Hub. Currently we support both a `latest` and `next` tag. `next` is what is currently in our [`next` branch](https://github.com/rethinkdb/horizon) on rethinkdb/horizon on Github and `latest` is our last stable release.
 
-Image | `horizon-dev` | `horizon`
-------| ------------- | --------------
-`--dev`| ✅ | ❌
-`--bind all` | ✅ | ✅
-
-Used alone, both containers have the following requirements:
+The container has the following requirements:
 
 * Your Horizon application should be mounted at `/usr/app` within your container.
 * The `RETHINKDB_URI` environment variable should be specified with the `-e` to `docker run`, specifying the host and port of an instance of RethinkDB visible to the container.
 
 ```
-docker run -e RETHINKDB_URI=EXAMPLE_HOST:28015 -v ./:/usr/app rethinkdb/horizon-dev
+docker run -e RETHINKDB_URI=EXAMPLE_HOST:28015 -v ./:/usr/app rethinkdb/horizon
 ```
 
-The containers make no other assumptions about your deployment configuration. To set other Horizon configuration options, you can set `HZ_*` environment variables, as described in [the config.toml file][config]. (All the configuration variables that can normally be specified in `.hz/config.toml` can be overridden with environment variables.)
+The container makes no other assumptions about your deployment configuration. To set other Horizon configuration options, you can set `HZ_*` environment variables, as described in [the config.toml file][config]. (All the configuration variables that can normally be specified in `.hz/config.toml` can be overridden with environment variables.)
 
 [config]: /docs/configuration
 
