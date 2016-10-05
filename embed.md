@@ -140,7 +140,13 @@ When running in embedded mode, you can write [native ReQL queries][reql] by acce
 const horizonServer = horizon(httpServer, options);
 const r = horizon.r;
 
-horizonServer._reql_conn.read().then((reql_conn) => {
-    var doc = r.db('horizon').table('users').get(3).run(reql_conn.connection());
+horizonServer._reql_conn.ready().then((reql_conn) => {
+  r.db('horizon').table('users').run(reql_conn.connection(), function(err, cursor) {
+    if (err) throw err;
+    cursor.toArray(function(err, result) {
+        if (err) throw err;
+        console.log(JSON.stringify(result, null, 2));
+    });
+  });
 });
 ```
